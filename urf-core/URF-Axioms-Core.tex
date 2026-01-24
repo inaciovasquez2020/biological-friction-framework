@@ -1,0 +1,136 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{URF Axiomatics: Numbered Laws, Entropy Ceiling, and Terminality}
+\author{Inacio F. Vasquez}
+\date{}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{conjecture}{Conjecture}
+
+\begin{document}
+\maketitle
+
+\section*{Gödel-Style Numbered Laws}
+
+\textbf{Axiom 1 (URF-0.0 Finite Realizability).}  
+All information-bearing objects admit a finite realization.
+
+\textbf{Axiom 2 (URF-0.1 Locality).}  
+There exists $r$ such that
+\[
+Y_t = f_t(N_r(X), Y_{<t})
+\]
+for all $t$.
+
+\textbf{Axiom 3 (URF-0.2 Capacity).}  
+There exists $C<\infty$ such that for all $T$,
+\[
+I(X;Y_{1:T}) \le C.
+\]
+
+\textbf{Axiom 4 (URF-0.3 Entropy Non-Amplification).}  
+For all $t$,
+\[
+I(X;Y_t \mid Y_{<t}) \le K
+\]
+for a universal constant $K$.
+
+\textbf{Axiom 5 (URF-0.4 No Global Reconstruction).}  
+No admissible refinement reconstructs unbounded global structure from local views.
+
+\bigskip
+
+\textbf{Axiom 6 (URF-0.5 Exchange Correlation Capacity Bound).}  
+For any systems $A,B$ interacting only via a mediator $M$, if $M$ is
+finite-dimensional or quasi-local with exponential clustering, then
+there exists a constant $\mathrm{Cap}(M)<\infty$ such that
+\[
+\forall t:\quad I(A:B)_t \le \mathrm{Cap}(M).
+\]
+
+\bigskip
+
+\textbf{Axiom 7 (URF-0.6 Support Rigidity).}  
+For all $r$ there exists $R$ such that
+\[
+\mathrm{FO}^k_r(x) \equiv \mathrm{FO}^k_r(y)
+\;\Rightarrow\;
+\mathrm{FO}^k_R(N_R(x)) \equiv \mathrm{FO}^k_R(N_R(y)).
+\]
+
+\textbf{Axiom 8 (URF-0.7 Irreversibility).}  
+Information erasure produces entropy at least $k_B \ln 2$ per bit.
+
+\textbf{Axiom 9 (URF-0.8 Non-Viotropy).}  
+No admissible process satisfies
+\[
+\lim_{E\to 0} \frac{I}{E} = \infty.
+\]
+
+\textbf{Axiom 10 (URF-0.9 Rigidity–Collapse).}  
+Persistent local indistinguishability implies global structural collapse.
+
+\section*{Law 3 from Law 2}
+
+\begin{theorem}[URF-T.3 Entropy Ceiling]
+Assume URF-0.2. Then for all $T$ and all $t\le T$,
+\[
+I(X;Y_t \mid Y_{<t}) \le C.
+\]
+\end{theorem}
+
+\begin{proof}
+By the chain rule,
+\[
+I(X;Y_{1:T}) = \sum_{i=1}^T I(X;Y_i \mid Y_{<i}),
+\]
+with all summands nonnegative. Since the sum is at most $C$, each term is
+at most $C$.
+\end{proof}
+
+\section*{Support Rigidity as Conjecture}
+
+\begin{conjecture}[URF-C.6]
+Axiom URF-0.6 holds for bounded-degree graphs and fixed $k$.
+\end{conjecture}
+
+\section*{Categorical Terminality}
+
+\begin{definition}
+Let $\mathrm{Obs}$ be the category whose objects are finite-capacity
+observers and whose morphisms are locality-preserving refinements.
+\end{definition}
+
+\begin{definition}
+Define $F:\mathrm{Obs}\to\mathbf{Set}$ by
+\[
+F(O) = \{\text{global invariants extractable from } O \text{ under capacity } C\}.
+\]
+\end{definition}
+
+\begin{theorem}[URF-T.0 Terminal Extractable Functor]
+For any functor $G:\mathrm{Obs}\to\mathbf{Set}$ respecting refinement and
+capacity, there exists a unique natural transformation $G\Rightarrow F$.
+\end{theorem}
+
+\begin{proof}
+Every element of $G(O)$ induces an extractable functional on transcripts.
+Capacity forces this functional to lie in $F(O)$. Refinement invariance
+gives naturality; uniqueness follows from agreement on all admissible
+transcripts.
+\end{proof}
+
+\begin{corollary}[URF-T.1 Conditional Collapse]
+Assume URF-0.4, URF-0.6, and URF-C.6. Then URF-0.9.
+\end{corollary}
+
+\end{document}
+
