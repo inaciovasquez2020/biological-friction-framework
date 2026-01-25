@@ -21,4 +21,7 @@ jobs:
         run: |
           python3 -m verification.run
           python3 verification/validate_proofs.py
+      - name: Validate cryptographic hashes
+        run: |
+          python3 verification/validate_hashes.py
 
