@@ -1,0 +1,53 @@
+name: CI (LaTeX + Lean)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect LaTeX
+        id: latex
+        run: |
+          if ls **/*.tex >/dev/null 2>&1; then
+            echo "has_tex=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_tex=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install LaTeX
+        if: steps.latex.outputs.has_tex == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y latexmk texlive-latex-extra
+
+      - name: Build LaTeX
+        if: steps.latex.outputs.has_tex == 'true'
+        run: |
+          MAIN="$(ls -1 **/*.tex | head -n 1)"
+          latexmk -pdf -interaction=nonstopmode -halt-on-error "$MAIN"
+
+      - name: Detect Lean
+        id: lean
+        run: |
+          if [ -f "lakefile.lean" ] || [ -f "src/lakefile.lean" ]; then
+            echo "has_lean=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_lean=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install elan
+        if: steps.lean.outputs.has_lean == 'true'
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Lean build
+        if: steps.lean.outputs.has_lean == 'true'
+        run: |
+          if [ -f "src/lakefile.lean" ]; then cd src; fi
+          lake build
