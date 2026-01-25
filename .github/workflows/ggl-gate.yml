@@ -10,15 +10,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Enforce verification
-        run: |
-          set -e
-          for f in papers/**/*.tex; do
-            if [ -f "$f" ]; then
-              if ! grep -q "urf-core/verification" "$f"; then
-                echo "Missing verification_path in $f"
-                exit 1
-              fi
-            fi
-          done
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
+      - name: Install verification deps
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          pip install --upgrade pip
+          pip install numpy
+
+      - name: Run verification checkers
+        run: |
+          . .venv/bin/activate
+          python urf-core/verification/checkers/check_spectral_gap.py urf-core/verification/certs/URF-SG-0001.json
+          python urf-core/verification/checkers/check_spectral_gap.py urf-core/verification/certs/URF-SG-0002.json
