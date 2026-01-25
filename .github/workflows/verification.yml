@@ -17,7 +17,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run verification layer
+            - name: Run verification layer
         run: |
           python3 -m verification.run
+          python3 verification/validate_proofs.py
 

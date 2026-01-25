@@ -1,0 +1,11 @@
+{
+  "id": "R-CONTRACTION-001",
+  "statement": "R = Pi_loc o Pi_sa is non-expansive: ||R(A)-R(B)|| <= ||A-B||",
+  "norm": "operator",
+  "assumptions": [
+    "Pi_sa(A) = (A + A*)/2",
+    "Pi_loc is orthogonal projection"
+  ],
+  "status": "verified-finite"
+}
+

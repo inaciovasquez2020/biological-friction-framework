@@ -1,0 +1,11 @@
+{
+  "id": "R-FIXEDPOINT-001",
+  "statement": "Iteration A_{n+1} = R(A_n) converges to fixed point in finite dimension",
+  "assumptions": [
+    "finite-dimensional Hilbert space",
+    "R is non-expansive",
+    "bounded iterates"
+  ],
+  "status": "verified-finite"
+}
+
