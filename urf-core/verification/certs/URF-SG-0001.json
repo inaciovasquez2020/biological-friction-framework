@@ -1,0 +1,36 @@
+{
+  "schema_version": "v1.0",
+  "statement_id": "URF-SG-0001",
+  "kind": "spectral_gap",
+  "field": "R",
+  "dim": 3,
+  "operator": {
+    "format": "dense_rational",
+    "A": [
+      ["0", "0", "0"],
+      ["0", "2", "0"],
+      ["0", "0", "5"]
+    ]
+  },
+  "subspace": {
+    "name": "V",
+    "basis": [
+      ["1", "0", "0"]
+    ]
+  },
+  "projector": {
+    "format": "dense_rational",
+    "Pi": [
+      ["1", "0", "0"],
+      ["0", "0", "0"],
+      ["0", "0", "0"]
+    ]
+  },
+  "claim": {
+    "gamma": "2",
+    "quantity": "lambda_min_of_compressed_operator",
+    "compressed_operator": "(I-Pi) A (I-Pi)",
+    "domain": "V_orthogonal"
+  }
+}
+

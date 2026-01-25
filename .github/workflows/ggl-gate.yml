@@ -1,0 +1,24 @@
+name: GGL Gate
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ggl-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enforce verification
+        run: |
+          set -e
+          for f in papers/**/*.tex; do
+            if [ -f "$f" ]; then
+              if ! grep -q "urf-core/verification" "$f"; then
+                echo "Missing verification_path in $f"
+                exit 1
+              fi
+            fi
+          done
+
