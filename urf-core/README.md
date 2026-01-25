@@ -1,3 +1,4 @@
+![CI](https://github.com/inaciovasquez2020/urf-core/actions/workflows/ci.yml/badge.svg)
 # <REPO TITLE>
 
 ## Purpose
