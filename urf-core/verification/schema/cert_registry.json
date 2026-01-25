@@ -1,0 +1,14 @@
+{
+  "registry_version": "1.0.0",
+  "issued_at": "2026-01-25T00:00:00Z",
+
+  "certificates": {
+    "URF-SG-0001": {
+      "role": "hard-spectral-gap-gate",
+      "description": "Canonical Recovery Mode spectral rigidity witness",
+      "checker": "verification/checkers/check_spectral_gap.py",
+      "required": true
+    }
+  }
+}
+
