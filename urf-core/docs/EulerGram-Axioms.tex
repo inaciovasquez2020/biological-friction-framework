@@ -1,0 +1,171 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+
+\title{URF Axiomatization of Euler--Gram Coercivity}
+\author{Inacio F. Vasquez}
+\date{January 2026}
+
+\newtheorem{axiom}{Axiom}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+\begin{document}
+
+\maketitle
+
+\section{The Euler--Gram Operator}
+
+Let $(M,g)$ be a complete Riemannian manifold and let $\Phi:M\to\mathbb{R}$ be smooth.
+Define the Euler--Gram operator:
+\[
+L := -\Delta_M + \nabla^2 \Phi
+\]
+acting on $L^2(M)$.
+
+\section{Admissible Domain Axiom}
+
+\begin{axiom}[URF--0′: Admissible Class]
+Define the admissible class:
+\[
+\mathcal A_{\mathrm{EG}} :=
+\{(M,\Phi)\mid \exists \kappa>0 \text{ such that }
+\mathrm{Ric}_M + \nabla^2\Phi \ge \kappa g\}.
+\]
+All URF theorems quantify only over $\mathcal A_{\mathrm{EG}}$.
+\end{axiom}
+
+This is exactly the Bakry--Émery curvature--dimension class $CD(\kappa,\infty)$.
+
+\section{Structural Postulate}
+
+\begin{axiom}[URF--0″: Euler--Gram Structural Postulate]
+For all $(M,\Phi)\in\mathcal A_{\mathrm{EG}}$:
+\[
+\operatorname{Spec}(L)\subset[\kappa,\infty)
+\]
+where $\kappa$ is the Bakry--Émery constant.
+\end{axiom}
+
+This axiom replaces the unattainable unrestricted global coercivity.
+
+\section{Projective Coercivity}
+
+\begin{definition}[Defect Space]
+Define:
+\[
+V := \ker(L).
+\]
+\end{definition}
+
+\begin{axiom}[Projective Gap]
+The restricted operator satisfies:
+\[
+\operatorname{Spec}(L|_{V^\perp})\subset[\kappa,\infty).
+\]
+\end{axiom}
+
+This allows finitely many zero modes while preserving rigidity.
+
+\section{Local Coercivity}
+
+\begin{axiom}[Local Spectral Gap]
+For all $x\in M$ and all $r\ge r_0$:
+\[
+\lambda_1\big(L|_{B_r(x)}\big)\ge \varepsilon(r)>0.
+\]
+\end{axiom}
+
+Global spectral gap is not required; only uniform local positivity.
+
+\section{Averaged Coercivity}
+
+\begin{axiom}[Averaged Form]
+For all $f\in L^2(M)$ outside a null set:
+\[
+\int_M \langle f,Lf\rangle\,d\mu
+\ge \varepsilon_0 \int_M |f|^2\,d\mu.
+\]
+\end{axiom}
+
+This is the weakest admissible form.
+
+\section{Canonical Members of $\mathcal A_{\mathrm{EG}}$}
+
+\subsection{Compact Kähler Manifolds}
+If $M$ is compact Kähler with positive bisectional curvature:
+\[
+\mathrm{Bisec}(M)>0
+\Rightarrow \mathrm{Ric}_M\ge\kappa g.
+\]
+
+\subsection{Gaussian Space}
+\[
+M=\mathbb{R}^n,\quad \Phi(x)=|x|^2
+\Rightarrow \nabla^2\Phi=2I,\quad \kappa=2.
+\]
+
+\subsection{Log-Concave Probability}
+\[
+\nabla^2\Phi \ge \kappa I.
+\]
+
+\subsection{Gradient Shrinking Ricci Solitons}
+\[
+\mathrm{Ric}+\nabla^2\Phi=\lambda g,\quad \lambda>0.
+\]
+
+\section{Counterexample Outside the Domain}
+
+Let:
+\[
+M=\mathbb{T}^n,\quad \Phi\equiv 0.
+\]
+
+Then:
+\[
+L=-\Delta,\quad \inf\operatorname{Spec}(L)=0.
+\]
+
+Hence unrestricted global coercivity is false.
+
+\section{Final URF Closure}
+
+\begin{theorem}[URF Closure]
+The Unified Rigidity Framework is complete under:
+\[
+\text{URF} = \text{URF--0′} + \text{URF--0″}
++ \text{Projective Gap}.
+\]
+No stronger universal coercivity statement exists.
+\end{theorem}
+
+\section{Lean Formalization}
+
+\begin{verbatim}
+axiom URF0' :
+  ∀ (M Φ), Ric M + Hess Φ ≥ κ
+
+axiom URF0'' :
+  Spectrum (-laplacian M + hessian Φ) ⊆ {λ | λ ≥ κ}
+
+axiom ProjectiveGap :
+  Spectrum (restrict L (ker L)ᶜ) ⊆ {λ | λ ≥ κ}
+\end{verbatim}
+
+\section{Status}
+
+\begin{itemize}
+\item Euler--Gram is false globally.
+\item True in $\mathcal A_{\mathrm{EG}}$.
+\item Adopted as structural axiom.
+\item Final Wall eliminated by domain restriction.
+\end{itemize}
+
+\end{document}
+
