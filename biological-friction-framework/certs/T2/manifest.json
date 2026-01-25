@@ -1,0 +1,8 @@
+{
+  "theorem_id": "T2",
+  "statement_sha256": "a727a8299ef4b385c18246234c65b2c5c580f30c8ae246ac90facb892808c9fb",
+  "checker": { "name": "urf-check", "version": "v1.0" },
+  "witness_files": ["witness.json"],
+  "witness_sha256": "06892a0b15df433dec0b28cfabbd211eb416b7aa2578e30be1c44c0863fca413"
+}
+

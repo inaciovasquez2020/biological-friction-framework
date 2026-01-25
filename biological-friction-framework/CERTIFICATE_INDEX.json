@@ -3,5 +3,11 @@
     "statement": "statements/T1.txt",
     "manifest": "certs/T1/manifest.json",
     "witness": "certs/T1/witness.json"
+  },
+  "T2": {
+    "statement": "statements/T2.txt",
+    "manifest": "certs/T2/manifest.json",
+    "witness": "certs/T2/witness.json"
   }
 }
+
