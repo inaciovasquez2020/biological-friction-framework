@@ -1,0 +1,14 @@
+name = "FlowThickness"
+version = "0.1.0"
+defaultTargets = ["flowthickness"]
+
+[[lean_lib]]
+name = "FlowThickness"
+
+[[lean_exe]]
+name = "flowthickness"
+root = "Main"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
