@@ -1,13 +1,37 @@
 {
-  "B4_2_count": 1,
-  "SCC_bounds": {
-    "0": 1
+  "version": "1.0.0",
+  "issued_at": "2026-01-25T00:00:00Z",
+  "id": "URF-SG-0001",
+  "description": "Canonical spectral gap certificate for Recovery Mode hard gate",
+
+  "operator": {
+    "A": [
+      [0, 0, 0],
+      [0, 1, 0],
+      [0, 0, 2]
+    ]
   },
-  "params": {
-    "Delta": 4,
-    "k": 4,
-    "r": 2
+
+  "projector": {
+    "Pi": [
+      [1, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0]
+    ]
   },
-  "pumping_limit_N": 504,
-  "status": "Verified via Ihara-Bass spectral check"
+
+  "claim": {
+    "gamma": 0.5,
+    "statement": "The operator restricted to V⊥ has minimum eigenvalue at least gamma."
+  },
+
+  "meta": {
+    "dimension": 3,
+    "defect_rank": 1,
+    "field": "real",
+    "norm": "operator",
+    "certificate_type": "spectral-gap",
+    "toolchain": "verification/checkers/check_spectral_gap.py"
+  }
 }
+
