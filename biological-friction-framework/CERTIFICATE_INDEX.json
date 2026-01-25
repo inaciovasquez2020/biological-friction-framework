@@ -1,0 +1,7 @@
+{
+  "T1": {
+    "statement": "statements/T1.txt",
+    "manifest": "certs/T1/manifest.json",
+    "witness": "certs/T1/witness.json"
+  }
+}

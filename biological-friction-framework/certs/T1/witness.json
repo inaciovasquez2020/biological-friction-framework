@@ -1,0 +1,10 @@
+{
+  "type": "trace",
+  "system": "URF-Core",
+  "steps": [
+    {"rule": "axiom", "out": "s1"},
+    {"rule": "identity", "in": ["s1"], "out": "s2"}
+  ],
+  "goal": "s2"
+}
+

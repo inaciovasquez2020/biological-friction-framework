@@ -1,0 +1,2 @@
+FORALL x IN U_T1: P_T1(x) -> Q_T1(x)
+
