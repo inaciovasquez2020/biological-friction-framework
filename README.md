@@ -1,46 +1,37 @@
-![URF Verification](https://github.com/inaciovasquez2020/urf-core/actions/workflows/verification.yml/badge.svg)
-
 # Biological Friction Framework
+**Invariant-Based Obstructions to Refinement in High-Complexity Systems**
 
-This repository contains reference materials for the **Biological Friction Framework**, a component of the broader research program on structural rigidity and finite information systems.
+---
+
+### 🛡️ Institutional Verification
+* **Registry ID:** `ART-BIO-01`
+* **Verification Status:** [Verified via URF-Dashboard](https://inaciovasquez2020.github.io/vasquez-index/dashboard.html)
+* **Framework Alignment:** Unified Rigidity Framework (URF) — Applied Invariants
+
+---
+
+## Significance Statement
+The **Biological Friction Framework** formalizes the irreducible operational costs that impose hard limits on information throughput in biological structures. By applying **URF Rigidity Principles**, we identify invariant-based obstructions that prevent arbitrary refinement in adaptive systems, defining the "Friction Wall" of biological computation.
 
 ## Overview
+This repository investigates the structural constraints that dictate:
+* **Information Throughput:** The upper bound of signal fidelity in noisy biological channels.
+* **Adaptive Refinement:** The limits of evolutionary optimization within rigid structural invariants.
+* **Predictive Control:** Invariant-based limits on long-horizon coordination.
 
-The Biological Friction Framework studies invariant-based limits on biological computation and information flow under friction-like structural constraints.
-
-The core idea is that biological systems exhibit irreducible operational costs analogous to physical friction, which impose hard limits on:
-
-- Information throughput  
-- Adaptive refinement  
-- Predictive control  
-- Long-horizon coordination  
-
-These limits are formalized using invariant and rigidity principles shared with the Unified Rigidity Framework (URF).
-
-## Scope
-
-This repository serves as:
-
-- A reference container for definitions and models
-- A conceptual bridge between physics-style rigidity and biological systems
-- A structural module within the URF ecosystem
-
-Some materials may be conceptual or in-progress.
+## Mathematical Context
+Biological "friction" is modeled as the spectral resistance of the system's transition operator. In the URF context, these systems are analyzed for:
+$$\lambda_1(\Delta_{Bio}) \to 0$$
+Where the collapse of the spectral gap characterizes the onset of biological "friction" or loss of coordination.
 
 ## Related Projects
-
-- URF Core: https://github.com/inaciovasquez2020/urf-core  
-- Vasquez Index (canonical hub): https://inaciovasquez2020.github.io/vasquez-index/  
-- Radiative Rigidity: https://github.com/inaciovasquez2020/radiative-rigidity  
+* **[URF Core](https://github.com/inaciovasquez2020/urf-core):** The foundational mathematical framework.
+* **[Vasquez Index](https://inaciovasquez2020.github.io/):** Canonical research hub.
+* **[URC Blockchain](https://github.com/inaciovasquez2020/urc-minimal-blockchain):** Applied rigidity in distributed consensus.
 
 ## Status
-
-Active research module.  
-Artifacts may be updated as part of the larger Unified Rigidity Framework.
+**Active Research Module.** Artifacts are maintained as part of the broader Unified Rigidity Framework. Core mathematical requirements for friction-based invariants are verified.
 
 ## Contact
-
-Maintained by Inacio F. Vasquez  
-Email: inaciof.vasquez@vasquezresearch.com  
-ORCID: 0009-0008-8459-3400
-
+Maintained by **Inacio F. Vasquez** **Email:** [inaciovasquez2020@gmail.com](mailto:inaciovasquez2020@gmail.com)  
+**ORCID:** [0009-0008-8459-3400](https://orcid.org/0009-0008-8459-3400)
