@@ -30,10 +30,10 @@ Where the collapse of the spectral gap characterizes the onset of biological "fr
 * **[URC Blockchain](https://github.com/inaciovasquez2020/urc-minimal-blockchain):** Applied rigidity in distributed consensus.
 
 ## Status
-**Active Research Module.** Artifacts are maintained as part of the broader Unified Rigidity Framework. Core mathematical requirements for friction-based invariants are verified.
+**Framework / Verified.** Artifacts are maintained as part of the broader Unified Rigidity Framework. Core mathematical requirements for friction-based invariants are verified.
 
 ## Contact
-Maintained by **Inacio F. Vasquez** **Email:** [inaciovasquez2020@gmail.com](mailto:inaciovasquez2020@gmail.com)  
+Maintained by **Inacio F. Vasquez** **Email:** [inacio@vasquezresearch.com](mailto:inacio@vasquezresearch.com)  
 **ORCID:** [0009-0008-8459-3400](https://orcid.org/0009-0008-8459-3400)
 
 ---
