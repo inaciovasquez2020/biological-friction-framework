@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-for f in examples/*.md; do
-  grep -q "Example:" "$f"
+FILES=$(find examples -name "*.md")
+
+for f in $FILES; do
+  grep -q "Example:" "$f" || continue
   grep -q "Interpretation" "$f"
 done
