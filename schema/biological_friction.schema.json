@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BiologicalFrictionInstance",
+  "type": "object",
+  "required": ["system", "constraints", "frictions"],
+  "properties": {
+    "system": {
+      "type": "string"
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "frictions": {
+      "type": "array",
+      "items": {
+        "enum": ["energy", "information", "regulation"]
+      }
+    }
+  },
+  "additionalProperties": false
+}

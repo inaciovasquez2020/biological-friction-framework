@@ -1,0 +1,7 @@
+{
+  "system": "cellular_metabolism",
+  "constraints": [
+    "ATP_production_minus_maintenance >= 0"
+  ],
+  "frictions": ["energy"]
+}

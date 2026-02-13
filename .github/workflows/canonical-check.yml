@@ -12,3 +12,4 @@ jobs:
       - uses: actions/checkout@v4
       - run: ./scripts/check_canonical.sh
       - run: ./scripts/check_examples.sh
+      - run: ./scripts/validate_json.sh
