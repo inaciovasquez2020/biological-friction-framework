@@ -13,3 +13,4 @@ jobs:
       - run: ./scripts/check_canonical.sh
       - run: ./scripts/check_examples.sh
       - run: ./scripts/validate_json.sh
+      - run: ./scripts/check_notebooks.sh

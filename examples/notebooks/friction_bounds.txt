@@ -1,0 +1,16 @@
+System
+Adaptive biological controller
+
+Variables
+E = available metabolic energy
+C = channel capacity
+T = regulatory latency
+
+Bounds
+dResponse/dt <= min(E, C) / T
+
+Invariant
+If E, C, T are finite, adaptation rate is finite.
+
+Conclusion
+Zero-friction biological control is impossible.
