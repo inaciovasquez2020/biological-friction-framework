@@ -1,4 +1,3 @@
+Biological Friction Framework
 Status: Canonical
-Freeze: 2026-02-13
-Scope: Biological Friction Framework
-Integration: URF / Capacity–Depth / Operational Rigidity
+Last milestone: canonical-examples-v1
