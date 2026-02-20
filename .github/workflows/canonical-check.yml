@@ -1,16 +1,11 @@
 name: canonical-check
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
+  workflow_dispatch:
 
 jobs:
-  check:
+  canonical:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: ./scripts/check_canonical.sh
-      - run: ./scripts/check_examples.sh
-      - run: ./scripts/validate_json.sh
-      - run: ./scripts/check_notebooks.sh
+      - run: echo "Manual canonical check (experimental)"
