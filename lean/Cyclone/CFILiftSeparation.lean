@@ -43,3 +43,14 @@ theorem obstruction_non_factorization_conditional
   trivial
 
 end Cyclone
+
+theorem cfi_lift_separation_from_obstruction
+  (G : Graph) (R k : ℕ)
+  (h_girth : Girth G > 2 * R) :
+  ∃ (σ₁ σ₂ : Sigma G),
+    FOEquivKR k R (potential_shift G (fun _ => false) σ₁)
+                     (potential_shift G (fun _ => false) σ₂) ∧
+    Obstruction (potential_shift G (fun _ => false) σ₁) ≠
+    Obstruction (potential_shift G (fun _ => false) σ₂) := by
+  sorry
+
