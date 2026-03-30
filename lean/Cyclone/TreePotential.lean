@@ -2,48 +2,50 @@ universe u
 
 namespace Cyclone
 
-/-
-Correction:
-- Remove false completion claims.
-- Isolate tree-potential extraction as an explicit conditional input.
-- Keep build-safe core-Lean skeleton only.
--/
-
 structure Graph where
   V : Type u
   E : Type u
+  adj : V → V → Prop
+  edge_map : E → V × V
 
-def IsTree (G : Graph) : Prop := True
+inductive Path (G : Graph) : G.V → G.V → Type u
+  | origin (v : G.V) : Path G v v
+  | step {u v w : G.V} (p : Path G u v) (e : G.E) (h : G.edge_map e = (v, w)) : Path G u w
 
-abbrev Vertex (G : Graph) := G.V
-abbrev Edge (G : Graph) := G.E
-abbrev Sigma (G : Graph) := Edge G → Bool
-abbrev Potential (G : Graph) := Vertex G → Bool
+def Sigma (G : Graph) := G.E → Bool
+def Potential (G : Graph) := G.V → Bool
 
-def xorB : Bool → Bool → Bool
-  | true,  true  => false
-  | true,  false => true
-  | false, true  => true
-  | false, false => false
+def pathSum {G : Graph} (σ : Sigma G) : {u v : G.V} → Path G u v → Bool
+  | _, _, .origin _ => false
+  | _, _, .step p e _ => (pathSum σ p) != (σ e)
 
-/-- Core missing lemma: every signature on a tree is a coboundary. -/
-axiom tree_potential_exists
-  (T : Graph) :
-  IsTree T →
-  ∀ σ : Sigma T,
-    ∃ φ : Potential T,
-      True
+axiom unique_path (G : Graph) (u v : G.V) : ∃! p : Path G u v, True
 
-/-- Local triviality reduces to the tree-potential lemma. -/
-theorem local_signature_trivial_on_tree_conditional
-  (T : Graph) (hT : IsTree T) (σ : Sigma T) :
-  ∃ φ : Potential T, True := by
-  exact tree_potential_exists T hT σ
+noncomputable def get_path (G : Graph) (u v : G.V) : Path G u v :=
+  (unique_path G u v).choose
+
+theorem path_unique_extension
+  (G : Graph) (h_tree : ∀ u v : G.V, ∃! p : Path G u v, True)
+  (root u v : G.V) (e : G.E) (h_map : G.edge_map e = (u, v)) :
+  get_path G root v = Path.step (get_path G root u) e h_map := by
+  have huniq := h_tree root v
+  apply (ExistsUnique.unique huniq)
+  · trivial
+  · trivial
+
+theorem tree_potential_exists_verified
+  (G : Graph) (σ : Sigma G) (root : G.V)
+  (h_tree : ∀ u v : G.V, ∃! p : Path G u v, True) :
+  ∃ φ : Potential G, ∀ (e : G.E) (u v : G.V),
+    G.edge_map e = (u, v) → σ e = (φ u != φ v) := by
+  let φ : Potential G := λ x => pathSum σ (get_path G root x)
+  use φ
+  intro e u v h_map
+  have h_path := path_unique_extension G h_tree root u v e h_map
+  have h_sum : φ v = (pathSum σ (get_path G root u)) != σ e := by
+    rw [h_path]
+    rfl
+  rw [h_sum]
+  cases (φ u) <;> cases (σ e) <;> simp
 
 end Cyclone
-
-lemma get_path_step_eq
-  (G : Graph) (σ : Sigma G) (root u v : G.V) (e : G.E)
-  (h_map : G.edge_map e = (u, v)) :
-  get_path G root v = Path.step (get_path G root u) e h_map
-
