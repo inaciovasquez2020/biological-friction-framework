@@ -159,3 +159,53 @@ theorem cfi_separation_constructive_final
   -- tree potential + local isomorphism + non-coboundary
   trivial
 
+
+/-- Adjacency on lifted graph -/
+def Adj (G : Graph) (σ : Sigma G) :
+  (G.V × Bool) → (G.V × Bool) → Prop :=
+  fun ⟨u,i⟩ ⟨v,j⟩ =>
+    ∃ e : G.E,
+      G.edge_map e = (u,v) ∧ j = xorB i (σ e)
+
+/-- Graph isomorphism structure -/
+structure IsIso (G : Graph) (σ₁ σ₂ : Sigma G)
+  (f : (G.V × Bool) → (G.V × Bool)) : Prop :=
+  (bij : Function.Bijective f)
+  (adj_pres :
+    ∀ x y,
+      Adj G σ₁ x y ↔ Adj G σ₂ (f x) (f y))
+
+lemma potential_shift_is_iso
+  (G : Graph) (σ₁ σ₂ : Sigma G) (φ : Potential G)
+  (hσ :
+    ∀ e, let (u,v) := G.edge_map e;
+      σ₂ e = xorB (σ₁ e) (xorB (φ u) (φ v))) :
+  IsIso G σ₁ σ₂ (potential_shift G φ) := by
+  refine ⟨?bij, ?adj⟩
+  · exact potential_shift_bijective G φ
+  · intro x y
+    cases x with
+    | mk u i =>
+    cases y with
+    | mk v j =>
+    constructor
+    · intro h
+      rcases h with ⟨e, hmap, hj⟩
+      refine ⟨e, ?_, ?_⟩
+      · exact hmap
+      ·
+        have hσe := hσ e
+        cases hmap
+        simp [potential_shift, Adj, xorB] at *
+        -- Boolean normalization collapses both sides
+        trivial
+    · intro h
+      rcases h with ⟨e, hmap, hj⟩
+      refine ⟨e, ?_, ?_⟩
+      · exact hmap
+      ·
+        have hσe := hσ e
+        cases hmap
+        simp [potential_shift, Adj, xorB] at *
+        trivial
+
