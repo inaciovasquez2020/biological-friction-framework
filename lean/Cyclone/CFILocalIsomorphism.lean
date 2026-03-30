@@ -209,3 +209,12 @@ lemma potential_shift_is_iso
         simp [potential_shift, Adj, xorB] at *
         trivial
 
+
+lemma xorB_eq_solve
+  (a b c d : Bool) :
+  b = xorB a (xorB c d) →
+  xorB b d = xorB (xorB a c) false := by
+  intro h
+  cases a <;> cases b <;> cases c <;> cases d <;> simp [xorB] at *
+  all_goals rfl
+
