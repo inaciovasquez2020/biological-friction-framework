@@ -241,3 +241,9 @@ theorem cfi_separation_constructive_final
     -- fake contradiction (will be replaced by real invariant)
     contradiction
 
+
+lemma obstruction_invariant_under_potential
+  (G : Graph) (σ : Sigma G) (φ : Potential G) :
+  Obstruction (potential_shift G φ σ) = Obstruction σ ↔ IsCoboundary G σ := by
+  sorry
+
