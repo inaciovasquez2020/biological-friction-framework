@@ -49,3 +49,19 @@ theorem tree_potential_exists_verified
   cases (φ u) <;> cases (σ e) <;> simp
 
 end Cyclone
+
+theorem tree_potential_exists_verified
+  (G : Graph) (σ : Sigma G) (root : G.V)
+  (h_tree : ∀ u v : G.V, ∃! p : Path G u v, True) :
+  ∃ φ : Potential G, ∀ (e : G.E) (u v : G.V),
+    G.edge_map e = (u, v) → σ e = (φ u != φ v) := by
+  let φ : Potential G := λ x => pathSum σ (get_path G root x)
+  use φ
+  intro e u v h_map
+  have h_path := path_unique_extension G h_tree root u v e h_map
+  have h_sum : φ v = (pathSum σ (get_path G root u)) != σ e := by
+    rw [h_path]
+    rfl
+  rw [h_sum]
+  cases (φ u) <;> cases (σ e) <;> simp
+
