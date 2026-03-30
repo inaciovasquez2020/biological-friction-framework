@@ -255,3 +255,10 @@ lemma obstruction_separates_sigma_pair
   Obstruction (potential_shift G (fun _ => false) σ₂) := by
   sorry
 
+
+lemma foequiv_invariant_under_potential
+  (G : Graph) (R k : ℕ)
+  (σ : Sigma G) (φ : Potential G) :
+  FOEquivKR k R (potential_shift G φ σ) (potential_shift G (fun _ => false) σ) := by
+  sorry
+
