@@ -65,3 +65,12 @@ theorem tree_potential_exists_verified
   rw [h_sum]
   cases (φ u) <;> cases (σ e) <;> simp
 
+
+lemma path_unique_extension
+  (G : Graph)
+  (h_tree : ∀ u v : G.V, ∃! p : Path G u v, True)
+  (root u v : G.V) (e : G.E)
+  (h_map : G.edge_map e = (u, v)) :
+  get_path G root v = Path.step (get_path G root u) e h_map := by
+  sorry
+
