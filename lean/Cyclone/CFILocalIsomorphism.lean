@@ -1,0 +1,50 @@
+universe u
+
+namespace Cyclone
+
+/-
+Correction:
+- Keep construction explicit.
+- Do NOT claim full closure.
+- Isolate remaining proof obligations.
+-/
+
+structure Graph where
+  V : Type u
+  E : Type u
+  edge_map : E → V × V
+
+abbrev Sigma (G : Graph) := G.E → Bool
+abbrev Potential (G : Graph) := G.V → Bool
+
+def xorB : Bool → Bool → Bool
+  | true,  true  => false
+  | true,  false => true
+  | false, true  => true
+  | false, false => false
+
+def Lift (G : Graph) (σ : Sigma G) : Graph :=
+  { V := G.V × Bool
+    E := G.E × Bool
+    edge_map := fun ⟨e, b⟩ =>
+      let (u,v) := G.edge_map e
+      ((u,b),(v, xorB b (σ e))) }
+
+/-- Potential shift map -/
+def potential_shift (G : Graph) (φ : Potential G) :
+  (G.V × Bool) → (G.V × Bool) :=
+  fun ⟨u,i⟩ => (u, xorB i (φ u))
+
+/-- Local isomorphism skeleton (remaining proof obligation) -/
+axiom local_lift_isomorphism
+  (G : Graph) (σ₁ σ₂ : Sigma G) (φ : Potential G) :
+  (∀ e, let (u,v) := G.edge_map e;
+    σ₂ e = xorB (σ₁ e) (xorB (φ u) (φ v))) →
+  True
+
+/-- Constructive separation (reduced to remaining obligations) -/
+axiom cfi_separation_constructive
+  (G : Graph) (R k : ℕ) :
+  True
+
+end Cyclone
