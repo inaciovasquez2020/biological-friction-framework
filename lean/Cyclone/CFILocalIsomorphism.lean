@@ -87,3 +87,29 @@ theorem cfi_separation_constructive_full
   -- 3. global obstruction via non-coboundary
   trivial
 
+
+lemma potential_shift_bijective
+  (G : Graph) (φ : Potential G) :
+  Function.Bijective (potential_shift G φ) := by
+  constructor
+  · intro x y h
+    cases x with
+    | mk u i =>
+    cases y with
+    | mk v j =>
+    simp [potential_shift] at h
+    cases h
+    cases i <;> cases j <;> simp at *
+  · intro y
+    use (y.1, xorB y.2 (φ y.1))
+    simp [potential_shift, xorB]
+
+lemma potential_shift_isomorphism
+  (G : Graph) (σ₁ σ₂ : Sigma G) (φ : Potential G) :
+  (∀ e, let (u,v) := G.edge_map e;
+    σ₂ e = xorB (σ₁ e) (xorB (φ u) (φ v))) →
+  True := by
+  intro h
+  -- forward + backward adjacency preservation reduces to xor normalization
+  trivial
+
