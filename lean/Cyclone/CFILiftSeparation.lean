@@ -54,3 +54,12 @@ theorem cfi_lift_separation_from_obstruction
     Obstruction (potential_shift G (fun _ => false) σ₂) := by
   sorry
 
+
+lemma foequiv_of_tree_local_triviality
+  (G : Graph) (R k : ℕ)
+  (h_girth : Girth G > 2 * R)
+  (σ₁ σ₂ : Sigma G) :
+  FOEquivKR k R (potential_shift G (fun _ => false) σ₁)
+                   (potential_shift G (fun _ => false) σ₂) := by
+  sorry
+
