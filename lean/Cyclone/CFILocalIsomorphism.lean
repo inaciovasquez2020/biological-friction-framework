@@ -220,7 +220,8 @@ lemma xorB_eq_solve
 
 
 /-- Define connected components parity as obstruction -/
-def Obstruction (G : Graph) : Bool := true
+def Obstruction (G : Graph) : Bool :=
+  ∃ (σ : Sigma G) (C : Cycle), cycleSum G σ C
 
 /-- Explicit constructive separation witness (final integration step) -/
 theorem cfi_separation_constructive_final
