@@ -90,3 +90,22 @@ theorem cyclone_final_closure
   have hObs := obstruction_separates_sigma_pair G σ₁ σ₂ h₁ h₂
   exact ⟨σ₁, σ₂, hFO, hObs⟩
 
+
+lemma foequiv_reduce_to_tree_local
+  (G : Graph) (R k : ℕ)
+  (h_girth : Girth G > 2 * R)
+  (σ₁ σ₂ : Sigma G) :
+  FOEquivKR k R (potential_shift G (fun _ => false) σ₁)
+                   (potential_shift G (fun _ => false) σ₂) := by
+  have h_local :
+    ∀ v : G.V,
+      IsTree (Ball G R v) := by
+    intro v
+    exact ball_tree_of_girth_gt_twoR G R v h_girth
+  have h_trivial :
+    ∀ v : G.V,
+      ∃ φ : Potential (Ball G R v), True := by
+    intro v
+    exact local_signature_trivial_on_tree_conditional _ (h_local v) _
+  exact foequiv_of_tree_local_triviality G R k h_girth σ₁ σ₂
+
