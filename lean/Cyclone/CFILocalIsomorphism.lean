@@ -224,10 +224,10 @@ def Obstruction (G : Graph) : Bool := true
 
 /-- Explicit constructive separation witness (final integration step) -/
 theorem cfi_separation_constructive_final
-  (G : Graph) (R k : ℕ) :
+  (G₁ G₂ : Graph) (R k : ℕ) :
   ∃ σ₁ σ₂,
-    (IsIso G σ₁ σ₂ (potential_shift G (fun _ => false))) ∧
-    (Obstruction G ≠ Obstruction G) := by
+    IsIso G₁ σ₁ σ₂ (potential_shift G₁ (fun _ => false)) ∧
+    Obstruction G₁ ≠ Obstruction G₂ := by
   -- placeholder structure: obstruction inequality requires non-trivial invariant
   refine ⟨(fun _ => false), (fun _ => true), ?_, ?_⟩
   ·
