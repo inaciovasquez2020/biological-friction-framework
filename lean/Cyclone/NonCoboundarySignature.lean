@@ -54,3 +54,10 @@ theorem global_non_coboundary_conditional
   exact non_coboundary_signature_exists G hG
 
 end Cyclone
+
+lemma sigma_pair_separating
+  (G : Graph) (hG : HasCycle G) :
+  ∃ σ₁ σ₂ : Sigma G,
+    IsCoboundary G σ₁ ∧ ¬ IsCoboundary G σ₂ := by
+  sorry
+
