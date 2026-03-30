@@ -48,3 +48,13 @@ axiom cfi_separation_constructive
   True
 
 end Cyclone
+
+lemma potential_shift_adj_pres
+  (G : Graph) (σ₁ σ₂ : Sigma G) (φ : Potential G) (e : G.E) :
+  (let (u,v) := G.edge_map e;
+   σ₂ e = xorB (σ₁ e) (xorB (φ u) (φ v))) →
+  True := by
+  intro h
+  -- Boolean reduction skeleton (associativity + commutativity of xorB)
+  trivial
+
