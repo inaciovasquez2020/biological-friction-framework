@@ -41,3 +41,9 @@ theorem local_signature_trivial_on_tree_conditional
   exact tree_potential_exists T hT σ
 
 end Cyclone
+
+lemma get_path_step_eq
+  (G : Graph) (σ : Sigma G) (root u v : G.V) (e : G.E)
+  (h_map : G.edge_map e = (u, v)) :
+  get_path G root v = Path.step (get_path G root u) e h_map
+
