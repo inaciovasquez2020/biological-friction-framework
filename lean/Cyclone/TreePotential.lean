@@ -72,5 +72,15 @@ lemma path_unique_extension
   (root u v : G.V) (e : G.E)
   (h_map : G.edge_map e = (u, v)) :
   get_path G root v = Path.step (get_path G root u) e h_map := by
-  sorry
+  have h₁ := (h_tree root v)
+  have h₂ := (h_tree root u)
+  cases h₁ with
+  | intro pv hpv =>
+    cases h₂ with
+    | intro pu hpu =>
+      have h_ext : Path G root v :=
+        Path.step pu e h_map
+      have h_unique := hpv.2 h_ext trivial
+      exact h_unique.symm
+
 
