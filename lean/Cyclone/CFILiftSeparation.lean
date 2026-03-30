@@ -75,3 +75,18 @@ theorem cfi_lift_separation
   rcases cfi_lift_separation_from_obstruction G R k h_girth with ⟨σ₁, σ₂, hFO, hObs⟩
   exact ⟨σ₁, σ₂, hFO, hObs⟩
 
+
+theorem cyclone_final_closure
+  (G : Graph) (R k : ℕ)
+  (h_girth : Girth G > 2 * R)
+  (h_cycle : HasCycle G) :
+  ∃ (σ₁ σ₂ : Sigma G),
+    FOEquivKR k R (potential_shift G (fun _ => false) σ₁)
+                     (potential_shift G (fun _ => false) σ₂) ∧
+    Obstruction (potential_shift G (fun _ => false) σ₁) ≠
+    Obstruction (potential_shift G (fun _ => false) σ₂) := by
+  rcases sigma_pair_separating G h_cycle with ⟨σ₁, σ₂, h₁, h₂⟩
+  have hFO := foequiv_of_tree_local_triviality G R k h_girth σ₁ σ₂
+  have hObs := obstruction_separates_sigma_pair G σ₁ σ₂ h₁ h₂
+  exact ⟨σ₁, σ₂, hFO, hObs⟩
+
