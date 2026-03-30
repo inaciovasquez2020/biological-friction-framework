@@ -247,3 +247,11 @@ lemma obstruction_invariant_under_potential
   Obstruction (potential_shift G φ σ) = Obstruction σ ↔ IsCoboundary G σ := by
   sorry
 
+
+lemma obstruction_separates_sigma_pair
+  (G : Graph) (σ₁ σ₂ : Sigma G)
+  (h₁ : IsCoboundary G σ₁) (h₂ : ¬ IsCoboundary G σ₂) :
+  Obstruction (potential_shift G (fun _ => false) σ₁) ≠
+  Obstruction (potential_shift G (fun _ => false) σ₂) := by
+  sorry
+
