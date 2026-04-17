@@ -1,26 +1,33 @@
-# Biological Friction Framework Status
+# STATUS
 
-## Scope
+## Repository State
 
-This repository formalizes biological friction as a structural obstruction to idealized variational or zero-cost adaptive dynamics.
+- State: CANONICAL_FRAMEWORK_ARTIFACT
+- Scope: Biological Friction Framework
+- Last Reviewed: 2026-04-17
+- Branch Policy: main is canonical
 
-## Core Layers
+## Verified
 
-- biological friction principle
-- obstruction / cost layer
-- admissibility interface
-- verification-ready statements
+- Repository identity matches Biological Friction Framework.
+- Repository serves as framework/reference artifact.
+- Support tooling may exist.
 
-## Status Labels
+## Conditional / Open
 
-- closed
-- conditional
-- open
-- archival
+- Scientific strength depends on explicit documentation and evidence.
+- External validation remains separate from repository closure.
+- Future extensions may refine definitions.
 
-## Current State
+## Non-Claims
 
-- framework: active
-- obstruction map: present
-- theorem closure: conditional
-- verification path: present
+- No clinical efficacy claim.
+- No regulatory approval claim.
+- No repository-only proof of universal biological law.
+
+## Canonical Files
+
+- README.md
+- STATUS.md
+- FREEZE.md
+- CITATION.cff

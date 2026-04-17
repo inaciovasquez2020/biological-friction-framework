@@ -16,3 +16,9 @@ urf-*/
 overlap-rigidity-*/
 phase-transition-pnp*/
 yang-mills-hs-gap-cert/
+
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
