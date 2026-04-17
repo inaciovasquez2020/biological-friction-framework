@@ -23,7 +23,8 @@ jobs:
         run: |
           pytest -q tests/test_canonical_surface.py
 
-      - name: Reject transient files
+      - name: Reject tracked transient files only
         run: |
-          test ! -d .venv
-          find . -name "__pycache__" | (! grep .)
+          git ls-files | grep -E '(^|/)\.venv/' && exit 1 || true
+          git ls-files | grep -E '(^|/)__pycache__/' && exit 1 || true
+          git ls-files | grep -E '\.pyc$' && exit 1 || true
