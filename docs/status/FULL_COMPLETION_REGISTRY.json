@@ -1,0 +1,13 @@
+{
+  "scope": "repository-surface",
+  "formula": "percent = 100 * complete / total",
+  "items": [
+    { "id": "canonical_boundary", "status": "complete" },
+    { "id": "canonical_surface_test", "status": "complete" },
+    { "id": "scope_purity_test", "status": "complete" },
+    { "id": "repo_scope_closure_test", "status": "complete" },
+    { "id": "archived_foreign_scope_fo4", "status": "complete" },
+    { "id": "archived_foreign_scope_reintroduced", "status": "complete" }
+  ],
+  "expected_percent": 100
+}
