@@ -1,0 +1,427 @@
+./.lake/packages/mathlib/Mathlib/Tactic/ExtractGoal.lean:27:theorem extracted_1 (i j k : Nat) (h₀ : i ≤ j) (h₁ : j ≤ k) : i ≤ k := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/ExtractGoal.lean:48:theorem int_eq_nat {z : Int} : ∃ n, Int.ofNat n = z := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/ExtractGoal.lean:84:theorem extracted_1.{u_1} {α : Sort u_1} (a : α) : ∃ f, f a = a := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/ExtractGoal.lean:92:theorem extracted_1 : X = X := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/ExtractGoal.lean:216:        -- Preserve foralls: format as "theorem name : ty := sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/ExtractGoal.lean:217:        pure m!"{cmd} {name} : {ty} := sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/ExtractGoal.lean:220:        pure m!"{cmd} {sig} := sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/CongrM.lean:46:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/CongrM.lean:47:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/CongrM.lean:48:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:51:          { range := ⟨tacPos, endPos⟩, newText := s!"calc {goalFmt} := by sorry" }
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:98:      s!"{lhsStr} {relStr} {newLhsStr} := by sorry\n{spc}_ {relStr} {newRhsStr} := by sorry\n\
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:99:         {spc}_ {relStr} {rhsStr} := by sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:101:      s!"_ {relStr} {newLhsStr} := by sorry\n{spc}\
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:102:         _ {relStr} {newRhsStr} := by sorry\n{spc}\
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:103:         _ {relStr} {rhsStr} := by sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:106:      s!"{lhsStr} {relStr} {newRhsStr} := by sorry\n{spc}_ {relStr} {rhsStr} := by sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:108:      s!"_ {relStr} {newRhsStr} := by sorry\n{spc}_ {relStr} {rhsStr} := by sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:111:      s!"{lhsStr} {relStr} {newLhsStr} := by sorry\n{spc}_ {relStr} {rhsStr} := by sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:113:      s!"_ {relStr} {newLhsStr} := by sorry\n{spc}_ {relStr} {rhsStr} := by sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:142:  let s ← `(tactic| calc $(← Lean.PrettyPrinter.delab (← getMainTarget)) := by sorry)
+./.lake/packages/mathlib/Mathlib/Tactic/Widget/Calc.lean:144:  evalTactic (← `(tactic|sorry))
+./.lake/packages/mathlib/Mathlib/Tactic/Translate/ToAdditive.lean:48:theorem foo := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Translate/ToDual.lean:54:lemma min_le_left (a b : α) : min a b ≤ a := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Translate/ToDual.lean:81:@[to_dual (attr := simp)] lemma min_self (a : α) : min a a = a := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/GlobalAttributeIn.lean:34:theorem what : False := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/GlobalAttributeIn.lean:42:theorem who {x y : Nat} : x = y := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/GlobalAttributeIn.lean:68:theorem what : False := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/UnusedInstancesInType.lean:97:/-- Collects free variables that do not appear in proofs. Ignores `sorry`s (and their types). -/
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/UnusedInstancesInType.lean:100:    -- If it doesn't have an fvar, or it's a sorry, or it's a proof, don't descend further.
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/UnusedInstancesInType.lean:134:  and instantiating all other bvars with `sorry`. The only free variables therefore arise from
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/UnusedInstancesInType.lean:137:  By instantiating ordinary binders with `sorry`, `collectFVarsOutsideOfProofs` can use the
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/UnusedInstancesInType.lean:156:        -- This forall does not introduce a binder of concern. Instantiate the bvar with `sorry`.
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/UnusedInstancesInType.lean:195:    unless decl.type.hasSorry do -- only check for `sorry` in the "expensive" interactive case
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/EmptyLine.lean:99:  -- The linter does not report anything on incomplete proofs, e.g. proofs containing `sorry`
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/DeprecatedSyntaxLinter.lean:29:The `admit` tactic is a synonym for the much more common `sorry`, so the latter should be preferred.
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/DeprecatedSyntaxLinter.lean:79:the `admit` tactic, which is a synonym for the much more common `sorry`. -/
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/DeprecatedSyntaxLinter.lean:169:         please strongly consider using the synonymous `sorry` instead.")
+./.lake/packages/mathlib/Mathlib/Tactic/Linter/DeprecatedSyntaxLinter.lean:204:* `admit`, superseded by `sorry` (controlled by `linter.style.admit`)
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:111:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:117:  tfae_have 1 → 2 := sorry /- proof of P → Q -/
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:118:  tfae_have 2 → 1 := sorry /- proof of Q → P -/
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:119:  tfae_have 2 ↔ 3 := sorry /- proof of Q ↔ R -/
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:127:  tfae_have 1 → 2 := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:130:  tfae_have hpq : 1 → 2 := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:137:  tfae_have ⟨pq, qp⟩ : 1 ↔ 2 := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:142:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:156:  tfae_have 1 → 2 := sorry /- proof of P → Q -/
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:157:  tfae_have 2 → 1 := sorry /- proof of Q → P -/
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:158:  tfae_have 2 ↔ 3 := sorry /- proof of Q ↔ R -/
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:278:    Term.addTermInfo' i q(sorry : $Pi) Pi
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:279:    Term.addTermInfo' j q(sorry : $Pj) Pj
+./.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:285:    Term.addTermInfo' stx q(sorry : $ty) ty
+./.lake/packages/mathlib/Mathlib/Tactic/FastInstance.lean:116:instance instSemiring : Semiring X := sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Eval.lean:32:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/ITauto.lean:174:  | sorry : Proof
+./.lake/packages/mathlib/Mathlib/Tactic/ITauto.lean:242:  | .sorry => "sorry"
+./.lake/packages/mathlib/Mathlib/Tactic/ITauto.lean:291:  | _, .sorry A => some A
+./.lake/packages/mathlib/Mathlib/Tactic/ITauto.lean:399:  | false, _, _ => pure (false, .sorry)
+./.lake/packages/mathlib/Mathlib/Tactic/ITauto.lean:436:  else ((false, .sorry), n)
+./.lake/packages/mathlib/Mathlib/Tactic/ITauto.lean:500:  | .sorry => throwError "itauto failed\n{g}"
+./.lake/packages/mathlib/Mathlib/Tactic/Set.lean:40:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Convert.lean:170:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/FieldSimp.lean:696:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/FieldSimp.lean:703:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Qify.lean:27:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/Qify.lean:51:  sorry
+./.lake/packages/mathlib/Mathlib/Tactic/SimpIntro.lean:72:  sorry
+./.lake/packages/mathlib/Mathlib/Order/PrimeSeparator.lean:131:--     ∃ G : PFilter α, (IsPrime G) ∧ F ≤ G ∧ Disjoint (G : Set α) I := by sorry
+./.lake/packages/mathlib/Mathlib/Lean/Expr/Basic.lean:206:/-- Erase proofs in an expression by replacing them with `sorry`s.
+./.lake/packages/mathlib/Mathlib/Lean/Expr/Basic.lean:394:This is the form produced by the `sorry` term/tactic.
+./.lake/packages/mathlib/Mathlib/Lean/Expr/Basic.lean:397:`sorry`/`sorryAx` (including e.g. `sorryAx α true x y z`). -/
+./.lake/packages/mathlib/Mathlib/Probability/Independence/Integration.lean:26:example {M1 : MeasurableSpace Ω} [M2 : MeasurableSpace Ω] {μ : Measure Ω} : sorry := sorry
+./.lake/packages/mathlib/Mathlib/Probability/Independence/Integration.lean:27:example [M1 : MeasurableSpace Ω] {M2 : MeasurableSpace Ω} {μ : Measure Ω} : sorry := sorry
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:13:# Tracking uses of `sorry`
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:16:sorry-free. `#print sorries foo` returns a non-sorry-free declaration `bar` which `foo` depends on,
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:27:  The `#print sorries` command itself shouldn't be generalized, since `sorry` is a special concept,
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:38:/-- Type of intermediate computation of sorry-tracking. -/
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:42:  /-- The set of `sorry` expressions that have been found.
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:46:  /-- The uses of `sorry` that were found. -/
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:50:Collects all uses of `sorry` by the declaration `c`.
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:54:each use of `sorry`.
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:59:    We assume most declarations do not contain sorry.
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:63:    declaration that included it. Recall that `sorry` might appear in the type of a theorem,
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:64:    which leads to the `sorry` appearing directly in any declarations that use it.
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:66:    The other reason is that we match entire sorry applications,
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:67:    so `forEachExpr'`'s cache won't prevent over-reporting if `sorry` is a function.
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:111:Prints all uses of `sorry` inside a list of declarations.
+./.lake/packages/mathlib/Mathlib/Util/PrintSorries.lean:133:    logInfo m!"Declarations are sorry-free!"
+./.lake/packages/mathlib/Mathlib/Util/AssertNoSorry.lean:27:  then throwError "{n} contains sorry"
+./.lake/packages/mathlib/Mathlib/NumberTheory/ModularForms/Derivative.lean:19:  for `sorry`-free proofs.
+./.lake/packages/mathlib/Mathlib/CategoryTheory/Category/Basic.lean:140:/-- Close the main goal with `sorry` if its type contains `sorry`, and fail otherwise. -/
+./.lake/packages/mathlib/Mathlib/CategoryTheory/Category/Basic.lean:149:    throwError "The goal does not contain `sorry`"
+./.lake/packages/mathlib/Mathlib/CategoryTheory/Limits/Shapes/Equalizers.lean:228:  -- `sorry` can cope with this, but it's too slow:
+./.lake/packages/mathlib/Mathlib/GroupTheory/FiniteAbelian/Basic.lean:42:  left_inv x := DFinsupp.ext fun i ↦ sorry
+./.lake/packages/mathlib/Mathlib/GroupTheory/FiniteAbelian/Basic.lean:43:  right_inv y := DFinsupp.ext fun j ↦ sorry
+./.lake/packages/mathlib/Mathlib/MeasureTheory/Function/ConditionalExpectation/Basic.lean:119:/-- info: μ[f | m] sorry : E -/
+./.lake/packages/mathlib/Mathlib/MeasureTheory/Function/ConditionalExpectation/Basic.lean:121:#check μ[f | m] (sorry : α)
+./.lake/packages/mathlib/Mathlib/MeasureTheory/Function/ConditionalLExpectation.lean:93:/-- info: P⁻[X|mΩ] sorry : ℝ≥0∞ -/
+./.lake/packages/mathlib/Mathlib/MeasureTheory/Function/ConditionalLExpectation.lean:95:#check P⁻[X|mΩ] (sorry : Ω)
+./.lake/packages/mathlib/Mathlib/Geometry/Manifold/LocalDiffeomorph.lean:338:  -- have (x y) : EqOn (Φ x).symm (Φ y).symm ((Φ x).target ∩ (Φ y).target) := sorry
+./.lake/packages/mathlib/Mathlib/Data/Nat/Init.lean:135:| refl => sorry
+./.lake/packages/mathlib/Mathlib/Data/Nat/Init.lean:136:| le_succ_of_le hle ih => sorry
+./.lake/packages/mathlib/Mathlib/Data/FunLike/Basic.lean:115:-- Compare with: lemma do_something (f : MyHom A B) : sorry := sorry
+./.lake/packages/mathlib/Mathlib/Data/FunLike/Basic.lean:116:lemma do_something {F : Type*} [FunLike F A B] [MyHomClass F A B] (f : F) : sorry :=
+./.lake/packages/mathlib/Mathlib/Data/FunLike/Basic.lean:117:  sorry
+./.lake/packages/mathlib/Mathlib/Data/FunLike/Embedding.lean:120:-- Compare with: lemma do_something (f : MyEmbedding A B) : sorry := sorry
+./.lake/packages/mathlib/Mathlib/Data/FunLike/Embedding.lean:121:lemma do_something {F : Type*} [FunLike F A B] [MyEmbeddingClass F A B] (f : F) : sorry := sorry
+./.lake/packages/mathlib/Mathlib/Data/FunLike/Equiv.lean:118:-- Compare with: lemma do_something (f : MyIso A B) : sorry := sorry
+./.lake/packages/mathlib/Mathlib/Data/FunLike/Equiv.lean:119:lemma do_something {F : Type*} [EquivLike F A B] [MyIsoClass F A B] (f : F) : sorry := sorry
+./.lake/packages/mathlib/Mathlib/Data/Int/Bitwise.lean:220:--   sorry
+./.lake/packages/mathlib/Mathlib/Data/SetLike/Basic.lean:39:  (op_mem' : ∀ {x : X}, x ∈ carrier → sorry ∈ carrier)
+./.lake/packages/mathlib/Mathlib/Computability/AkraBazzi/AkraBazzi.lean:471:  --  sorry
+./.lake/packages/mathlib/Mathlib/Algebra/Order/CauSeq/Completion.lean:261:    "(sorry /- " ++ Std.Format.joinSep ((List.range N).map <| repr ∘ seq) ", " ++ ", ... -/)"
+./.lake/packages/mathlib/Mathlib/Algebra/Group/Hom/Defs.lean:222:  toFun := foo; map_one' := sorry; map_mul' := sorry
+./.lake/packages/mathlib/Mathlib/Algebra/Group/Invertible/Defs.lean:45:def something_that_needs_inverses (x : α) [Invertible x] := sorry
+./.lake/packages/mathlib/Mathlib/Algebra/Tropical/Basic.lean:494:--   a + b = 1 ↔ a = 1 ∨ b = 1 := sorry
+./.lake/packages/mathlib/Mathlib/Algebra/Algebra/RestrictScalars.lean:64:example : RestrictScalars R S M →ₗ[R] S := sorry
+./.lake/packages/mathlib/Mathlib/Algebra/Algebra/RestrictScalars.lean:69:example [Module R M] [IsScalarTower R S M] : M →ₗ[R] S := sorry
+./.lake/packages/mathlib/MathlibTest/toAdditive.lean:517:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/toAdditive.lean:521:local instance foo {α : Type*} [Semigroup α] : Monoid α := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:11:/-- info: theorem _example.extracted_1 (i j k : ℕ) (h₀ : i ≤ j) (h₁ : j ≤ k) : i ≤ k := sorry -/
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:17:/-- info: theorem _example.extracted_1 (i j k : ℕ) (h₁ : j ≤ k) : i ≤ k := sorry -/
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:26:  f a - b = f a - b := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:35:/-- info: theorem _example.extracted_1 (n : ℕ) : n + 1 = n + 1 := sorry -/
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:44:/-- info: theorem _example.extracted_1.{u_1} {α : Sort u_1} {n : α} : n = n := sorry -/
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:52:  @Exists.{1} Nat fun (n : Nat) ↦ @Eq.{1} Int (@Nat.cast.{0} Int instNatCastInt n) z := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:54:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:60:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:63:info: theorem foo : True := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:65:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:70:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:73:info: theorem foo (n : ℕ) : True := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:75:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:80:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:88:info: theorem _example.extracted_1 (n : ℕ) : True := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:90:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:95:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:99:info: theorem _example.extracted_1 (n : ℕ) : True := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:101:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:106:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:109:info: theorem _example.extracted_1 (n : ℕ) (i : Fin n) : True := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:111:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:116:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:120:info: theorem _example.extracted_1 (h : 1 = 2) : False := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:122:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:127:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:131:info: theorem _example.extracted_1 (h : 1 = 2) : False := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:133:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:137:  have h : 1 = 2 := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:139:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:143:info: theorem _example.extracted_1 (h : 1 = 2) : False := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:145:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:151:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:155:info: theorem _example.extracted_1 (m : ℕ) : m < m + 1 := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:157:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:163:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:167:info: theorem _example.extracted_1 (m : ℕ) (this : m < (m + 1).succ) : m < m + 1 := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:169:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:177:  sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:180:info: theorem foralls_variants.extracted_1_1 : ∀ (n : ℕ), n + 0 = n → n + 1 + 0 = n + 1 := sorry
+./.lake/packages/mathlib/MathlibTest/ExtractGoal.lean:182:info: theorem foralls_variants.extracted_1_3 (n : ℕ) : n + 0 = n → n + 1 + 0 = n + 1 := sorry
+./.lake/packages/mathlib/MathlibTest/DifferentialGeometry/Notation/Advanced.lean:1011:info: mfderiv% f sorry : TangentSpace 𝓘(𝕜, E) sorry →L[𝕜] TangentSpace 𝓘(𝕜, EM') (f sorry)
+./.lake/packages/mathlib/MathlibTest/aesop_cat.lean:7:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/aesop_cat.lean:10:  x := sorry
+./.lake/packages/mathlib/MathlibTest/Simproc/VecPerm.lean:29:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Simproc/VecPerm.lean:34:  sorry
+./.lake/packages/mathlib/MathlibTest/fast_instance.lean:112:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/fast_instance.lean:114:abbrev dec1 : Decidable It := isTrue sorry
+./.lake/packages/mathlib/MathlibTest/fast_instance.lean:116:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/fast_instance.lean:118:def dec2 : Decidable It := isTrue sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:6:Direct use of `sorry`
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:9:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:11:theorem thm1 : 1 = 2 := by sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:14:info: thm1 has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:21:Indirect use of `sorry`
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:26:info: thm1 has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:33:Print all uses of `sorry` in the current module.
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:36:info: thm1 has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:43:Don't overreport. Remembers that `thm1` already reported the `sorry`.
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:46:info: thm1 has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:56:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:58:def f (n : Nat) : Nat := sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:59:theorem thm3 : f 1 = f 2 := rfl -- (!) This works since it's a fixed `sorry : Nat`
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:62:info: f has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:69:If `sorry` appears in the type of a theorem, when it's used, it reports the theorem
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:70:with the `sorry`, even though `sorry` appears in the theorem that used it as well.
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:72:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:74:theorem thm_sorry (n : Nat) : n = sorry := sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:76:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:82:info: thm_sorry has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:84:thm_sorry has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:85:  n = sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:94:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:96:def f' : Nat → Nat := sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:111:theorem thm3' : f' 1 = f' 2 := rfl -- fails as expected, `f'` is an unknown `sorry : Nat → Nat`
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:114:info: f' has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:116:thm3' has sorry (from error) of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:123:Unfolding functions can lead to many copies of `sorry` in a term.
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:124:This proof contains 4 sorry terms.
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:127:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:130:  let f : Nat → Nat := sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:131:  have : f 1 = f 2 := sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:137:info: thm has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:139:thm has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:146:Raw, unlabeled sorry.
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:150:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:155:info: thm' has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:162:The `sorry` pretty printing can handle free variables.
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:164:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:165:#guard_msgs in def g (α : Type) : α := sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:168:info: g has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:178:info: in_test_1 has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:181:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:184:#print sorries in theorem in_test_1 : True := sorry
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:186:/-- info: Declarations are sorry-free! -/
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:191:### Other sorry-producing commands
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:197:info: thm4 has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:200:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:207:info: thm5 has sorry of type
+./.lake/packages/mathlib/MathlibTest/Util/PrintSorries.lean:210:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/hintAll.lean:190:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/LintStyle.lean:333:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/LintStyle.lean:353:  have : (Set.univ : Set ℕ) = ⋃ (i : ℕ), (Set.iUnion λ j ↦ ({0, j} : Set ℕ)) := sorry
+./.lake/packages/mathlib/MathlibTest/LintStyle.lean:354:  have : ∃ m : ℕ, ⋃ i : ℕ, (Set.univ : Set ℕ) = ∅ := sorry
+./.lake/packages/mathlib/MathlibTest/tfae.lean:136:  fail_if_success (tfae_have 1 ← 2 := ((?a).out 1 2 sorry sorry).mpr)
+./.lake/packages/mathlib/MathlibTest/UnusedInstancesInType/Fintype.lean:64:-- Linter should not fire when `sorry` appears in the type, even though the instances are unused
+./.lake/packages/mathlib/MathlibTest/UnusedInstancesInType/Fintype.lean:65:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/UnusedInstancesInType/Fintype.lean:67:theorem fooSorry {β} [∀ α : Type, Fintype α] [Fintype β] (b : sorry) : True :=
+./.lake/packages/mathlib/MathlibTest/UnusedInstancesInType/Decidable.lean:61:-- Linter should not fire when `sorry` appears in the type, even though the instances are unused
+./.lake/packages/mathlib/MathlibTest/UnusedInstancesInType/Decidable.lean:62:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/UnusedInstancesInType/Decidable.lean:64:theorem fooSorry {β} [∀ α : Type, Decidable (Nonempty α)] [DecidableEq β] (b : sorry) : True :=
+./.lake/packages/mathlib/MathlibTest/eqns.lean:30:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/CalcQuestionMark.lean:14:    1 = 1 := by sorry
+./.lake/packages/mathlib/MathlibTest/CalcQuestionMark.lean:16:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/CalcQuestionMark.lean:27:    a ≤ a := by sorry
+./.lake/packages/mathlib/MathlibTest/CalcQuestionMark.lean:29:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/CalcQuestionMark.lean:40:    a ≤ a := by sorry
+./.lake/packages/mathlib/MathlibTest/CalcQuestionMark.lean:42:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/CalcQuestionMark.lean:58:      by sorry
+./.lake/packages/mathlib/MathlibTest/CalcQuestionMark.lean:60:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/CategoryTheory/CancelIso.lean:56:this : ∀ (f : X ⟶ sorry) (g : sorry ⟶ X), f ≫ g = 𝟙 X
+./.lake/packages/mathlib/MathlibTest/CategoryTheory/CancelIso.lean:63:  sorry
+./.lake/packages/mathlib/MathlibTest/CategoryTheory/CancelIso.lean:123:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/CategoryTheory/CancelIso.lean:128:    sorry
+./.lake/packages/mathlib/MathlibTest/globalAttributeIn.lean:71:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/globalAttributeIn.lean:73:theorem foo (x y : Nat) : x = y := sorry
+./.lake/packages/mathlib/MathlibTest/Tauto.lean:98:example (hp : ¬ p) (hq : ¬ (q ↔ p) := by sorry) : q := by
+./.lake/packages/mathlib/MathlibTest/itauto.lean:62:  haveI : p ∨ ¬p := by (fail_if_success itauto); sorry
+./.lake/packages/mathlib/MathlibTest/itauto.lean:63:  clear this; haveI : ¬(p ↔ q) → ¬p → q := by (fail_if_success itauto); sorry
+./.lake/packages/mathlib/MathlibTest/itauto.lean:64:  clear this; haveI : ¬(p ↔ q) → (r ↔ q) → (p ↔ ¬r) := by (fail_if_success itauto); sorry
+./.lake/packages/mathlib/MathlibTest/WhitespaceLinter.lean:105:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/WhitespaceLinter.lean:118:instance   {R} : Add R := sorry
+./.lake/packages/mathlib/MathlibTest/WhitespaceLinter.lean:123:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/WhitespaceLinter.lean:136:instance   {R} : Sub R := sorry
+./.lake/packages/mathlib/MathlibTest/DocString.lean:93:  sorry
+./.lake/packages/mathlib/MathlibTest/Quaternion.lean:25:info: { re := Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/), imI := Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/), imJ := Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/), imK := Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/) }
+./.lake/packages/mathlib/MathlibTest/Quaternion.lean:31:info: { re := Real.ofCauchy (sorry /- 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ... -/), imI := Real.ofCauchy (sorry /- 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ... -/), imJ := Real.ofCauchy (sorry /- 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, ... -/), imK := Real.ofCauchy (sorry /- 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, ... -/) }
+./.lake/packages/mathlib/MathlibTest/Complex.lean:7:info: Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/) + Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/)*I
+./.lake/packages/mathlib/MathlibTest/Complex.lean:13:info: Real.ofCauchy (sorry /- 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ... -/) + Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/)*I
+./.lake/packages/mathlib/MathlibTest/Complex.lean:19:info: Real.ofCauchy (sorry /- 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, ... -/) + Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/)*I
+./.lake/packages/mathlib/MathlibTest/Complex.lean:25:info: Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/) + Real.ofCauchy (sorry /- 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ... -/)*I
+./.lake/packages/mathlib/MathlibTest/Complex.lean:31:info: Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/) + Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/)*I + (Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/) + Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/)*I)*ε
+./.lake/packages/mathlib/MathlibTest/BasicFiles/TacticCommon.lean:32:theorem test_print_sorries : True := sorry
+./.lake/packages/mathlib/MathlibTest/Linarith/Basic.lean:15:  closeMainGoalUsing `sorry fun _ _ => elabTerm t e
+./.lake/packages/mathlib/MathlibTest/EmptyLine.lean:151:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/EmptyLine.lean:156:  sorry
+./.lake/packages/mathlib/MathlibTest/FinCoercions.lean:22:info: fun n => sorry : (n : ℕ) → ?_ n
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:14:A tactic that adds a vacuous `sorry`. Useful for testing the chattiness of the `haveLet` linter.
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:17:  Lean.Elab.Tactic.evalTactic (← `(tactic| have : 0 = 0 := sorry; clear this ))
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:31:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:60:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:73:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:86:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:117:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:130:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:138:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/HaveLetLinter.lean:148:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/jacobiSym.lean:46:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/jacobiSym.lean:49:#eval! @legendreSym (2 ^ 11213 - 1) sorry 7
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:10:set_option warn.sorry false
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:23:    zpow_zero a := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:24:    zpow_succ a n := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:25:    zpow_neg a n := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:26:    zero_ne_one := sorry }
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:28:instance {K : Type} [Field K] : IsDomain K := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:29:noncomputable def normalizedFactors {α : Type} [CommMonoidWithZero α] (a : α) : Set α := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:39:instance commRing {R} [CommRing R] (I : Ideal R) : CommRing I.Quotient := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:43:  { inv := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:44:    mul_inv_cancel := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:45:    inv_zero := sorry
+./.lake/packages/mathlib/MathlibTest/grind/panic.lean:46:    exists_pair_ne := sorry }
+./.lake/packages/mathlib/MathlibTest/slim_check.lean:202:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/MinImports.lean:81:info: theorem hi.extracted_1_1 (n : ℕ) : n = n := sorry
+./.lake/packages/mathlib/MathlibTest/LibrarySearch/IsCompact.lean:4:-- TODO: uses sorry, but is hidden behind the `apply?`
+./.lake/packages/mathlib/MathlibTest/LibrarySearch/IsCompact.lean:5:/-- warning: declaration uses `sorry` -/
+./.lake/packages/mathlib/MathlibTest/Use.lean:50:example : ∃ p : Nat × Nat, p.1 = p.2 := by use 42; sorry
+./.lake/packages/mathlib/MathlibTest/Use.lean:259:⊢ sorry 1 = 1
+./.lake/packages/mathlib/MathlibTest/ImplicitUniverses.lean:14:noncomputable example (_x _y : Type*) : sorry := by
+./.lake/packages/mathlib/MathlibTest/ImplicitUniverses.lean:27:noncomputable example (_x : Sort*) : sorry := by
+./.lake/packages/mathlib/MathlibTest/ImplicitUniverses.lean:40:noncomputable example : sorry := by
+./.lake/packages/mathlib/MathlibTest/ImplicitUniverses.lean:53:noncomputable example : sorry := by
+./.lake/packages/mathlib/MathlibTest/Real.lean:13:run_cmd unsafe testRepr 0 "Real.ofCauchy (sorry /- 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... -/)"
+./.lake/packages/mathlib/MathlibTest/Real.lean:14:run_cmd unsafe testRepr 1 "Real.ofCauchy (sorry /- 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ... -/)"
+./.lake/packages/mathlib/MathlibTest/Real.lean:16:  unsafe testRepr (37 : ℕ) "Real.ofCauchy (sorry /- 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, ... -/)"
+./.lake/packages/mathlib/MathlibTest/Real.lean:17:run_cmd unsafe testRepr (2 + 3) "Real.ofCauchy (sorry /- 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, ... -/)"
+./.lake/packages/mathlib/MathlibTest/Real.lean:19:                        "Real.ofCauchy (sorry /- 1, (1 : Rat)/2, (1 : Rat)/4, (1 : Rat)/8, \
+./.lake/packages/mathlib/MathlibTest/DeprecatedSyntaxLinter.lean:70:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/DeprecatedSyntaxLinter.lean:72:warning: The `admit` tactic is discouraged: please strongly consider using the synonymous `sorry` instead.
+./.lake/packages/mathlib/MathlibTest/DeprecatedSyntaxLinter.lean:80:warning: declaration uses `sorry`
+./.lake/packages/mathlib/MathlibTest/DeprecatedSyntaxLinter.lean:82:warning: The `admit` tactic is discouraged: please strongly consider using the synonymous `sorry` instead.
+./.lake/packages/mathlib/MathlibTest/DeprecatedSyntaxLinter.lean:86:warning: The `admit` tactic is discouraged: please strongly consider using the synonymous `sorry` instead.
+./.lake/packages/mathlib/MathlibTest/DeprecatedSyntaxLinter.lean:90:warning: The `admit` tactic is discouraged: please strongly consider using the synonymous `sorry` instead.
+./.lake/packages/mathlib/MathlibTest/DeprecatedSyntaxLinter.lean:94:warning: The `admit` tactic is discouraged: please strongly consider using the synonymous `sorry` instead.
+./.lake/packages/mathlib/MathlibTest/DeprecatedSyntaxLinter.lean:109:warning: declaration uses `sorry`
+./.lake/packages/plausible/Test/Tactic.lean:125:warning: declaration uses `sorry`
+./.lake/packages/plausible/Test/Tactic.lean:134:warning: declaration uses `sorry`
+./.lake/packages/plausible/Test/Tactic.lean:145:warning: declaration uses `sorry`
+./.lake/packages/plausible/Test/Tactic.lean:167:warning: declaration uses `sorry`
+./.lake/packages/proofwidgets/ProofWidgets/Demos/SelectInsertConv.lean:160:-- Like `sorry` but avoids a warning for demonstration purposes.
+./.lake/packages/batteries/Batteries/Tactic/Lint/Misc.lean:41:We skip all declarations that contain `sorry` in their value. -/
+./.lake/packages/batteries/Batteries/Tactic/Case.lean:75:Recall that `case` closes the goal using `sorry` when `tac` fails,
+./.lake/packages/batteries/Batteries/Tactic/GeneralizeProofs.lean:22:def List.nthLe {α} (l : List α) (n : ℕ) (_h : n < l.length) : α := sorry
+./.lake/packages/batteries/Batteries/Tactic/GeneralizeProofs.lean:500:def List.nthLe {α} (l : List α) (n : ℕ) (_h : n < l.length) : α := sorry
+./.lake/packages/batteries/Batteries/Util/ProofWanted.lean:39:    -- The helper axiom is used instead of `sorry` to avoid spurious warnings
+./.lake/packages/batteries/Batteries/Linter/UnreachableTactic.lean:22:because `trivial` produces no subgoals; you could put `sorry` or `apply I_don't_exist`
+./.lake/packages/batteries/Batteries/CodeAction/Basic.lean:20:on each occurrence of a hole (`_`, `?_` or `sorry`).
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:33:  | ``Elab.Term.elabSorry, _ => "sorry"
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:293:  | zero => sorry
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:294:  | succ n ih => sorry
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:358:        "sorry"
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:408:    -- or if there is only a `done` or `sorry` terminator
+./.lake/packages/batteries/BatteriesTest/linterVisibility.lean:13:@[env_linter] def foo : Linter := sorry
+./.lake/packages/batteries/BatteriesTest/linterVisibility.lean:19:@[env_linter] public def foo' : Linter := sorry
+./.lake/packages/batteries/BatteriesTest/linterVisibility.lean:25:@[env_linter] meta def foo'' : Linter := sorry
+./.lake/packages/batteries/BatteriesTest/simpa.lean:82:theorem thm : (a : Int) ≤ b - c ↔ a + b ≤ c := sorry
+./.lake/packages/batteries/BatteriesTest/simpa.lean:85:theorem thm2 : (b : Int) - c ≤ (a - b) - (a - c) := sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:13:/-- warning: declaration uses `sorry` -/
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:22:  sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:42:    tactic => sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:43:  sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:45:/-- warning: declaration uses `sorry` -/
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:54:  sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:66:⊢ 12 = sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:73:  sorry
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:231:  Due to unsoundness, `#eval` refuses to evaluate expressions that depend on `sorry`, even indirectly,
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:232:  since the presence of `sorry` can lead to runtime instability and crashes.
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:255:  Due to unsoundness, `#eval` refuses to evaluate expressions that depend on `sorry`, even indirectly,
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:256:  since the presence of `sorry` can lead to runtime instability and crashes.
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:289:  Due to unsoundness, `#eval` refuses to evaluate expressions that depend on `sorry`, even indirectly,
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:290:  since the presence of `sorry` can lead to runtime instability and crashes.
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:314:  Due to unsoundness, `#eval` refuses to evaluate expressions that depend on `sorry`, even indirectly,
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:315:  since the presence of `sorry` can lead to runtime instability and crashes.
+./.lake/packages/batteries/BatteriesTest/lint_unreachableTactic.lean:20:warning: declaration uses `sorry`
+./.lake/packages/batteries/BatteriesTest/lint_unreachableTactic.lean:28:def t : Nat → Nat := sorry
+./.lake/packages/batteries/BatteriesTest/lint_unreachableTactic.lean:32:theorem a : aa = 0 → t aa = 0 := sorry
+./.lake/packages/batteries/BatteriesTest/lintsimp.lean:37:    SemiconjBy (unop a) (unop y) (unop x) ↔ SemiconjBy a x y := sorry
+./.lake/packages/batteries/BatteriesTest/lintunused.lean:3:-- should be ignored as the proof contains sorry
+./.lake/packages/batteries/BatteriesTest/lintunused.lean:4:/-- warning: declaration uses `sorry` -/
+./.lake/packages/batteries/BatteriesTest/lintunused.lean:7:  sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:22:    · sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:23:    · sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:25:warning: declaration uses `sorry`
+./.lake/packages/aesop/AesopTest/ExtScript.lean:31:  all_goals sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:37:    · sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:39:      · sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:40:      · sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:42:warning: declaration uses `sorry`
+./.lake/packages/aesop/AesopTest/ExtScript.lean:48:  all_goals sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:55:      sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:56:    · sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:58:warning: declaration uses `sorry`
+./.lake/packages/aesop/AesopTest/ExtScript.lean:64:  all_goals sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:71:      sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:73:      sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:75:warning: declaration uses `sorry`
+./.lake/packages/aesop/AesopTest/ExtScript.lean:82:  all_goals sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:99:    · sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:100:    · sorry
+./.lake/packages/aesop/AesopTest/ExtScript.lean:102:warning: declaration uses `sorry`
+./.lake/packages/aesop/AesopTest/ExtScript.lean:108:  all_goals sorry
+./.lake/packages/aesop/AesopTest/List.lean:14:-- use `sorry` because it generates lots of warnings.
+./.lake/packages/aesop/AesopTest/IncompleteScript.lean:19:    sorry
+./.lake/packages/aesop/AesopTest/IncompleteScript.lean:40:  [apply]   sorry
+./.lake/packages/aesop/AesopTest/IncompleteScript.lean:55:    sorry
+./.lake/packages/aesop/AesopTest/205.lean:25:    sorry
+./.lake/packages/aesop/AesopTest/205.lean:27:warning: declaration uses `sorry`
+./.lake/packages/aesop/AesopTest/205.lean:32:  sorry
+./.lake/packages/aesop/AesopTest/SplitScript.lean:19:    next h => sorry
+./.lake/packages/aesop/AesopTest/SplitScript.lean:20:    next h => sorry
+./.lake/packages/aesop/AesopTest/SplitScript.lean:22:warning: declaration uses `sorry`
+./.lake/packages/aesop/AesopTest/SplitScript.lean:27:  all_goals sorry
+./.lake/packages/aesop/Aesop/Tree/ExtractScript.lean:126:    -- mvars is downgraded to an unsafe rule. So we add `sorry` steps for all
+./.lake/packages/aesop/Aesop/Tree/State.lean:132:    -- `g` should not have any children, but better safe than sorry.
+./.lake/packages/aesop/Aesop/Script/Step.lean:61:  let tactic ← .unstructured <$> `(tactic| sorry)
+./.lake/packages/aesop/Aesop/RuleTac/Tactic.lean:96:          throwError "generated proof contains sorry"
+./.lake/packages/importGraph/ImportGraphTest/Dot.lean:9:    args := #["exe", "graph", "--to", "ImportGraphTest.ToTarget", "--mark-sorry", "ImportGraphTest/produced.dot"]
+./.lake/packages/importGraph/ImportGraphTest/WithSorry/Def.lean:1:/-- warning: declaration uses `sorry` -/
+./.lake/packages/importGraph/ImportGraphTest/WithSorry/Def.lean:4:  let n : Nat := 1 + sorry
+./.lake/packages/importGraph/ImportGraphTest/WithSorry/Thm.lean:1:/-- warning: declaration uses `sorry` -/
+./.lake/packages/importGraph/ImportGraphTest/WithSorry/Thm.lean:4:  have x : True := sorry
+./.lake/packages/importGraph/ImportGraph/Util/FindSorry.lean:17:Array of all constant names which contain a `sorry`.
+./.lake/packages/importGraph/ImportGraph/Util/FindSorry.lean:32:Array of all module names of modules containing at least one `sorry`.
+./.lake/packages/importGraph/MainGraph.lean:61:    let modulesWithSorry := if args.hasFlag "mark-sorry" then ImportGraph.allModulesWithSorry env else ∅
+./.lake/packages/importGraph/MainGraph.lean:190:    "mark-sorry";              "Visually highlight modules containing sorries."
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/LoogleExamples.lean:22:--   sorry
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/StateSearchExamples.lean:22:warning: declaration uses 'sorry'
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/StateSearchExamples.lean:27:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/StateSearchExamples.lean:46:warning: declaration uses 'sorry'
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/StateSearchExamples.lean:51:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/StateSearchExamples.lean:74:warning: declaration uses 'sorry'
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/StateSearchExamples.lean:79:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/StateSearchExamples.lean:98:warning: declaration uses 'sorry'
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/StateSearchExamples.lean:103:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/Examples.lean:37:warning: declaration uses 'sorry'
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/Examples.lean:42:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/Examples.lean:88:warning: declaration uses 'sorry'
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/Examples.lean:93:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClientTest/Examples.lean:102:warning: declaration uses 'sorry'
+./.lake/packages/LeanSearchClient/LeanSearchClient/LoogleSyntax.lean:167:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClient/Syntax.lean:290:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClient/Syntax.lean:317:  sorry
+./.lake/packages/LeanSearchClient/LeanSearchClient/Syntax.lean:393:  sorry
+./.lake/packages/Qq/QqTest/introQ.lean:16:  assignQ q($m) q(sorry)
+./.lake/packages/Qq/QqTest/introQ.lean:20:info: fun {n} => sorry : ∀ {n : Nat}, n = 1
+./.lake/packages/Qq/Qq/Simp.lean:15:  sorry
+./.lake/packages/Qq/Qq/Simp.lean:20:  sorry
