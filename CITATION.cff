@@ -1,12 +1,12 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "biological-friction-framework"
+title: "Biological Friction Framework"
 authors:
-  - orcid: https://orcid.org/0009-0008-8459-3400
   - family-names: Vasquez
     given-names: Inacio F.
-version: 1.0
-year: 2026
+    orcid: "https://orcid.org/0009-0008-8459-3400"
+version: "1.0"
+date-released: 2026-02-13
 url: "https://github.com/inaciovasquez2020/biological-friction-framework"
 license: MIT
 repository-code: "https://github.com/inaciovasquez2020/biological-friction-framework"
