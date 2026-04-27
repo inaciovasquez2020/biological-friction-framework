@@ -37,3 +37,23 @@ This repository does not by itself:
 ## Status
 
 Repository-scope framework artifact with supporting infrastructure.
+
+## Formal Status
+
+Status: Conditional Framework / Frontier Claims
+
+Build status:
+- A successful build means the checked root target compiles.
+- It does not imply that axiom-dependent, admit-dependent, or sorry-dependent results prove their headline targets.
+
+Theorem status:
+- This repository currently contains project-defined `axiom` declarations, `admit` proof holes, and `sorry` proof holes.
+- `axiom` is a trusted assumption, not a proof.
+- `admit` is a proof hole.
+- `sorry` is a proof hole.
+- Any result depending on high-girth, non-coboundary, quotient-independence, project axioms, admits, or sorries is Conditional.
+
+Current status:
+- Strongest verified theorem: none asserted at repository level
+- Weakest missing theorem: replace each load-bearing axiom/admit/sorry with a proof or quarantine it as an explicit assumption
+- Conditional inventory: `docs/status/CONDITIONAL_FRONTIER_STATUS_2026_04_27.md`
