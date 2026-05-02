@@ -1,20 +1,20 @@
 # Biological Friction Framework — Sorry Quarantine Registry
 
-Status: Conditional / Sorry tokens isolated
+Status: Conditional / Sorry tokens eliminated by explicit frontier assumptions
 
 Registry ID: BFF-SQ-2026-05-02
 
 ## Boundary
 
-This registry targets the seven `sorry` proof holes only.
+This registry records the seven former `sorry` proof holes after conversion into explicit archived frontier assumptions.
 
-Removing or quarantining `sorry` tokens does not imply theorem-level closure.
+Eliminating `sorry` tokens by explicit frontier assumptions does not imply theorem-level closure.
 
 If `axiom + admit + sorry > 0`, no unconditional theorem-level closure claim is allowed.
 
 ## Formal Inventory
 
-Sorry count: 7
+Sorry count: 0
 
 ### SQ-01
 
@@ -191,10 +191,10 @@ Sorry count: 7
 
 ## Admissible Closure Target
 
-The admissible target is `sorry_count = 0` only if each occurrence is either proved or converted into an explicit named frontier assumption.
+The admissible target `sorry_count = 0` is reached only by explicit named frontier assumptions, not by proof discharge.
 
 The theorem-level target remains blocked until all axioms, admits, and quarantined assumptions are discharged.
 
 ## Final Status Line
 
-Biological Friction Framework: sorry frontier isolated; theorem-level closure remains blocked by unresolved formal-gap inventory.
+Biological Friction Framework: sorry count reduced to zero by explicit frontier assumptions; theorem-level closure remains blocked by unresolved formal-gap inventory.

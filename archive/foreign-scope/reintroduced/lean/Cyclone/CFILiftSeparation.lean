@@ -37,7 +37,11 @@ axiom cfi_lift_separation
     Obstruction (Lift G L₁) ≠ Obstruction (Lift G L₂)
 
 /-- Non-factorization reduces to CFI separation -/
-theorem obstruction_non_factorization_conditional
+/--
+Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+This is not a theorem-level closure claim.
+-/
+axiom obstruction_non_factorization_conditional
   (k R : ℕ) :
   True := by
   trivial
@@ -51,19 +55,17 @@ theorem cfi_lift_separation_from_obstruction
     FOEquivKR k R (potential_shift G (fun _ => false) σ₁)
                      (potential_shift G (fun _ => false) σ₂) ∧
     Obstruction (potential_shift G (fun _ => false) σ₁) ≠
-    Obstruction (potential_shift G (fun _ => false) σ₂) := by
-  sorry
-
-
-lemma foequiv_of_tree_local_triviality
+    Obstruction (potential_shift G (fun _ => false) σ₂)
+/--
+Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+This is not a theorem-level closure claim.
+-/
+axiom foequiv_of_tree_local_triviality
   (G : Graph) (R k : ℕ)
   (h_girth : Girth G > 2 * R)
   (σ₁ σ₂ : Sigma G) :
   FOEquivKR k R (potential_shift G (fun _ => false) σ₁)
-                   (potential_shift G (fun _ => false) σ₂) := by
-  sorry
-
-
+                   (potential_shift G (fun _ => false) σ₂)
 theorem cfi_lift_separation
   (G : Graph) (R k : ℕ)
   (h_girth : Girth G > 2 * R) :

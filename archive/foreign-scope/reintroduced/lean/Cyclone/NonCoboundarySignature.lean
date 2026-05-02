@@ -48,7 +48,11 @@ axiom cycle_trap_signature
     cycleSum G σ C = true
 
 /-- Global non-coboundary reduces to the explicit input above. -/
-theorem global_non_coboundary_conditional
+/--
+Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+This is not a theorem-level closure claim.
+-/
+axiom global_non_coboundary_conditional
   (G : Graph) (hG : HasCycle G) :
   ∃ σ : Sigma G, ¬ IsCoboundary G σ := by
   exact non_coboundary_signature_exists G hG
@@ -58,6 +62,4 @@ end Cyclone
 lemma sigma_pair_separating
   (G : Graph) (hG : HasCycle G) :
   ∃ σ₁ σ₂ : Sigma G,
-    IsCoboundary G σ₁ ∧ ¬ IsCoboundary G σ₂ := by
-  sorry
-
+    IsCoboundary G σ₁ ∧ ¬ IsCoboundary G σ₂

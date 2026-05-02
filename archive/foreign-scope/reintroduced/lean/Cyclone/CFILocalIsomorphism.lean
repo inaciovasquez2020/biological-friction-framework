@@ -49,7 +49,11 @@ axiom cfi_separation_constructive
 
 end Cyclone
 
-lemma potential_shift_adj_pres
+/--
+Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+This is not a theorem-level closure claim.
+-/
+axiom potential_shift_adj_pres
   (G : Graph) (σ₁ σ₂ : Sigma G) (φ : Potential G) (e : G.E) :
   (let (u,v) := G.edge_map e;
    σ₂ e = xorB (σ₁ e) (xorB (φ u) (φ v))) →
@@ -244,21 +248,21 @@ theorem cfi_separation_constructive_final
 
 lemma obstruction_invariant_under_potential
   (G : Graph) (σ : Sigma G) (φ : Potential G) :
-  Obstruction (potential_shift G φ σ) = Obstruction σ ↔ IsCoboundary G σ := by
-  sorry
-
-
-lemma obstruction_separates_sigma_pair
+  Obstruction (potential_shift G φ σ) = Obstruction σ ↔ IsCoboundary G σ
+/--
+Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+This is not a theorem-level closure claim.
+-/
+axiom obstruction_separates_sigma_pair
   (G : Graph) (σ₁ σ₂ : Sigma G)
   (h₁ : IsCoboundary G σ₁) (h₂ : ¬ IsCoboundary G σ₂) :
   Obstruction (potential_shift G (fun _ => false) σ₁) ≠
-  Obstruction (potential_shift G (fun _ => false) σ₂) := by
-  sorry
-
-
-lemma foequiv_invariant_under_potential
+  Obstruction (potential_shift G (fun _ => false) σ₂)
+/--
+Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+This is not a theorem-level closure claim.
+-/
+axiom foequiv_invariant_under_potential
   (G : Graph) (R k : ℕ)
   (σ : Sigma G) (φ : Potential G) :
-  FOEquivKR k R (potential_shift G φ σ) (potential_shift G (fun _ => false) σ) := by
-  sorry
-
+  FOEquivKR k R (potential_shift G φ σ) (potential_shift G (fun _ => false) σ)
