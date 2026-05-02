@@ -1,0 +1,47 @@
+{
+  "sorry_count": 7,
+  "entries": [
+    {
+      "path": "archive/foreign-scope/reintroduced/lean/Cyclone/CFILiftSeparation.lean",
+      "line": 55,
+      "text": "sorry",
+      "context": "47: theorem cfi_lift_separation_from_obstruction\n48:   (G : Graph) (R k : \u2115)\n49:   (h_girth : Girth G > 2 * R) :\n50:   \u2203 (\u03c3\u2081 \u03c3\u2082 : Sigma G),\n51:     FOEquivKR k R (potential_shift G (fun _ => false) \u03c3\u2081)\n52:                      (potential_shift G (fun _ => false) \u03c3\u2082) \u2227\n53:     Obstruction (potential_shift G (fun _ => false) \u03c3\u2081) \u2260\n54:     Obstruction (potential_shift G (fun _ => false) \u03c3\u2082) := by\n55:   sorry\n56: \n57: \n58: lemma foequiv_of_tree_local_triviality\n59:   (G : Graph) (R k : \u2115)\n60:   (h_girth : Girth G > 2 * R)\n61:   (\u03c3\u2081 \u03c3\u2082 : Sigma G) :\n62:   FOEquivKR k R (potential_shift G (fun _ => false) \u03c3\u2081)\n63:                    (potential_shift G (fun _ => false) \u03c3\u2082) := by"
+    },
+    {
+      "path": "archive/foreign-scope/reintroduced/lean/Cyclone/CFILiftSeparation.lean",
+      "line": 64,
+      "text": "sorry",
+      "context": "56: \n57: \n58: lemma foequiv_of_tree_local_triviality\n59:   (G : Graph) (R k : \u2115)\n60:   (h_girth : Girth G > 2 * R)\n61:   (\u03c3\u2081 \u03c3\u2082 : Sigma G) :\n62:   FOEquivKR k R (potential_shift G (fun _ => false) \u03c3\u2081)\n63:                    (potential_shift G (fun _ => false) \u03c3\u2082) := by\n64:   sorry\n65: \n66: \n67: theorem cfi_lift_separation\n68:   (G : Graph) (R k : \u2115)\n69:   (h_girth : Girth G > 2 * R) :\n70:   \u2203 (\u03c3\u2081 \u03c3\u2082 : Sigma G),\n71:     FOEquivKR k R (potential_shift G (fun _ => false) \u03c3\u2081)\n72:                      (potential_shift G (fun _ => false) \u03c3\u2082) \u2227"
+    },
+    {
+      "path": "archive/foreign-scope/reintroduced/lean/Cyclone/NonCoboundarySignature.lean",
+      "line": 62,
+      "text": "sorry",
+      "context": "54:   exact non_coboundary_signature_exists G hG\n55: \n56: end Cyclone\n57: \n58: lemma sigma_pair_separating\n59:   (G : Graph) (hG : HasCycle G) :\n60:   \u2203 \u03c3\u2081 \u03c3\u2082 : Sigma G,\n61:     IsCoboundary G \u03c3\u2081 \u2227 \u00ac IsCoboundary G \u03c3\u2082 := by\n62:   sorry\n63: "
+    },
+    {
+      "path": "archive/foreign-scope/reintroduced/lean/Cyclone/CFILocalIsomorphism.lean",
+      "line": 248,
+      "text": "sorry",
+      "context": "240:   \u00b7\n241:     -- fake contradiction (will be replaced by real invariant)\n242:     contradiction\n243: \n244: \n245: lemma obstruction_invariant_under_potential\n246:   (G : Graph) (\u03c3 : Sigma G) (\u03c6 : Potential G) :\n247:   Obstruction (potential_shift G \u03c6 \u03c3) = Obstruction \u03c3 \u2194 IsCoboundary G \u03c3 := by\n248:   sorry\n249: \n250: \n251: lemma obstruction_separates_sigma_pair\n252:   (G : Graph) (\u03c3\u2081 \u03c3\u2082 : Sigma G)\n253:   (h\u2081 : IsCoboundary G \u03c3\u2081) (h\u2082 : \u00ac IsCoboundary G \u03c3\u2082) :\n254:   Obstruction (potential_shift G (fun _ => false) \u03c3\u2081) \u2260\n255:   Obstruction (potential_shift G (fun _ => false) \u03c3\u2082) := by\n256:   sorry"
+    },
+    {
+      "path": "archive/foreign-scope/reintroduced/lean/Cyclone/CFILocalIsomorphism.lean",
+      "line": 256,
+      "text": "sorry",
+      "context": "248:   sorry\n249: \n250: \n251: lemma obstruction_separates_sigma_pair\n252:   (G : Graph) (\u03c3\u2081 \u03c3\u2082 : Sigma G)\n253:   (h\u2081 : IsCoboundary G \u03c3\u2081) (h\u2082 : \u00ac IsCoboundary G \u03c3\u2082) :\n254:   Obstruction (potential_shift G (fun _ => false) \u03c3\u2081) \u2260\n255:   Obstruction (potential_shift G (fun _ => false) \u03c3\u2082) := by\n256:   sorry\n257: \n258: \n259: lemma foequiv_invariant_under_potential\n260:   (G : Graph) (R k : \u2115)\n261:   (\u03c3 : Sigma G) (\u03c6 : Potential G) :\n262:   FOEquivKR k R (potential_shift G \u03c6 \u03c3) (potential_shift G (fun _ => false) \u03c3) := by\n263:   sorry\n264: "
+    },
+    {
+      "path": "archive/foreign-scope/reintroduced/lean/Cyclone/CFILocalIsomorphism.lean",
+      "line": 263,
+      "text": "sorry",
+      "context": "255:   Obstruction (potential_shift G (fun _ => false) \u03c3\u2082) := by\n256:   sorry\n257: \n258: \n259: lemma foequiv_invariant_under_potential\n260:   (G : Graph) (R k : \u2115)\n261:   (\u03c3 : Sigma G) (\u03c6 : Potential G) :\n262:   FOEquivKR k R (potential_shift G \u03c6 \u03c3) (potential_shift G (fun _ => false) \u03c3) := by\n263:   sorry\n264: "
+    },
+    {
+      "path": "archive/foreign-scope/reintroduced/lean/Cyclone/QuotientIndependence.lean",
+      "line": 7,
+      "text": "- Remove all false \u201cno-sorry\u201d claims.",
+      "context": "1: universe u\n2: \n3: namespace Cyclone\n4: \n5: /-\n6: Correction:\n7: - Remove all false \u201cno-sorry\u201d claims.\n8: - Isolate the actual missing lemma explicitly.\n9: - Keep executable skeleton only.\n10: -/\n11: \n12: structure Graph where\n13:   V : Type u\n14:   E : Type u\n15: "
+    }
+  ]
+}
