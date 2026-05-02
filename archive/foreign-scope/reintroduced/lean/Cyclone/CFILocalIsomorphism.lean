@@ -50,7 +50,7 @@ axiom cfi_separation_constructive
 end Cyclone
 
 /--
-Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+Archived foreign-scope frontier assumption replacing a former placeholder proof hole.
 This is not a theorem-level closure claim.
 -/
 axiom potential_shift_adj_pres
@@ -250,7 +250,7 @@ lemma obstruction_invariant_under_potential
   (G : Graph) (σ : Sigma G) (φ : Potential G) :
   Obstruction (potential_shift G φ σ) = Obstruction σ ↔ IsCoboundary G σ
 /--
-Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+Archived foreign-scope frontier assumption replacing a former placeholder proof hole.
 This is not a theorem-level closure claim.
 -/
 axiom obstruction_separates_sigma_pair
@@ -259,7 +259,7 @@ axiom obstruction_separates_sigma_pair
   Obstruction (potential_shift G (fun _ => false) σ₁) ≠
   Obstruction (potential_shift G (fun _ => false) σ₂)
 /--
-Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+Archived foreign-scope frontier assumption replacing a former placeholder proof hole.
 This is not a theorem-level closure claim.
 -/
 axiom foequiv_invariant_under_potential

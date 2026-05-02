@@ -49,7 +49,7 @@ axiom cycle_trap_signature
 
 /-- Global non-coboundary reduces to the explicit input above. -/
 /--
-Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+Archived foreign-scope frontier assumption replacing a former placeholder proof hole.
 This is not a theorem-level closure claim.
 -/
 axiom global_non_coboundary_conditional

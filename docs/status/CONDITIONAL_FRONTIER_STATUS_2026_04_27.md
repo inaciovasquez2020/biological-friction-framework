@@ -6,9 +6,9 @@ This repository contains conditional formalization work.
 Any result depending on high-girth, non-coboundary, quotient-independence, project axioms, admits, or sorries is not an unconditional theorem.
 The repository should explicitly separate verified local lemmas from frontier assumptions.
 
-Axiom count: 17
+Axiom count: 23
 Admit count: 1
-Sorry count: 7
+Sorry count: 0
 
 ## Axiom locations
 

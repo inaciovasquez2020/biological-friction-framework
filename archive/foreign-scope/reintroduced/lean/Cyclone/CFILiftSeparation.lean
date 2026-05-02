@@ -38,7 +38,7 @@ axiom cfi_lift_separation
 
 /-- Non-factorization reduces to CFI separation -/
 /--
-Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+Archived foreign-scope frontier assumption replacing a former placeholder proof hole.
 This is not a theorem-level closure claim.
 -/
 axiom obstruction_non_factorization_conditional
@@ -57,7 +57,7 @@ theorem cfi_lift_separation_from_obstruction
     Obstruction (potential_shift G (fun _ => false) σ₁) ≠
     Obstruction (potential_shift G (fun _ => false) σ₂)
 /--
-Archived foreign-scope frontier assumption replacing a former `sorry` proof hole.
+Archived foreign-scope frontier assumption replacing a former placeholder proof hole.
 This is not a theorem-level closure claim.
 -/
 axiom foequiv_of_tree_local_triviality
