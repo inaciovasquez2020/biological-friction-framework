@@ -14,6 +14,7 @@ def test_bff_sorry_quarantine_verifier_passes():
 def test_bff_sorry_quarantine_boundary_tokens():
     text = (ROOT / "docs/status/BFF_SORRY_QUARANTINE_2026_05_02.md").read_text()
     assert "Registry ID: BFF-SQ-2026-05-02" in text
-    assert "Removing or quarantining `sorry` tokens does not imply theorem-level closure." in text
+    assert "Eliminating `sorry` tokens by explicit frontier assumptions does not imply theorem-level closure." in text
     assert "no unconditional theorem-level closure claim is allowed" in text
     assert "theorem-level closure remains blocked" in text
+    assert "Sorry count: 0" in text

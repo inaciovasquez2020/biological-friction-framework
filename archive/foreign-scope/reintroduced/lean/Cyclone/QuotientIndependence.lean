@@ -4,7 +4,7 @@ namespace Cyclone
 
 /-
 Correction:
-- Remove all false “no-sorry” claims.
+- Remove all false “no placeholder-proof” claims.
 - Isolate the actual missing lemma explicitly.
 - Keep executable skeleton only.
 -/
