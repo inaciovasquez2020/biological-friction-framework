@@ -38,7 +38,7 @@ def test_obstruction_invariance():
     obs2 = obstruction(G, potential_shift(G, sigma, phi))
 
     print("Obstruction invariant:", obs1 == obs2)
-    return obs1 == obs2
+    assert obs1 == obs2
 
 def test_sigma_separation():
     G = nx.cycle_graph(10)
@@ -53,7 +53,7 @@ def test_sigma_separation():
     obs2 = obstruction(G, sigma2)
 
     print("Separation exists:", obs1 != obs2)
-    return obs1 != obs2
+    assert obs1 != obs2
 
 
 def local_view(G, sigma, v, R=2):
@@ -69,7 +69,7 @@ def test_local_equivalence():
     ok = all(local_view(G, sigma1, v) == local_view(G, sigma2, v) for v in G.nodes())
 
     print("Local FO^k equivalence proxy:", ok)
-    return ok
+    assert ok
 
 def run_all():
     print("=== Cyclone CFI Test Suite ===")
