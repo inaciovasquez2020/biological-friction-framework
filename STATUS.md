@@ -5,7 +5,7 @@
 - State: CANONICAL_FRAMEWORK_ARTIFACT
 - Scope: Biological Friction Framework
 - Last Reviewed: 2026-04-17
-- Branch Policy: main is canonical
+- Branch Policy: main is current reference
 
 ## Verified
 
@@ -25,7 +25,7 @@
 - No regulatory approval claim.
 - No repository-only proof of universal biological law.
 
-## Canonical Files
+## Current reference Files
 
 - README.md
 - STATUS.md
