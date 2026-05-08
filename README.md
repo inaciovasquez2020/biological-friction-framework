@@ -8,9 +8,9 @@ This repository presents a documentation-first framework artifact describing bio
 
 The repository may contain notes, scripts, examples, workflows, and support materials. Those artifacts support inspection and reproducibility but do not enlarge the claim boundary unless explicitly stated.
 
-## Canonical Boundary
+## Current reference Boundary
 
-Primary canonical files:
+Primary current reference files:
 
 - README.md
 - STATUS.md
