@@ -9,10 +9,56 @@ jobs:
         run: python3 infra/ci/verify_certificate.py
       - name: Run melanoma interaction graph check
         run: python3 infra/ci/verify_melanoma_interaction_graph.py
-      - name: Probe direct GSE299711 endpoint object
+      - name: Locate endpoint object inside GSE299711 RAW tar
         run: |
           set -euo pipefail
-          URL='https://ftp.ncbi.nlm.nih.gov/geo/series/GSE299nnn/GSE299711/suppl/GSM9044666_EP_Clonocluster.rds'
-          echo 'GSE299711_EP_HEAD_BEGIN'
-          curl --head --location --fail --retry 3 "$URL"
-          echo 'GSE299711_EP_HEAD_END'
+          python3 - <<'PY'
+          import urllib.request
+
+          URL = 'https://ftp.ncbi.nlm.nih.gov/geo/series/GSE299nnn/GSE299711/suppl/GSE299711_RAW.tar'
+          TARGET = 'GSM9044666_EP_Clonocluster.rds'
+
+          def fetch_range(start, end):
+              req = urllib.request.Request(URL, headers={'Range': f'bytes={start}-{end}'})
+              with urllib.request.urlopen(req, timeout=60) as resp:
+                  status = getattr(resp, 'status', None)
+                  data = resp.read()
+                  content_range = resp.headers.get('Content-Range')
+              assert status == 206, f'range request not honored: status={status} content_range={content_range}'
+              assert len(data) == end - start + 1, f'short range read at {start}: {len(data)} bytes'
+              return data
+
+          def parse_octal(field):
+              raw = field.rstrip(b'\0 ').lstrip(b' ')
+              return int(raw or b'0', 8)
+
+          offset = 0
+          found = None
+          for index in range(64):
+              block = fetch_range(offset, offset + 511)
+              if block == b'\0' * 512:
+                  break
+              name = block[0:100].split(b'\0', 1)[0].decode('utf-8', 'replace')
+              prefix = block[345:500].split(b'\0', 1)[0].decode('utf-8', 'replace')
+              if prefix:
+                  name = f'{prefix}/{name}'
+              size = parse_octal(block[124:136])
+              typeflag = block[156:157].decode('ascii', 'replace') or '0'
+              print(f'TAR_HEADER index={index} offset={offset} name={name} size={size} type={typeflag}')
+              data_start = offset + 512
+              data_end = data_start + size - 1 if size else data_start - 1
+              if name.endswith(TARGET):
+                  found = (offset, data_start, data_end, size, name)
+                  break
+              offset = data_start + ((size + 511) // 512) * 512
+
+          assert found is not None, f'{TARGET} not found while walking TAR headers'
+          header_offset, data_start, data_end, size, name = found
+          print('GSE299711_TARGET_BEGIN')
+          print(f'name={name}')
+          print(f'header_offset={header_offset}')
+          print(f'data_start={data_start}')
+          print(f'data_end={data_end}')
+          print(f'size={size}')
+          print('GSE299711_TARGET_END')
+          PY
