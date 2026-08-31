@@ -162,16 +162,33 @@ The RAC1 route compression occurs because the tested RAC1 phenotype exhibits a F
 
 ## Weakest missing object
 
+Clinical genotype distribution makes the non-BRAF boundary load-bearing rather than merely optional. In the largest reported RAC1-mutant melanoma cohort (`n = 64`), 56/64 tumors had a co-occurring MAPK-pathway alteration; reported frequencies included NRAS in 30/64 (47%), BRAF in 18/64 (28%), and NF1 in 16/64 (25%). These categories should not be treated as disjoint, but they show that clinically observed RAC1 melanoma extends well beyond the BRAF-V600 backgrounds used for the current FAK + MAPK composite evidence.
+
+The literature audit found no materially independent RAC1 melanoma dataset directly testing the FAK + MAPK composite in an endogenous RAC1-mutant NRAS-, NF1-, IGR1-, WM3060-, or brain-metastatic context. The ongoing brain-metastatic cutaneous melanoma trial of avutometinib plus defactinib (`NCT06194929`) has no posted results and is not RAC1-selected.
+
 ```text
-MISSING_OBJECT :=
-a cross-context RAC1 melanoma certificate testing the FAK + MAPK composite in
-RAC1-driven resistance outside the current A375/451Lu evidence surface, with
-at least one materially different phenotype, genotype, or metastatic niche and
-with functional growth/relapse readouts sufficient to determine whether the
-observed FAK dependency generalizes.
+ESTABLISHED :=
+RAC1-mutant melanoma commonly co-occurs with non-BRAF MAPK-pathway contexts,
+including NRAS and NF1 alterations
+
+NOT_ESTABLISHED :=
+FAK + MAPK composite coverage in an endogenous RAC1-mutant NRAS or NF1 context
 ```
 
-A particularly informative next test would use a distinct RAC1-driven melanoma context rather than another derivative of the same A375 resistance system.
+```text
+MISSING_OBJECT :=
+a cross-context RAC1 melanoma certificate directly testing the FAK + MAPK
+composite in at least one endogenous RAC1-mutant non-BRAF model, preferably:
+
+1. RAC1 P29S + NRAS-mutant melanoma, or
+2. RAC1 P29S + NF1-loss melanoma,
+
+with direct FAK-dependency measurement plus functional growth / residual-outgrowth
+or relapse readouts sufficient to determine whether the observed coupled cover
+generalizes beyond the current BRAF-V600 A375/451Lu surface.
+```
+
+A second high-value extension is a RAC1-defined metastatic niche, especially brain, but an unselected brain-metastasis trial cannot retire the RAC1-specific generality gap without RAC1-resolved response data.
 
 ## Boundary
 
