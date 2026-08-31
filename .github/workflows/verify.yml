@@ -9,14 +9,68 @@ jobs:
         run: python3 infra/ci/verify_certificate.py
       - name: Run melanoma interaction graph check
         run: python3 infra/ci/verify_melanoma_interaction_graph.py
-      - name: Probe R surface for endpoint-object analysis
+      - name: Install minimal R analysis surface
         run: |
           set -euo pipefail
-          echo 'R_SURFACE_BEGIN'
-          if command -v Rscript >/dev/null 2>&1; then
-            Rscript --version
-            Rscript -e 'cat("Matrix=", requireNamespace("Matrix", quietly=TRUE), "\n", sep=""); cat("SeuratObject=", requireNamespace("SeuratObject", quietly=TRUE), "\n", sep="")'
-          else
-            echo 'Rscript=missing'
-          fi
-          echo 'R_SURFACE_END'
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends r-base-core r-cran-matrix r-cran-seuratobject
+          Rscript -e 'cat("R=", R.version.string, "\n", sep=""); cat("Matrix=", requireNamespace("Matrix", quietly=TRUE), "\n", sep=""); cat("SeuratObject=", requireNamespace("SeuratObject", quietly=TRUE), "\n", sep="")'
+      - name: Range-download GSE299711 endpoint object
+        run: |
+          set -euo pipefail
+          URL='https://ftp.ncbi.nlm.nih.gov/geo/series/GSE299nnn/GSE299711/suppl/GSE299711_RAW.tar'
+          START=1896609280
+          END=2585827887
+          EXPECTED=689218608
+          curl --fail --location --retry 3 --range "${START}-${END}" "$URL" --output /tmp/GSM9044666_EP_Clonocluster.rds
+          ACTUAL=$(stat -c%s /tmp/GSM9044666_EP_Clonocluster.rds)
+          echo "RDS_SIZE=${ACTUAL}"
+          test "$ACTUAL" -eq "$EXPECTED"
+      - name: Extract descriptive CTH by bc_group
+        run: |
+          set -euo pipefail
+          Rscript - <<'RS'
+          suppressPackageStartupMessages(library(SeuratObject))
+          suppressPackageStartupMessages(library(Matrix))
+
+          path <- '/tmp/GSM9044666_EP_Clonocluster.rds'
+          obj <- readRDS(path)
+          cat('CSE_ENDPOINT_OBJECT_BEGIN\n')
+          cat('class=', paste(class(obj), collapse=','), '\n', sep='')
+          stopifnot(isS4(obj))
+          stopifnot('meta.data' %in% slotNames(obj))
+          meta <- obj@meta.data
+          stopifnot('bc_group' %in% colnames(meta))
+          stopifnot('assays' %in% slotNames(obj))
+          stopifnot('RNA' %in% names(obj@assays))
+          rna <- obj@assays[['RNA']]
+
+          if ('data' %in% slotNames(rna)) {
+            mat <- rna@data
+            layer_source <- 'RNA@data'
+          } else if ('layers' %in% slotNames(rna) && 'data' %in% names(rna@layers)) {
+            mat <- rna@layers[['data']]
+            layer_source <- 'RNA@layers$data'
+          } else {
+            stop('normalized RNA data layer not found')
+          }
+
+          stopifnot('CTH' %in% rownames(mat))
+          stopifnot(ncol(mat) == nrow(meta))
+          cth <- as.numeric(mat['CTH', ])
+          groups <- as.character(meta$bc_group)
+          stopifnot(length(cth) == length(groups))
+          keep <- !is.na(groups) & nzchar(groups)
+          cth <- cth[keep]
+          groups <- groups[keep]
+
+          cat('layer_source=', layer_source, '\n', sep='')
+          cat('cells_with_group=', length(groups), '\n', sep='')
+          cat('groups=', paste(sort(unique(groups)), collapse='|'), '\n', sep='')
+          for (g in sort(unique(groups))) {
+            x <- cth[groups == g]
+            cat(sprintf('CTH_GROUP group=%s n=%d detection_fraction=%.8f normalized_mean=%.8f normalized_median=%.8f\n',
+                        g, length(x), mean(x > 0), mean(x), median(x)))
+          }
+          cat('CSE_ENDPOINT_OBJECT_END\n')
+          RS
