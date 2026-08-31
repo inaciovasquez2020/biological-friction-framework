@@ -186,22 +186,35 @@ This is a methodological boundary, not evidence that the eIF4A dependency is uni
 
 ## Current missing object
 
+The 2026 adaptive-mutability study already supplies an in-vivo acquired-resistance endpoint in the tested BRAF-V600 context. In A375 xenografts, adding eFT226 to BRAFi/MEKi prolonged control: median progression under BRAFi/MEKi alone was 49 days, whereas only 20% of the combination group had relapsed by day 70. The same intervention reduced 53BP1 translation, NHEJ activity, and drug-tolerant-cell mutability.
+
+```text
+ESTABLISHED :=
+in the tested BRAF-V600 A375 residual-disease model,
+eIF4A inhibition + BRAFi/MEKi suppresses the 53BP1/NHEJ adaptive-mutability
+program and delays acquired resistance in vivo
+```
+
+Therefore a generic request to prove `prevents resistant-clone emergence in vivo` is no longer the weakest missing object. What remains unresolved is whether this function applies across the retained melanoma residual-state graph rather than only the tested BRAF-V600 drug-tolerant population.
+
 ```text
 MISSING_OBJECT :=
 a matched lineage-and-state certificate showing whether C_TRANSLATION_PERSIST:
 
-1. suppresses selective persister translation,
-2. suppresses 53BP1/NHEJ adaptive mutability,
-3. prevents resistant-clone emergence in vivo,
-4. remains effective across the major retained melanoma MRD states,
-5. does not simply redistribute surviving cells into another uncovered state,
-6. preserves the immune / metastatic / ferroptosis boundaries already retained.
+1. suppresses selective persister translation and 53BP1/NHEJ adaptive mutability
+   within each major retained melanoma MRD state,
+2. preserves the demonstrated in-vivo resistance-delay effect when those states
+   coexist in the same residual population,
+3. does not simply redistribute surviving cells into another uncovered state,
+4. preserves the immune / metastatic / ferroptosis boundaries already retained,
+5. generalizes beyond the tested BRAF-V600 context before any universal claim.
 
 MINIMUM_STATE_RESOLVED_READOUTS :=
 state identity
 AND eIF4A perturbation
 AND translation/protein output (for example 53BP1 protein or polysome/ribosome occupancy)
 AND functional NHEJ/mutability or persister-survival output
+AND relapse/outgrowth in the matched residual population
 ```
 
 An RNA-only state-expression ranking does not satisfy this object.
