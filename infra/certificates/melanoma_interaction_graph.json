@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "claim": "conditional",
+  "initial_states": [
+    "therapy_pressure"
+  ],
+  "states": [
+    {"id": "therapy_pressure", "malignant": false},
+    {"id": "rtk_pi3k_survival", "malignant": true},
+    {"id": "isr_mthfd2_persistence", "malignant": true},
+    {"id": "ncsc_nongenetic_escape", "malignant": true},
+    {"id": "mapk_pulse_escape", "malignant": true},
+    {"id": "erk_sensitive_genetic_escape", "malignant": true},
+    {"id": "polk_stress_tolerance", "malignant": true}
+  ],
+  "baseline_edges": [
+    {
+      "id": "e_rtk_pi3k",
+      "source": "therapy_pressure",
+      "target": "rtk_pi3k_survival",
+      "evidence": ["docs/status/MELANOMA_HGF_MET_PI3K_RESIDUAL_2026_08_31.md"]
+    },
+    {
+      "id": "e_isr_mthfd2",
+      "source": "therapy_pressure",
+      "target": "isr_mthfd2_persistence",
+      "evidence": ["docs/status/MELANOMA_MTOR_ATF4_MTHFD2_UNABSORBED_RESIDUAL_2026_08_31.md"]
+    },
+    {
+      "id": "e_ncsc",
+      "source": "therapy_pressure",
+      "target": "ncsc_nongenetic_escape",
+      "evidence": ["docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md"]
+    },
+    {
+      "id": "e_mapk_pulse",
+      "source": "therapy_pressure",
+      "target": "mapk_pulse_escape",
+      "evidence": ["docs/status/MELANOMA_ERK_PULSE_DYNAMIC_MAPK_BOUNDARY_2026_08_31.md"]
+    }
+  ],
+  "controls": [
+    {
+      "id": "I_PI3K_SURVIVAL_CONTROL",
+      "kind": "implementation",
+      "blocks": ["e_rtk_pi3k"],
+      "induces": [
+        {
+          "id": "e_pi3k_to_polk",
+          "source": "therapy_pressure",
+          "target": "polk_stress_tolerance",
+          "evidence": ["docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]
+        }
+      ],
+      "evidence": [
+        "docs/status/MELANOMA_HGF_MET_PI3K_RESIDUAL_2026_08_31.md",
+        "docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"
+      ]
+    },
+    {
+      "id": "I_MTOR_ISR_CONTROL",
+      "kind": "implementation",
+      "blocks": ["e_isr_mthfd2"],
+      "induces": [
+        {
+          "id": "e_mtor_to_polk",
+          "source": "therapy_pressure",
+          "target": "polk_stress_tolerance",
+          "evidence": ["docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]
+        }
+      ],
+      "evidence": [
+        "docs/status/MELANOMA_MTOR_ATF4_MTHFD2_UNABSORBED_RESIDUAL_2026_08_31.md",
+        "docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"
+      ]
+    },
+    {
+      "id": "I_FAK_NCSC_CONTROL",
+      "kind": "implementation",
+      "blocks": ["e_ncsc"],
+      "induces": [
+        {
+          "id": "e_fak_to_erk_genetic",
+          "source": "therapy_pressure",
+          "target": "erk_sensitive_genetic_escape",
+          "evidence": ["docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md"]
+        }
+      ],
+      "evidence": ["docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md"]
+    },
+    {
+      "id": "C_MAPK_DYNAMIC",
+      "kind": "functional",
+      "blocks": ["e_mapk_pulse", "e_fak_to_erk_genetic"],
+      "induces": [],
+      "evidence": ["docs/status/MELANOMA_ERK_PULSE_DYNAMIC_MAPK_BOUNDARY_2026_08_31.md"]
+    }
+  ],
+  "active_controls": [
+    "I_PI3K_SURVIVAL_CONTROL",
+    "I_MTOR_ISR_CONTROL",
+    "I_FAK_NCSC_CONTROL",
+    "C_MAPK_DYNAMIC"
+  ],
+  "declared_unresolved": [
+    "polk_stress_tolerance"
+  ]
+}
