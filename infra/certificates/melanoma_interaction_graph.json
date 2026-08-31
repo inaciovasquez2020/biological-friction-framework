@@ -29,217 +29,79 @@
     {"id": "smc_cd36_persister", "malignant": true},
     {"id": "smc_redistribution_gap", "malignant": true},
     {"id": "pigmented_mitf_persister", "malignant": true},
-    {"id": "pigmented_redistribution_gap", "malignant": true}
+    {"id": "pigmented_redistribution_gap", "malignant": true},
+    {"id": "adenosine_immune_escape", "malignant": true},
+    {"id": "adenosine_ligand_sink_gap", "malignant": true},
+    {"id": "cse_persister_survival", "malignant": true},
+    {"id": "cse_state_mapping_gap", "malignant": true},
+    {"id": "eif4a_persister_survival", "malignant": true},
+    {"id": "eif4a_adaptive_mutability", "malignant": true},
+    {"id": "eif4a_cross_state_gap", "malignant": true}
   ],
   "baseline_edges": [
-    {
-      "id": "e_rtk_pi3k",
-      "source": "therapy_pressure",
-      "target": "rtk_pi3k_survival",
-      "evidence": ["docs/status/MELANOMA_HGF_MET_PI3K_RESIDUAL_2026_08_31.md"]
-    },
-    {
-      "id": "e_isr_mthfd2",
-      "source": "therapy_pressure",
-      "target": "isr_mthfd2_persistence",
-      "evidence": ["docs/status/MELANOMA_MTOR_ATF4_MTHFD2_UNABSORBED_RESIDUAL_2026_08_31.md"]
-    },
-    {
-      "id": "e_ncsc",
-      "source": "therapy_pressure",
-      "target": "ncsc_nongenetic_escape",
-      "evidence": ["docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md"]
-    },
-    {
-      "id": "e_mapk_pulse",
-      "source": "therapy_pressure",
-      "target": "mapk_pulse_escape",
-      "evidence": ["docs/status/MELANOMA_ERK_PULSE_DYNAMIC_MAPK_BOUNDARY_2026_08_31.md"]
-    },
-    {
-      "id": "e_apoe_ferroptosis",
-      "source": "melanoma_context",
-      "target": "apoe_ferroptosis_resistance",
-      "evidence": ["docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md"]
-    },
-    {
-      "id": "e_apoe_immune",
-      "source": "melanoma_context",
-      "target": "apoe_immune_escape",
-      "evidence": ["docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md"]
-    },
-    {
-      "id": "e_ln_fsp1",
-      "source": "metastatic_context",
-      "target": "ln_fsp1_escape",
-      "evidence": ["docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md"]
-    },
-    {
-      "id": "e_hemato_gpx4",
-      "source": "metastatic_context",
-      "target": "hemato_gpx4_escape",
-      "evidence": ["docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md"]
-    },
-    {
-      "id": "e_ferroptosis_handoff_gap",
-      "source": "metastatic_context",
-      "target": "ferroptosis_handoff_gap",
-      "evidence": ["docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md"]
-    },
-    {
-      "id": "e_kdm5b_persist",
-      "source": "therapy_pressure",
-      "target": "kdm5b_persister_reservoir",
-      "evidence": ["docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md"]
-    },
-    {
-      "id": "e_kdm5b_reseed",
-      "source": "kdm5b_persister_reservoir",
-      "target": "kdm5b_reseed",
-      "evidence": ["docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md"]
-    },
-    {
-      "id": "e_sox10_low",
-      "source": "therapy_pressure",
-      "target": "sox10_low_mrd",
-      "evidence": ["docs/status/MELANOMA_SOX10_LOW_DUAL_VULNERABILITY_2026_08_31.md"]
-    },
-    {
-      "id": "e_sox10_dual_gap",
-      "source": "therapy_pressure",
-      "target": "sox10_dual_vulnerability_gap",
-      "evidence": ["docs/status/MELANOMA_SOX10_LOW_DUAL_VULNERABILITY_2026_08_31.md"]
-    },
-    {
-      "id": "e_smc_cd36",
-      "source": "therapy_pressure",
-      "target": "smc_cd36_persister",
-      "evidence": ["docs/status/MELANOMA_CD36_SMC_PEROXISOME_UGCG_RESIDUAL_2026_08_31.md"]
-    },
-    {
-      "id": "e_smc_redistribution_gap",
-      "source": "therapy_pressure",
-      "target": "smc_redistribution_gap",
-      "evidence": ["docs/status/MELANOMA_CD36_SMC_PEROXISOME_UGCG_RESIDUAL_2026_08_31.md"]
-    },
-    {
-      "id": "e_pigmented_mitf",
-      "source": "therapy_pressure",
-      "target": "pigmented_mitf_persister",
-      "evidence": ["docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md"]
-    },
-    {
-      "id": "e_pigmented_redistribution_gap",
-      "source": "therapy_pressure",
-      "target": "pigmented_redistribution_gap",
-      "evidence": ["docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md"]
-    }
+    {"id": "e_rtk_pi3k", "source": "therapy_pressure", "target": "rtk_pi3k_survival", "evidence": ["docs/status/MELANOMA_HGF_MET_PI3K_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_isr_mthfd2", "source": "therapy_pressure", "target": "isr_mthfd2_persistence", "evidence": ["docs/status/MELANOMA_MTOR_ATF4_MTHFD2_UNABSORBED_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_ncsc", "source": "therapy_pressure", "target": "ncsc_nongenetic_escape", "evidence": ["docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md"]},
+    {"id": "e_mapk_pulse", "source": "therapy_pressure", "target": "mapk_pulse_escape", "evidence": ["docs/status/MELANOMA_ERK_PULSE_DYNAMIC_MAPK_BOUNDARY_2026_08_31.md"]},
+    {"id": "e_apoe_ferroptosis", "source": "melanoma_context", "target": "apoe_ferroptosis_resistance", "evidence": ["docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md"]},
+    {"id": "e_apoe_immune", "source": "melanoma_context", "target": "apoe_immune_escape", "evidence": ["docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md"]},
+    {"id": "e_ln_fsp1", "source": "metastatic_context", "target": "ln_fsp1_escape", "evidence": ["docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md"]},
+    {"id": "e_hemato_gpx4", "source": "metastatic_context", "target": "hemato_gpx4_escape", "evidence": ["docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md"]},
+    {"id": "e_ferroptosis_handoff_gap", "source": "metastatic_context", "target": "ferroptosis_handoff_gap", "evidence": ["docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md"]},
+    {"id": "e_kdm5b_persist", "source": "therapy_pressure", "target": "kdm5b_persister_reservoir", "evidence": ["docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md"]},
+    {"id": "e_kdm5b_reseed", "source": "kdm5b_persister_reservoir", "target": "kdm5b_reseed", "evidence": ["docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md"]},
+    {"id": "e_sox10_low", "source": "therapy_pressure", "target": "sox10_low_mrd", "evidence": ["docs/status/MELANOMA_SOX10_LOW_DUAL_VULNERABILITY_2026_08_31.md"]},
+    {"id": "e_sox10_dual_gap", "source": "therapy_pressure", "target": "sox10_dual_vulnerability_gap", "evidence": ["docs/status/MELANOMA_SOX10_LOW_DUAL_VULNERABILITY_2026_08_31.md"]},
+    {"id": "e_smc_cd36", "source": "therapy_pressure", "target": "smc_cd36_persister", "evidence": ["docs/status/MELANOMA_CD36_SMC_PEROXISOME_UGCG_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_smc_redistribution_gap", "source": "therapy_pressure", "target": "smc_redistribution_gap", "evidence": ["docs/status/MELANOMA_CD36_SMC_PEROXISOME_UGCG_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_pigmented_mitf", "source": "therapy_pressure", "target": "pigmented_mitf_persister", "evidence": ["docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_pigmented_redistribution_gap", "source": "therapy_pressure", "target": "pigmented_redistribution_gap", "evidence": ["docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_adenosine_escape", "source": "melanoma_context", "target": "adenosine_immune_escape", "evidence": ["docs/status/MELANOMA_ADENOSINE_LIGAND_SINK_2026_08_31.md"]},
+    {"id": "e_adenosine_ligand_gap", "source": "melanoma_context", "target": "adenosine_ligand_sink_gap", "evidence": ["docs/status/MELANOMA_ADENOSINE_LIGAND_SINK_2026_08_31.md"]},
+    {"id": "e_cse_persist", "source": "therapy_pressure", "target": "cse_persister_survival", "evidence": ["docs/status/MELANOMA_CSE_PERSULFIDE_CROSS_STATE_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_cse_mapping_gap", "source": "therapy_pressure", "target": "cse_state_mapping_gap", "evidence": ["docs/status/MELANOMA_CSE_PERSULFIDE_CROSS_STATE_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_eif4a_survival", "source": "therapy_pressure", "target": "eif4a_persister_survival", "evidence": ["docs/status/MELANOMA_EIF4A_TRANSLATION_ADAPTIVE_MUTABILITY_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_eif4a_mutability", "source": "therapy_pressure", "target": "eif4a_adaptive_mutability", "evidence": ["docs/status/MELANOMA_EIF4A_TRANSLATION_ADAPTIVE_MUTABILITY_RESIDUAL_2026_08_31.md"]},
+    {"id": "e_eif4a_cross_state_gap", "source": "therapy_pressure", "target": "eif4a_cross_state_gap", "evidence": ["docs/status/MELANOMA_EIF4A_TRANSLATION_ADAPTIVE_MUTABILITY_RESIDUAL_2026_08_31.md"]}
   ],
   "controls": [
     {
       "id": "I_PI3K_SURVIVAL_CONTROL",
       "kind": "implementation",
       "blocks": ["e_rtk_pi3k"],
-      "induces": [
-        {
-          "id": "e_pi3k_to_polk",
-          "source": "therapy_pressure",
-          "target": "polk_stress_tolerance",
-          "evidence": ["docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]
-        }
-      ],
-      "evidence": [
-        "docs/status/MELANOMA_HGF_MET_PI3K_RESIDUAL_2026_08_31.md",
-        "docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"
-      ]
+      "induces": [{"id": "e_pi3k_to_polk", "source": "therapy_pressure", "target": "polk_stress_tolerance", "evidence": ["docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]}],
+      "evidence": ["docs/status/MELANOMA_HGF_MET_PI3K_RESIDUAL_2026_08_31.md", "docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]
     },
     {
       "id": "I_MTOR_ISR_CONTROL",
       "kind": "implementation",
       "blocks": ["e_isr_mthfd2"],
-      "induces": [
-        {
-          "id": "e_mtor_to_polk",
-          "source": "therapy_pressure",
-          "target": "polk_stress_tolerance",
-          "evidence": ["docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]
-        }
-      ],
-      "evidence": [
-        "docs/status/MELANOMA_MTOR_ATF4_MTHFD2_UNABSORBED_RESIDUAL_2026_08_31.md",
-        "docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"
-      ]
+      "induces": [{"id": "e_mtor_to_polk", "source": "therapy_pressure", "target": "polk_stress_tolerance", "evidence": ["docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]}],
+      "evidence": ["docs/status/MELANOMA_MTOR_ATF4_MTHFD2_UNABSORBED_RESIDUAL_2026_08_31.md", "docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]
     },
     {
       "id": "I_FAK_NCSC_CONTROL",
       "kind": "implementation",
       "blocks": ["e_ncsc"],
-      "induces": [
-        {
-          "id": "e_fak_to_erk_genetic",
-          "source": "therapy_pressure",
-          "target": "erk_sensitive_genetic_escape",
-          "evidence": ["docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md"]
-        }
-      ],
+      "induces": [{"id": "e_fak_to_erk_genetic", "source": "therapy_pressure", "target": "erk_sensitive_genetic_escape", "evidence": ["docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md"]}],
       "evidence": ["docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md"]
     },
-    {
-      "id": "C_MAPK_DYNAMIC",
-      "kind": "functional",
-      "blocks": ["e_mapk_pulse", "e_fak_to_erk_genetic"],
-      "induces": [],
-      "evidence": ["docs/status/MELANOMA_ERK_PULSE_DYNAMIC_MAPK_BOUNDARY_2026_08_31.md"]
-    },
+    {"id": "C_MAPK_DYNAMIC", "kind": "functional", "blocks": ["e_mapk_pulse", "e_fak_to_erk_genetic"], "induces": [], "evidence": ["docs/status/MELANOMA_ERK_PULSE_DYNAMIC_MAPK_BOUNDARY_2026_08_31.md"]},
     {
       "id": "PROBE_APOE_REDUCTION",
       "kind": "implementation",
       "blocks": ["e_apoe_ferroptosis", "e_apoe_immune"],
-      "induces": [
-        {
-          "id": "e_apoe_reduction_to_dissemination",
-          "source": "melanoma_context",
-          "target": "apoe_dissemination_release",
-          "evidence": ["docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md"]
-        }
-      ],
+      "induces": [{"id": "e_apoe_reduction_to_dissemination", "source": "melanoma_context", "target": "apoe_dissemination_release", "evidence": ["docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md"]}],
       "evidence": ["docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md"]
     },
-    {
-      "id": "C_FERROPTOSIS_NICHE_ENDPOINTS",
-      "kind": "functional",
-      "blocks": ["e_ln_fsp1", "e_hemato_gpx4"],
-      "induces": [],
-      "evidence": ["docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md"]
-    },
-    {
-      "id": "C_KDM5B_RESEED",
-      "kind": "functional",
-      "blocks": ["e_kdm5b_persist", "e_kdm5b_reseed"],
-      "induces": [],
-      "evidence": ["docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md"]
-    },
-    {
-      "id": "C_SOX10_LOW",
-      "kind": "functional",
-      "blocks": ["e_sox10_low"],
-      "induces": [],
-      "evidence": ["docs/status/MELANOMA_SOX10_LOW_DUAL_VULNERABILITY_2026_08_31.md"]
-    },
-    {
-      "id": "C_SMC_METABOLIC",
-      "kind": "functional",
-      "blocks": ["e_smc_cd36"],
-      "induces": [],
-      "evidence": ["docs/status/MELANOMA_CD36_SMC_PEROXISOME_UGCG_RESIDUAL_2026_08_31.md"]
-    },
-    {
-      "id": "C_PIGMENTED",
-      "kind": "functional",
-      "blocks": ["e_pigmented_mitf"],
-      "induces": [],
-      "evidence": ["docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md"]
-    }
+    {"id": "C_FERROPTOSIS_NICHE_ENDPOINTS", "kind": "functional", "blocks": ["e_ln_fsp1", "e_hemato_gpx4"], "induces": [], "evidence": ["docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md"]},
+    {"id": "C_KDM5B_RESEED", "kind": "functional", "blocks": ["e_kdm5b_persist", "e_kdm5b_reseed"], "induces": [], "evidence": ["docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md"]},
+    {"id": "C_SOX10_LOW", "kind": "functional", "blocks": ["e_sox10_low"], "induces": [], "evidence": ["docs/status/MELANOMA_SOX10_LOW_DUAL_VULNERABILITY_2026_08_31.md"]},
+    {"id": "C_SMC_METABOLIC", "kind": "functional", "blocks": ["e_smc_cd36"], "induces": [], "evidence": ["docs/status/MELANOMA_CD36_SMC_PEROXISOME_UGCG_RESIDUAL_2026_08_31.md"]},
+    {"id": "C_PIGMENTED", "kind": "functional", "blocks": ["e_pigmented_mitf"], "induces": [], "evidence": ["docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md"]},
+    {"id": "C_ADENOSINE_LIGAND", "kind": "functional", "blocks": ["e_adenosine_escape"], "induces": [], "evidence": ["docs/status/MELANOMA_ADENOSINE_LIGAND_SINK_2026_08_31.md"]},
+    {"id": "C_CSE_REDOX", "kind": "functional", "blocks": ["e_cse_persist"], "induces": [], "evidence": ["docs/status/MELANOMA_CSE_PERSULFIDE_CROSS_STATE_RESIDUAL_2026_08_31.md"]},
+    {"id": "C_TRANSLATION_PERSIST", "kind": "functional", "blocks": ["e_eif4a_survival", "e_eif4a_mutability"], "induces": [], "evidence": ["docs/status/MELANOMA_EIF4A_TRANSLATION_ADAPTIVE_MUTABILITY_RESIDUAL_2026_08_31.md"]}
   ],
   "active_controls": [
     "I_PI3K_SURVIVAL_CONTROL",
@@ -251,10 +113,16 @@
     "C_KDM5B_RESEED",
     "C_SOX10_LOW",
     "C_SMC_METABOLIC",
-    "C_PIGMENTED"
+    "C_PIGMENTED",
+    "C_ADENOSINE_LIGAND",
+    "C_CSE_REDOX",
+    "C_TRANSLATION_PERSIST"
   ],
   "declared_unresolved": [
+    "adenosine_ligand_sink_gap",
     "apoe_dissemination_release",
+    "cse_state_mapping_gap",
+    "eif4a_cross_state_gap",
     "ferroptosis_handoff_gap",
     "pigmented_redistribution_gap",
     "polk_stress_tolerance",
