@@ -108,6 +108,32 @@ Therefore:
 ANTAGONISTIC_COUPLING_STATUS := CONDITIONAL
 ```
 
+## Assay-duration correction
+
+The original Polκ study contains a potentially misleading use of long-term exposure that must not be promoted to a chronic resistance certificate.
+
+For the resistance experiment, doxycycline-inducible A375 clones were maintained with or without Polκ overexpression for approximately three months before drug testing. The actual PLX4032/vemurafenib resistance readout was then a short 4-day cell-number/viability assay. The POLK-knockout comparison was repeated on the same short drug-assay surface.
+
+Thus:
+
+```text
+ESTABLISHED :=
+long-duration Polκ state manipulation followed by short-term BRAFi sensitivity testing
+
+NOT_ESTABLISHED :=
+chronic BRAFi/MEKi selection with POLK intact versus POLK suppressed
+
+NOT_ESTABLISHED :=
+POLK suppression prevents acquired-resistant colony emergence
+
+NOT_ESTABLISHED :=
+POLK suppression delays melanoma xenograft / PDX relapse
+```
+
+A targeted literature audit through 2026 did not identify a later melanoma study supplying those long-term or in-vivo POLK endpoints.
+
+This distinction matters because the separately retained FANCD2 route now has direct chronic acquired-resistance evidence, whereas Polκ does not.
+
 ## Functional safety constraint
 
 Do not add a named Polκ inhibitor as a universal graph target. Instead retain an implementation-safety condition:
@@ -139,6 +165,25 @@ Polκ stress tolerance into eIF4A/53BP1 adaptive mutability
 
 because strong Polκ-driven mutagenesis was not demonstrated in the cited melanoma cells.
 
+## Relationship to FANCD2 replication-stress control
+
+The current graph also contains:
+
+```text
+C_FANCD2_REPLICATION_STRESS :=
+control FANCD2/Fanconi-mediated replication-stress tolerance and
+long-term acquired-resistance support
+```
+
+The 2023 replication-stress work found Polκ induction broadly in drug-treated cells and concluded that it was unlikely to be the major driver of escapee-specific DNA damage or mutagenesis, whereas FANCD2 has direct functional cell-cycle escape and chronic resistance evidence.
+
+Therefore:
+
+```text
+DO_NOT_COLLAPSE := Polκ stress tolerance into FANCD2 replication-stress control
+DO_NOT_UPGRADE := Polκ to the same evidence tier as FANCD2
+```
+
 ## Weakest missing object
 
 ```text
@@ -150,20 +195,20 @@ persister control with POLK intact versus POLK suppressed, while measuring:
 2. nuclear Polκ abundance/localization,
 3. ATF4 and MTHFD2 where C_ISR_MTHFD2 is being implemented,
 4. short-term persister survival,
-5. long-term resistant outgrowth,
+5. chronic resistant-colony outgrowth under continued MAPK therapy,
 6. mutation burden / resistance-genotype acquisition,
 7. in vivo relapse or tumor-control outcome.
 ```
 
-This experiment would determine whether Polκ is merely a biomarker of stress or a functionally important escape route from PI3K/mTOR-based control.
+This experiment would determine whether Polκ is merely a biomarker/modest stress tolerance factor or a functionally important escape route from PI3K/mTOR-based control.
 
 ## Boundary
 
 ```text
 BOUNDARY :=
 PI3K/mTOR suppression can induce a nuclear Polκ state associated with modest
-BRAF-inhibitor resistance in melanoma cells, but it is not proved that this
-state defeats the current functional PI3K/mTOR control requirements in vivo
+BRAF-inhibitor resistance in melanoma cells, but chronic MAPKi resistance and
+in-vivo defeat of PI3K/mTOR-based control by Polκ remain unproved
 ```
 
 ## Evidence anchors
@@ -171,6 +216,9 @@ state defeats the current functional PI3K/mTOR control requirements in vivo
 - Temprine et al., Science Signaling (2020), `Regulation of the error-prone DNA polymerase Polκ by oncogenic signaling and its contribution to drug resistance`.
   - https://pubmed.ncbi.nlm.nih.gov/32345725/
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC7428051/
+- Hoffman et al., Science Signaling (2023), `Multiple cancers escape from multiple MAPK pathway inhibitors and use DNA replication stress signaling to tolerate aberrant cell cycles`.
+  - https://pubmed.ncbi.nlm.nih.gov/37527351/
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC10704347/
 - Cai et al., Cell Death & Disease (2026), `mTOR inhibition enhances the antitumor efficacy of pan-RAF-MEK blockade by inhibiting the ATF4-MTHFD2 pathway`.
   - https://www.nature.com/articles/s41419-026-08836-5
   - https://pubmed.ncbi.nlm.nih.gov/42091854/
@@ -179,9 +227,9 @@ state defeats the current functional PI3K/mTOR control requirements in vivo
 
 ```text
 NEXT_ACTIONS :=
-1. Keep Polκ as a conditional antagonistic-coupling state, not a proved mutator node.
-2. Add C_IMPL_P3K_MTOR_SAFE to the implementation-level graph.
-3. Do not alter the abstract C_RTK_SURVIVAL or C_ISR_MTHFD2 requirements yet.
-4. Recompute the residual graph using interaction-aware controls rather than
-   assuming every control monotonically reduces all escape routes.
+1. Keep polk_stress_tolerance reachable in the executable certificate.
+2. Do not activate a Polκ control from the current short-assay evidence.
+3. Search only for chronic MAPKi-selection or in-vivo melanoma POLK epistasis evidence.
+4. If none appears, move to another unresolved certificate state rather than
+   treating Polκ as a proved long-term resistance engine.
 ```
