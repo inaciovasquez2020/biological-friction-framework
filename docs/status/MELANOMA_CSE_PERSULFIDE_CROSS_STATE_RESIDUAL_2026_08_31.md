@@ -123,6 +123,45 @@ across states, and whether CSE control redistributes survivors into another
 state rather than eliminating the persister reservoir.
 ```
 
+## 2026 lineage-tracing / single-cell state-mapping audit
+
+Li et al. (Molecular Cancer, 2026) provide a newer public lineage-tracing and single-cell surface for targeted-therapy persisters. Their MeRLin study integrates clonal barcoding with scRNA-seq in the BRAF-V600E WM4237-1 melanoma model under BRAFi/MEKi pressure and reports four recurrent-tumor persister-associated programs:
+
+```text
+barcode group 1 -> stress-like
+barcode group 2 -> neural-crest-like + lipid metabolism
+barcode group 3 -> neural-crest-like + PI3K signaling
+barcode group 4 -> ECM remodeling
+```
+
+The study reports approximately 200 persister-enriched marker genes across groups 1-4 and deposits raw and processed scRNA-seq data under GEO accession `GSE299711` (with bulk RNA-seq under `GSE299589`). The public analysis code is available at `https://github.com/Yeqing95/MeRLin`.
+
+At the manuscript/released-script surface audited here, `CTH` is not reported as a defining marker for any of the four groups and no explicit CTH-by-barcode-group analysis is present in the public scripts. This is not evidence that CTH is absent or unenriched; it means the requested expression ranking is not established by the reported marker summaries alone.
+
+```text
+DO_NOT_INFER :=
+CTH not listed among reported discriminative markers
+  => CTH is absent from a persister state
+```
+
+The same study establishes that the four programs are transcriptionally distinct and can coexist across resistant models, making it an appropriate expression-mapping dataset, but expression mapping is still weaker than functional dependency mapping.
+
+A separate 2026 MeRLin melanoma-metastasis lineage-tracing preprint reports neural-crest-like and lipid-metabolism metastatic programs across organs. Its underlying raw/processed scRNA-seq data are stated to become publicly available upon peer-reviewed publication, so it is not presently an independent public expression matrix for resolving CTH state enrichment.
+
+Therefore the state-mapping status does not change:
+
+```text
+RESULT := CTH/CSE PHENOTYPE ENRICHMENT NOT YET PROVED
+
+MISSING_OBJECT :=
+queryable cell-level CTH expression statistics linked to the MeRLin persister
+barcode groups (at minimum detection fraction, normalized expression, and
+between-group differential expression), followed by matched CSE perturbation
+within those states to determine dependency rather than expression alone.
+```
+
+Even a positive expression map would not retire `cse_state_mapping_gap` without state-resolved functional dependency and redistribution evidence.
+
 ## Cross-state residual object
 
 ```text
@@ -148,16 +187,19 @@ vulnerability, but its phenotype coverage and genotype generality are not proved
   - https://doi.org/10.1016/j.cmet.2025.01.021
 - Shah et al., Cancer Science (2026), `MAPK Inhibitor-Tolerant Persister Cells in Melanoma: Mechanisms and Therapeutic Vulnerabilities`.
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC13394650/
+- Li et al., Molecular Cancer (2026), `Clonal dynamics shaped by diverse drug-tolerant persister states in melanoma resistance`.
+  - https://doi.org/10.1186/s12943-026-02622-9
+  - GEO: GSE299711 / GSE299589
+  - https://github.com/Yeqing95/MeRLin
+- `Single-cell lineage tracing maps clonal and transcriptional dynamics in melanoma metastasis` (2026 preprint).
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC13104815/
 
 ## Next bounded action
 
 ```text
 NEXT_ACTIONS :=
-1. Add C_CSE_REDox as a cross-state BRAF-V600E persister-control requirement.
-2. Do not merge it with pigmented/OXPHOS, SMC/peroxisome-UGCG, or GPX4/FSP1
-   without a matched dependency map.
-3. Search the 2026 persister literature for the next cross-state program not
-   already represented by MAPK, PI3K/AKT, FAK, state-specific metabolic, immune,
-   or ferroptosis controls.
-4. Prefer programs with direct functional dependency and in vivo validation.
+1. Obtain the processed GSE299711 cell-expression object plus barcode-group metadata.
+2. Compute CTH detection fraction and normalized expression for endpoint groups 1-4.
+3. Test CTH differential expression across the four persister groups without treating expression as dependency.
+4. Keep cse_state_mapping_gap unresolved unless state-resolved CSE perturbation proves functional coverage and survivor redistribution.
 ```
