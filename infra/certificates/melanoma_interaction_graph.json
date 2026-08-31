@@ -79,7 +79,7 @@
     {
       "id": "I_PI3K_SURVIVAL_CONTROL",
       "kind": "implementation",
-      "blocks": ["e_rtk_pi3k"],
+      "blocks": ["e_rtk_pi3k", "e_mitf_reduction_to_rtk"],
       "induces": [{"id": "e_pi3k_to_polk", "source": "therapy_pressure", "target": "polk_stress_tolerance", "evidence": ["docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]}],
       "evidence": ["docs/status/MELANOMA_HGF_MET_PI3K_RESIDUAL_2026_08_31.md", "docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md"]
     },
@@ -110,6 +110,13 @@
     {"id": "C_KDM5B_RESEED", "kind": "functional", "blocks": ["e_kdm5b_persist", "e_kdm5b_reseed"], "induces": [], "evidence": ["docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md"]},
     {"id": "C_SOX10_LOW", "kind": "functional", "blocks": ["e_sox10_low", "e_smc_to_invasive"], "induces": [], "evidence": ["docs/status/MELANOMA_SOX10_LOW_DUAL_VULNERABILITY_2026_08_31.md"]},
     {"id": "C_SMC_METABOLIC", "kind": "functional", "blocks": ["e_smc_cd36"], "induces": [], "evidence": ["docs/status/MELANOMA_CD36_SMC_PEROXISOME_UGCG_RESIDUAL_2026_08_31.md"]},
+    {
+      "id": "PROBE_MITF_REDUCTION",
+      "kind": "implementation",
+      "blocks": ["e_pigmented_mitf", "e_smc_to_pigmented"],
+      "induces": [{"id": "e_mitf_reduction_to_rtk", "source": "therapy_pressure", "target": "rtk_pi3k_survival", "evidence": ["docs/status/MELANOMA_MITF_RTK_IMPLEMENTATION_BOUNDARY_2026_08_31.md"]}],
+      "evidence": ["docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md", "docs/status/MELANOMA_MITF_RTK_IMPLEMENTATION_BOUNDARY_2026_08_31.md"]
+    },
     {"id": "C_PIGMENTED", "kind": "functional", "blocks": ["e_pigmented_mitf", "e_smc_to_pigmented"], "induces": [], "evidence": ["docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md"]},
     {"id": "C_ADENOSINE_LIGAND", "kind": "functional", "blocks": ["e_adenosine_escape"], "induces": [], "evidence": ["docs/status/MELANOMA_ADENOSINE_LIGAND_SINK_2026_08_31.md"]},
     {"id": "C_CSE_REDOX", "kind": "functional", "blocks": ["e_cse_persist"], "induces": [], "evidence": ["docs/status/MELANOMA_CSE_PERSULFIDE_CROSS_STATE_RESIDUAL_2026_08_31.md"]},
