@@ -29,6 +29,7 @@ COUPLED_ROUTE_GAPS = [
 EXPECTED_UNRESOLVED = sorted(
     [
         "apoe_dissemination_release",
+        "fancd2_replication_stress_tolerance",
         "ferroptosis_handoff_gap",
         "polk_stress_tolerance",
         *MRD_GAPS,
@@ -69,6 +70,7 @@ def test_apoe_reduction_probe_exposes_signed_tradeoff():
         [
             "apoe_ferroptosis_resistance",
             "apoe_immune_escape",
+            "fancd2_replication_stress_tolerance",
             "ferroptosis_handoff_gap",
             "polk_stress_tolerance",
             *MRD_GAPS,
@@ -195,3 +197,8 @@ def test_rac1_composite_control_blocks_observed_route_but_not_generality_gap():
     result = verify_graph(cert)
     assert "rac1_coupled_observed" in result["reachable_malignant"]
     assert "rac1_fak_mapk_generality_gap" in result["reachable_malignant"]
+
+
+def test_fancd2_replication_stress_state_remains_uncovered():
+    result = verify_graph(load_certificate())
+    assert "fancd2_replication_stress_tolerance" in result["reachable_malignant"]
