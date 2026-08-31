@@ -9,11 +9,10 @@ jobs:
         run: python3 infra/ci/verify_certificate.py
       - name: Run melanoma interaction graph check
         run: python3 infra/ci/verify_melanoma_interaction_graph.py
-      - name: Read GSE299711 file list
+      - name: Probe direct GSE299711 endpoint object
         run: |
           set -euo pipefail
-          BASE='https://ftp.ncbi.nlm.nih.gov/geo/series/GSE299nnn/GSE299711/suppl'
-          echo 'GSE299711_FILELIST_BEGIN'
-          curl --fail --location --retry 3 "$BASE/filelist.txt"
-          echo
-          echo 'GSE299711_FILELIST_END'
+          URL='https://ftp.ncbi.nlm.nih.gov/geo/series/GSE299nnn/GSE299711/suppl/GSM9044666_EP_Clonocluster.rds'
+          echo 'GSE299711_EP_HEAD_BEGIN'
+          curl --head --location --fail --retry 3 "$URL"
+          echo 'GSE299711_EP_HEAD_END'
