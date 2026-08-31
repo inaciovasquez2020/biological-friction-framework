@@ -131,6 +131,21 @@ def test_smc_control_blocks_state_but_not_redistribution_gap():
     cert["declared_unresolved"] = sorted(EXPECTED_UNRESOLVED + ["smc_cd36_persister"])
     result = verify_graph(cert)
     assert "smc_cd36_persister" in result["reachable_malignant"]
+    assert "pigmented_mitf_persister" not in result["reachable_malignant"]
+    assert "ncsc_nongenetic_escape" not in result["reachable_malignant"]
+    assert "sox10_low_mrd" not in result["reachable_malignant"]
+
+
+def test_smc_natural_trajectory_is_exposed_when_destination_control_is_removed():
+    cert = deepcopy(load_certificate())
+    cert["active_controls"].remove("C_SMC_METABOLIC")
+    cert["active_controls"].remove("C_PIGMENTED")
+    cert["declared_unresolved"] = sorted(
+        EXPECTED_UNRESOLVED + ["smc_cd36_persister", "pigmented_mitf_persister"]
+    )
+    result = verify_graph(cert)
+    assert "smc_cd36_persister" in result["reachable_malignant"]
+    assert "pigmented_mitf_persister" in result["reachable_malignant"]
 
 
 def test_pigmented_control_blocks_state_but_not_redistribution_gap():
