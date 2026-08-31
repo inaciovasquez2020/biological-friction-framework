@@ -164,8 +164,8 @@ def _infer_teadi_group(column):
     clone = "218" if "218" in token else "421" if "421" in token else None
     if "DMSO" in token:
         treatment = "DMSO"
-    elif "9643" in token:
-        treatment = "OPN9643"
+    elif "8643" in token:
+        treatment = "OPN8643"
     elif "9652" in token:
         treatment = "OPN9652"
     else:
@@ -185,7 +185,7 @@ def analyze_gse259389(matrix_path):
     result = {}
     for clone in ("218", "421"):
         result[clone] = {}
-        for treatment in ("OPN9643", "OPN9652"):
+        for treatment in ("OPN8643", "OPN9652"):
             result[clone][treatment] = {}
             for gene in TARGETS:
                 controls = grouped[clone]["DMSO"][gene]
