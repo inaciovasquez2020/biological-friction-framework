@@ -21,7 +21,7 @@ jobs:
 
       - name: Run canonical tests
         run: |
-          pytest -q tests/test_canonical_surface.py tests/test_spectral_gap_checker.py tests/test_melanoma_interaction_graph.py
+          pytest -q tests/test_canonical_surface.py tests/test_spectral_gap_checker.py tests/test_melanoma_interaction_graph.py tests/test_sox10_geo_coupling.py
 
       - name: Reject tracked transient files only
         run: |
