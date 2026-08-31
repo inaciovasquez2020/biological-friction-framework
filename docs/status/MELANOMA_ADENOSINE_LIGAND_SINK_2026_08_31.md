@@ -58,6 +58,24 @@ Peer-reviewed preclinical work using PEGylated adenosine deaminase (PEG-ADA) pro
 
 Thus PEG-ADA is evidence that a ligand-sink mechanism is biologically executable; it is not evidence that melanoma adenosine escape is closed.
 
+## Melanoma-specific ligand-sink audit
+
+`MELANOMA_LIGAND_SINK_SEARCH := NO MATCHED PEER-REVIEWED CERTIFICATE IDENTIFIED`
+
+A targeted search for melanoma experiments directly depleting extracellular adenosine did not identify a peer-reviewed study that simultaneously demonstrates:
+
+```text
+melanoma context
++ direct extracellular-adenosine depletion
++ measured intratumoral adenosine reduction
++ functional CD8/T-cell rescue
++ coverage across the relevant adenosine-source compartments
+```
+
+The 2023 PEG-ADA study includes melanoma in its CD73-positive MDSC characterization and supports the general adenosine mechanism, but its reported direct PEG-ADA tumor-control / intratumoral-adenosine experiments were centered on non-melanoma solid-tumor models.
+
+Therefore the melanoma-specific ligand-sink certificate remains missing.
+
 ## Source coverage
 
 At the abstraction level:
@@ -138,11 +156,8 @@ closes melanoma immune escape safely and durably
 
 ```text
 NEXT_ACTIONS :=
-1. Search specifically for melanoma experiments that directly deplete
-   extracellular adenosine rather than only inhibiting CD73 or one receptor.
-2. Require simultaneous measurement of intratumoral adenosine and functional
-   CD8/T-cell output.
-3. If no melanoma-specific ligand-sink experiment exists, retain
-   C_ADENOSINE_LIGAND as an abstract missing control and return to the full
-   residual graph for the next uncovered non-ApoE state.
+1. Retain C_ADENOSINE_LIGAND as an abstract missing control rather than splitting
+   membrane, soluble and exosomal CD73 into separate mandatory controls.
+2. Return to the full residual graph and identify the next uncovered non-ApoE
+   melanoma state after abstract adenosine coverage.
 ```
