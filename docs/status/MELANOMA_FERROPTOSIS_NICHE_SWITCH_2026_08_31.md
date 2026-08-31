@@ -8,7 +8,7 @@ This document records a bounded structural result for a melanoma residual-diseas
 
 ## Question
 
-After abstract control of MAPK, PI3K/AKT, FAK-dependent states, SOX10-low MRD, and extracellular adenosine escape, can ferroptosis resistance be represented by one global control node?
+After abstract control of MAPK, PI3K/AKT, FAK-dependent states, SOX10-low MRD, and extracellular adenosine escape, can ferroptosis resistance be represented by one global control node, and can the GPX4/FSP1 handoff be certified continuously during LN-to-blood transition?
 
 ## Result
 
@@ -69,41 +69,107 @@ reoxygenation / blood transition
 
 A static hitting set over `{GPX4, FSP1}` therefore does not by itself establish continuous coverage during dissemination.
 
-## Transition literature audit
+## Transition-resolved evidence audit
 
-`TRANSITION_RESOLVED_SEARCH := NO DIRECT CERTIFICATE IDENTIFIED`
+`TRANSITION_RESOLVED_SEARCH := NO DIRECT FUNCTIONAL HANDOFF CERTIFICATE IDENTIFIED`
 
-A targeted search found direct evidence for rapid GPX4 recovery after reoxygenation, but did not identify a direct experiment establishing whether FSP1 dependency:
+The 2025 study provides a quantitative GPX4 protein time course. B16-F0 cells were first held at 1% oxygen for 24 hours and then re-exposed to 21% oxygen. GPX4 abundance was measured after 2, 4, and 8 hours of reoxygenation and was described as rapidly restored.
+
+However, the study did not measure functional GPX4 dependency at those 2-, 4-, or 8-hour reoxygenation time points.
+
+The same study also tested FSP1 loss during experimental hematogenous metastasis: intravenous injection of LN7 Fsp1-WT versus Fsp1-KO cells did not show reduced lung colonization from Fsp1 loss; if anything, colonization was modestly increased in the Fsp1-KO condition. Thus the published evidence does not support FSP1 as a required bloodstream-survival dependency in that experiment.
+
+This sharpens the transition boundary:
 
 ```text
-persists,
-disappears,
-or overlaps with restored GPX4 dependency
+DO_NOT_INFER :=
+GPX4 protein recovery => restored functional GPX4 dependency
+
+DO_NOT_INFER :=
+FSP1 dependency in hypoxic LN => persistent FSP1 dependency in blood
 ```
 
-during the reoxygenation / LN-to-blood transition.
+The endpoint niches are experimentally distinguishable; the functional dependency handoff itself remains unresolved.
 
-The endpoint niches are experimentally distinguishable; the dependency handoff itself remains unresolved.
+## Weakest transition invariant
+
+Let:
+
+```text
+D_GPX4(t) := melanoma survival is functionally dependent on GPX4 surveillance at time t
+D_FSP1(t) := melanoma survival is functionally dependent on FSP1 surveillance at time t
+T_transition := interval spanning LN hypoxia -> reoxygenation -> hematogenous transit
+```
+
+A sufficient continuity condition for the current two-state control abstraction is:
+
+```text
+SUFFICIENT_HANDOFF_INVARIANT :=
+forall t in T_transition,
+  D_GPX4(t) OR D_FSP1(t)
+```
+
+This is the weakest useful disjunctive invariant for continuous two-axis coverage: at every transition time, at least one of the two ferroptosis-surveillance dependencies must remain functionally active.
+
+The literature currently establishes endpoint-like facts consistent with:
+
+```text
+LN_HYPOXIC_ENDPOINT   -> D_FSP1
+HEMATO_ENDPOINT       -> D_GPX4
+```
+
+but does not establish:
+
+```text
+forall t in T_transition,
+  D_GPX4(t) OR D_FSP1(t)
+```
+
+Therefore:
+
+```text
+HANDOFF_INVARIANT_STATUS := UNPROVED
+```
+
+## Temporal-resolution boundary
+
+The earliest reported reoxygenation measurement in the GPX4 recovery experiment is 2 hours, followed by 4 and 8 hours.
+
+But the missing interval cannot be reduced merely to `0 < t < 2 h`, because the measured quantity is GPX4 protein abundance, not GPX4 functional dependency, and FSP1 dependency was not assayed at the same reoxygenation time points.
+
+The precise missing measurements are therefore:
+
+```text
+for t in {2 h, 4 h, 8 h} and earlier transition times:
+  functional GPX4 dependency
+  functional FSP1 dependency
+  ferroptosis susceptibility
+```
+
+in the same transitioning melanoma population.
 
 ## Weakest missing object
 
 ```text
 MISSING_OBJECT :=
-a transition-compatible melanoma ferroptosis certificate proving that the
-niche-conditioned control remains effective across:
+a matched-lineage transition experiment demonstrating, across
+S_LN_HYPOXIC -> reoxygenation -> S_HEMATO, that
 
-S_LN_HYPOXIC -> reoxygenation -> S_HEMATO
+forall t in T_transition,
+  D_GPX4(t) OR D_FSP1(t),
 
-without an interval in which surveillance switches faster than control coverage.
+using functional dependency measurements rather than protein abundance alone.
 ```
 
 A direct experimental certificate would track the same lineage or matched metastatic population while measuring:
 
 1. oxygen / niche state,
-2. GPX4 abundance and functional dependency,
-3. FSP1 abundance and functional dependency,
-4. ferroptosis susceptibility,
-5. metastatic survival during LN-to-blood transition.
+2. GPX4 abundance,
+3. GPX4 functional dependency,
+4. FSP1 abundance,
+5. FSP1 functional dependency,
+6. ferroptosis susceptibility,
+7. metastatic survival during LN-to-blood transition.
 
 ## Residual object
 
@@ -112,14 +178,14 @@ R_FERROPTOSIS_SWITCH :=
 state-dependent surveillance switching between GPX4- and FSP1-dominant niches
 ```
 
-This is now the first unresolved non-ApoE metastatic-state boundary in the current graph.
+This remains the first unresolved non-ApoE metastatic-state boundary in the current graph.
 
 ## Boundary
 
 ```text
 BOUNDARY :=
-not proved that one static ferroptosis intervention set closes metastatic
-melanoma across lymph-node, transition, and hematogenous niches
+not proved that GPX4/FSP1 surveillance provides continuous functional coverage
+across lymph-node, reoxygenation, and hematogenous melanoma states
 ```
 
 ## Evidence anchors
@@ -135,9 +201,10 @@ melanoma across lymph-node, transition, and hematogenous niches
 
 ```text
 NEXT_ACTIONS :=
-1. Retain R_FERROPTOSIS_SWITCH as the first unresolved non-ApoE metastatic-state
-   boundary.
-2. Do not collapse GPX4 and FSP1 into one static universal ferroptosis target.
-3. Next, test whether any published paired-niche lineage data constrain the
-   timing of the GPX4/FSP1 handoff enough to produce a transition invariant.
+1. Retain SUFFICIENT_HANDOFF_INVARIANT as the exact transition requirement.
+2. Do not substitute GPX4 protein recovery for functional GPX4 dependency.
+3. Search for same-population reoxygenation experiments measuring GPX4- and
+   FSP1-dependency simultaneously.
+4. If none exists, retain R_FERROPTOSIS_SWITCH and return to the next independent
+   residual state in the full escape graph.
 ```
