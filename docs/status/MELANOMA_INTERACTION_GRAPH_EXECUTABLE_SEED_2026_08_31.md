@@ -1,16 +1,16 @@
-# Melanoma interaction graph executable seed — 2026-08-31
+# Melanoma interaction graph executable certificate — 2026-08-31
 
 ## Status
 
 `EXECUTABLE / CONDITIONAL CERTIFICATE`
 
-This document records the first repository-native executable seed for the interaction-aware melanoma resistance invariant. It is a model-verification artifact, not clinical guidance, a treatment recommendation, or evidence of a cure.
+This document records the repository-native executable seed and first bounded expansion of the interaction-aware melanoma resistance invariant. It is a model-verification artifact, not clinical guidance, a treatment recommendation, or evidence of a cure.
 
 ## Result
 
-`RESULT := MINIMAL INTERACTION-AWARE GRAPH CERTIFICATE IMPLEMENTED`
+`RESULT := INTERACTION-AWARE GRAPH CERTIFICATE EXPANDED TO THREE ADDITIONAL RETAINED BOUNDARIES`
 
-The repository now contains:
+The repository contains:
 
 ```text
 infra/certificates/melanoma_interaction_graph.json
@@ -18,11 +18,11 @@ infra/ci/verify_melanoma_interaction_graph.py
 tests/test_melanoma_interaction_graph.py
 ```
 
-The certificate encodes a deliberately small evidence-bounded interaction slice rather than claiming to represent the full melanoma state space.
+The certificate remains deliberately incomplete. It represents only evidence-bounded objects already retained in repository status documents.
 
-## Encoded baseline residuals
+## Original executable slice
 
-The current seed contains four baseline malignant routes:
+The initial certificate encoded:
 
 ```text
 therapy pressure -> RTK / PI3K survival
@@ -31,9 +31,7 @@ therapy pressure -> NCSC nongenetic escape
 therapy pressure -> dynamic ERK-pulse escape
 ```
 
-## Encoded control interactions
-
-The certificate activates four already-supported control/implementation objects:
+with active controls:
 
 ```text
 I_PI3K_SURVIVAL_CONTROL
@@ -42,128 +40,236 @@ I_FAK_NCSC_CONTROL
 C_MAPK_DYNAMIC
 ```
 
-It then includes experimentally supported non-monotone interaction edges:
+and induced interactions:
 
 ```text
-PI3K suppression -> nuclear Polκ stress-tolerance state
-mTOR suppression -> nuclear Polκ stress-tolerance state
-FAK/NCSC control -> observed ERK-sensitive genetic escape trajectory
+PI3K suppression -> nuclear Polκ stress tolerance
+mTOR suppression -> nuclear Polκ stress tolerance
+FAK/NCSC control -> observed ERK-sensitive genetic escape
 ```
 
-`C_MAPK_DYNAMIC` blocks the encoded ERK-pulse and ERK-sensitive genetic escape edges.
+The first executable result left `polk_stress_tolerance` reachable.
 
-The two PI3K/mTOR-induced Polκ edges remain unblocked.
+## Expansion 1: ApoE signed tradeoff
+
+The signed ApoE boundary is now executable.
+
+Baseline ApoE-high context contributes two malignant outcomes in the encoded slice:
+
+```text
+melanoma_context -> apoe_ferroptosis_resistance
+melanoma_context -> apoe_immune_escape
+```
+
+A candidate reduction probe is represented as:
+
+```text
+PROBE_APOE_REDUCTION
+  blocks apoe_ferroptosis_resistance
+  blocks apoe_immune_escape
+  induces apoe_dissemination_release
+```
+
+The probe is intentionally named `PROBE`, not a globally admissible treatment control. It machine-encodes the repository boundary that reducing extracellular ApoE can improve ferroptosis/immune directions while removing ApoE-mediated suppression of invasion/endothelial recruitment.
+
+With the probe active, the first two ApoE outcomes are not reachable but:
+
+```text
+apoe_dissemination_release
+```
+
+is reachable.
+
+The tests also remove the probe and verify the sign reversal:
+
+```text
+apoe_ferroptosis_resistance -> reachable
+apoe_immune_escape          -> reachable
+apoe_dissemination_release  -> not induced
+```
+
+Therefore the machine surface does not permit ApoE reduction to be credited as a monotone closure node.
+
+Evidence lock:
+
+```text
+docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md
+```
+
+## Expansion 2: GPX4/FSP1 niche-switch boundary
+
+The ferroptosis layer is encoded as three residual objects:
+
+```text
+metastatic_context -> ln_fsp1_escape
+metastatic_context -> hemato_gpx4_escape
+metastatic_context -> ferroptosis_handoff_gap
+```
+
+The active endpoint control:
+
+```text
+C_FERROPTOSIS_NICHE_ENDPOINTS
+```
+
+blocks the encoded hypoxic-LN FSP1 endpoint and hematogenous GPX4 endpoint.
+
+It does not block:
+
+```text
+ferroptosis_handoff_gap
+```
+
+because the repository evidence does not establish the continuous functional invariant:
+
+```text
+forall t in T_transition,
+  D_GPX4(t) OR D_FSP1(t)
+```
+
+The tests explicitly verify that endpoint coverage does not silently upgrade into transition coverage.
+
+Evidence lock:
+
+```text
+docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md
+```
+
+## Expansion 3: KDM5B reseeding dynamics
+
+The KDM5B boundary is encoded dynamically rather than as one static expression node:
+
+```text
+therapy_pressure
+  -> kdm5b_persister_reservoir
+  -> kdm5b_reseed
+```
+
+The active functional control:
+
+```text
+C_KDM5B_RESEED
+```
+
+blocks both reservoir formation/survival and the represented reseeding transition in this abstraction.
+
+The test suite then removes `C_KDM5B_RESEED` and requires both malignant states to become reachable again:
+
+```text
+kdm5b_persister_reservoir
+kdm5b_reseed
+```
+
+This prevents the graph from collapsing KDM5B dynamics into a pigmented/MITF label or treating KDM5B expression itself as monotone.
+
+Evidence lock:
+
+```text
+docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md
+```
 
 ## Current machine-checked result
 
-With the current active control set, fixed-point reachability leaves exactly one encoded malignant state reachable:
+With the expanded active control/probe set, fixed-point reachability is expected to leave exactly:
 
 ```text
+apoe_dissemination_release
+ferroptosis_handoff_gap
 polk_stress_tolerance
 ```
 
-Therefore the certificate is intentionally:
+reachable among encoded malignant states.
+
+Therefore the certificate remains:
 
 ```text
 claim := conditional
 
-declared_unresolved := [polk_stress_tolerance]
+declared_unresolved := [
+  apoe_dissemination_release,
+  ferroptosis_handoff_gap,
+  polk_stress_tolerance
+]
 ```
 
-The verifier requires the declared unresolved set to equal the complete set of reachable malignant states in the encoded graph.
+The verifier requires `declared_unresolved` to equal the complete reachable malignant set.
 
 ## Fail-closed behavior
 
-The test suite checks three properties:
+The test suite now checks:
 
 ```text
-1. the current conditional certificate passes;
-2. changing the certificate to claim := closed while Polκ remains reachable fails;
-3. omitting the reachable Polκ state from declared_unresolved fails.
+1. the expanded conditional certificate passes;
+2. claim := closed fails while any encoded malignant state remains reachable;
+3. omitting reachable malignant states from declared_unresolved fails;
+4. removing the ApoE reduction probe exposes ApoE ferroptosis + immune escape;
+5. ApoE reduction exposes dissemination release rather than monotone closure;
+6. ferroptosis endpoint control leaves the handoff gap reachable;
+7. active KDM5B reseed control blocks its two encoded states;
+8. removing KDM5B control restores both reservoir and reseed reachability.
 ```
-
-Thus the executable surface cannot silently upgrade the current partial interaction graph into a closure claim.
 
 ## Evidence-file locking
 
-Every baseline or induced biological edge in the current certificate carries one or more repository evidence paths.
+Every baseline or induced edge and every control carries one or more repository evidence paths. The verifier rejects empty or missing evidence paths.
 
-The verifier rejects an edge or control if its evidence list is empty or if a referenced repository evidence file does not exist.
-
-This does not independently validate the scientific contents of those files. It prevents machine-readable edges from becoming detached from the bounded evidence objects that motivated them.
-
-## CI integration
-
-PR-time canonical CI now runs:
-
-```text
-tests/test_melanoma_interaction_graph.py
-```
-
-alongside the existing canonical and spectral-gap tests.
-
-Push-time `verify` also runs:
-
-```text
-python3 infra/ci/verify_melanoma_interaction_graph.py
-```
+This verifies graph/evidence consistency, not the scientific truth of a paper or clinical efficacy.
 
 ## What this does not prove
 
 ```text
 DO_NOT_INFER :=
-this seed graph represents every melanoma state or resistance route
+this certificate represents every melanoma state or resistance route
 
 DO_NOT_INFER :=
-polk_stress_tolerance is the only real biological survivor
+the three reachable states are the only biological survivors
 
 DO_NOT_INFER :=
-current active controls form a treatment regimen
+active controls or probes form a treatment regimen
+
+DO_NOT_INFER :=
+PROBE_APOE_REDUCTION is an admissible global melanoma control
 
 DO_NOT_INFER :=
 conditional machine verification implies clinical efficacy or cure
 ```
 
-The checker proves only consistency of the encoded interaction slice.
-
 ## Remaining executable boundary
-
-The previous model-level missing object is now partially constructed, not closed.
 
 ```text
 MISSING_OBJECT :=
-expand the interaction certificate from the minimal seed to the retained
-melanoma graph while preserving evidence-linked, fail-closed semantics.
+continue expanding the certificate to already-retained melanoma objects while
+preserving signed, dynamic, interaction-aware, evidence-linked semantics.
 ```
 
-The next expansion should be bounded and should add only already-retained objects, such as:
+The next bounded expansion candidates are:
 
 ```text
-ApoE signed outcomes
-GPX4/FSP1 niche-switch transition
-KDM5B reseeding state dynamics
-SOX10-low / SMC / pigmented MRD states
+SOX10-low / TAZ-TEAD + cIAP state control
+CD36+ SMC peroxisome/UGCG state
+pigmented MITF-high/OXPHOS state
 adenosine immune escape
 CSE/H2S-persulfide cross-state persistence
-translation/adaptive-mutability control
+eIF4A translation/adaptive-mutability control
 ```
 
-No new biological target should be added merely to enlarge the graph.
+No new biological target should be introduced merely to enlarge the graph.
 
 ## Boundary
 
 ```text
 BOUNDARY :=
-a repository-native interaction-aware verifier now exists for a minimal
-conditional melanoma slice; full retained-graph encoding remains incomplete
+the executable graph now tests Polκ antagonism, ApoE signed tradeoffs,
+GPX4/FSP1 transition failure, and KDM5B reseeding dynamics, but full retained-
+graph encoding remains incomplete and the certificate remains conditional
 ```
 
 ## Next bounded action
 
 ```text
 NEXT_ACTIONS :=
-1. Compile and run the new verifier through canonical PR CI.
+1. Compile the expansion on canonical PR CI.
 2. Repair only the first authoritative failure if one appears.
 3. Merge only if the fail-closed tests pass.
-4. After merge, add retained graph objects incrementally rather than all at once.
+4. Then add the next retained MRD-state cluster as one bounded expansion.
 ```
