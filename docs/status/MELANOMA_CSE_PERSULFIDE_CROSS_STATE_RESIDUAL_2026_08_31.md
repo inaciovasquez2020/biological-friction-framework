@@ -136,70 +136,75 @@ barcode group 4 -> ECM remodeling
 
 The study reports approximately 200 persister-enriched marker genes across groups 1-4 and deposits raw and processed scRNA-seq data under GEO accession `GSE299711` (with bulk RNA-seq under `GSE299589`). The public analysis code is available at `https://github.com/Yeqing95/MeRLin`.
 
-At the manuscript/released-script surface audited here, `CTH` is not reported as a defining marker for any of the four groups and no explicit CTH-by-barcode-group analysis is present in the public scripts. This is not evidence that CTH is absent or unenriched; it means the requested expression ranking is not established by the reported marker summaries alone.
+The manuscript/released-script surface did not report `CTH` as a defining marker for any of the four groups. That literature-level absence was not treated as evidence that CTH was absent or unenriched. The deposited endpoint object has now been interrogated directly.
+
+### Direct GSE299711 endpoint-object extraction
+
+The public GEO `filelist.txt` identifies the exact endpoint object:
 
 ```text
-DO_NOT_INFER :=
-CTH not listed among reported discriminative markers
-  => CTH is absent from a persister state
+SOURCE_ARCHIVE := GSE299711_RAW.tar
+SOURCE_MEMBER  := GSM9044666_EP_Clonocluster.rds
+MEMBER_SIZE    := 689218608 bytes
+STATE_FIELD    := bc_group
+ASSAY          := RNA
+LAYER          := data
+TARGET_GENE    := CTH
 ```
 
-The same study establishes that the four programs are transcriptionally distinct and can coexist across resistant models, making it an appropriate expression-mapping dataset, but expression mapping is still weaker than functional dependency mapping.
-
-A separate 2026 MeRLin melanoma-metastasis lineage-tracing preprint reports neural-crest-like and lipid-metabolism metastatic programs across organs. Its underlying raw/processed scRNA-seq data are stated to become publicly available upon peer-reviewed publication, so it is not presently an independent public expression matrix for resolving CTH state enrichment.
-
-Therefore the state-mapping status does not change:
+The uncompressed TAR member was located and range-extracted without downloading the full archive. The verified member byte interval is:
 
 ```text
-RESULT := CTH/CSE PHENOTYPE ENRICHMENT NOT YET PROVED
+header_offset := 1896608768
+data_start    := 1896609280
+data_end      := 2585827887
+```
 
+The retrieved object is a Seurat v5 object with an `Assay5` RNA assay. Its `data` layer contains 38,607 features and 2,565 endpoint cells; `CTH` is present in the Assay5 feature map. Cells were aligned to `bc_group` through the assay cell map before extracting normalized `CTH` values.
+
+`RESULT := CTH EXPRESSION IS HETEROGENEOUS ACROSS MERLIN ENDPOINT BARCODE STATES; NO UNIFORM PERSISTER-STATE ENRICHMENT IS SUPPORTED BY THE DESCRIPTIVE MAP`
+
+The direct descriptive endpoint map is:
+
+| MeRLin endpoint group | n | CTH detection fraction | normalized mean | normalized median |
+| --- | ---: | ---: | ---: | ---: |
+| Barcode group 1 — stress-like | 999 | 0.52052052 | 0.21795571 | 0.12933725 |
+| Barcode group 2 — neural-crest-like + lipid metabolism | 643 | 0.67340591 | 0.34331515 | 0.26612383 |
+| Barcode group 3 — neural-crest-like + PI3K signaling | 256 | 0.52734375 | 0.19099902 | 0.12832013 |
+| Barcode group 4 — ECM remodeling | 378 | 0.51058201 | 0.18793363 | 0.10122350 |
+| Barcode group 5 — reference / non-persister-like | 267 | 0.56928839 | 0.34165966 | 0.32992894 |
+
+There are also 22 endpoint cells labeled `NA` in `bc_group`; they are not used to define any of the five named state comparisons above.
+
+The descriptive pattern is not a uniform increase across the four persister groups. Barcode group 2 has the highest CTH detection fraction (`0.6734`) and a normalized mean (`0.3433`) essentially equal to barcode group 5 (`0.3417`). Groups 1, 3, and 4 have lower normalized means than group 5 on this endpoint surface.
+
+Therefore retire the earlier data-availability statement:
+
+```text
+RETIRE := CTH endpoint expression ranking is unavailable
+```
+
+but do not replace it with a functional-state conclusion:
+
+```text
+DO_NOT_INFER := transcript abundance => CSE functional dependency
+DO_NOT_INFER := lower or non-enriched CTH transcript => absence of CSE dependency
+DO_NOT_INFER := high CTH detection in barcode group 2 => unique CSE dependence of group 2
+```
+
+The endpoint object answers the descriptive expression-ranking question only. It does not establish differential-expression significance by itself and does not test what happens to each barcode state after CSE perturbation.
+
+The state-mapping gap therefore remains reachable, but its missing object is now narrower:
+
+```text
 MISSING_OBJECT :=
-queryable cell-level CTH expression statistics linked to the MeRLin persister
-barcode groups (at minimum detection fraction, normalized expression, and
-between-group differential expression), followed by matched CSE perturbation
-within those states to determine dependency rather than expression alone.
+state-resolved CTH/CSE perturbation within the same MeRLin endpoint barcode
+states, with functional persister-survival and survivor-redistribution readouts,
+together with formal differential-expression testing where expression enrichment
+rather than dependency is being claimed.
 ```
 
-### Exact executable reduction from the released MeRLin analysis
-
-The public MeRLin source now narrows the expression-mapping input to a concrete processed object and metadata field:
-
-```text
-SOURCE_OBJECT := EP_Clonocluster.rds
-STATE_FIELD   := bc_group
-ASSAY         := RNA
-LAYER         := data
-TARGET_GENE   := CTH
-TARGET_STATES := Barcode group 1..4
-REFERENCE     := Barcode group 5
-```
-
-The released endpoint analysis performs barcode-group differential expression on this object with Seurat. It uses `FindAllMarkers(..., group.by = "bc_group", logfc.threshold = 0.8, min.pct = 0.3, only.pos = TRUE)` for group signatures and also compares each persister group with barcode group 5. The publication reports the stricter discriminative-marker surface as fold change at least 2, detection in at least 50% of cells, and FDR below 0.05.
-
-For `CTH`, the weakest state-mapping computation is therefore fully specified:
-
-```text
-for g in Barcode group 1..4:
-    detection_fraction[g] := fraction of cells in g with RNA[CTH] > 0
-    normalized_mean[g]    := mean normalized RNA-layer CTH expression in g
-
-pairwise_DE := CTH differential expression for each persister group vs group 5
-cross_group := CTH differential expression among groups 1..4
-```
-
-No `CTH` enrichment result is asserted until those values are read from the processed object or an equivalent exported matrix preserving `bc_group`.
-
-```text
-MISSING_OBJECT :=
-EP_Clonocluster.rds from the deposited GSE299711 processed data, or an
-equivalent cell-by-gene processed expression matrix with cell-level `bc_group`
-metadata sufficient to compute CTH detection fraction, normalized expression,
-and differential expression for endpoint barcode groups 1-4.
-```
-
-This reduces the unresolved expression question from a general literature search to one named dataset object and one named metadata field. It does not reduce the functional-dependency boundary.
-
-Even a positive expression map would not retire `cse_state_mapping_gap` without state-resolved functional dependency and redistribution evidence.
+Even a statistically significant expression contrast would not retire `cse_state_mapping_gap` without state-resolved functional dependency and redistribution evidence.
 
 ## Cross-state residual object
 
@@ -209,14 +214,15 @@ therapy-induced redox/metabolic persister survival that is not certified by
 phenotype-state coverage alone
 ```
 
-This object is orthogonal to the statement that the four classic Rambow states are represented.
+The direct MeRLin endpoint map means this object should not be interpreted as claiming uniformly high `CTH` transcript across all persister states. `cross-state` here refers to the unresolved scope of the functional stress-survival mechanism, not a demonstrated pan-state expression signature.
 
 ## Boundary
 
 ```text
 BOUNDARY :=
 CSE/H2S-persulfide buffering is an evidence-backed BRAF-V600E persister
-vulnerability, but its phenotype coverage and genotype generality are not proved
+vulnerability, but the MeRLin endpoint CTH transcript map is heterogeneous and
+state-resolved functional CSE dependency / survivor redistribution remain unproved
 ```
 
 ## Evidence anchors
@@ -237,8 +243,8 @@ vulnerability, but its phenotype coverage and genotype generality are not proved
 
 ```text
 NEXT_ACTIONS :=
-1. Retrieve `EP_Clonocluster.rds` from GSE299711, or an equivalent processed matrix preserving `bc_group`.
-2. Compute CTH detection fraction and normalized expression for endpoint barcode groups 1-4.
-3. Test CTH differential expression for groups 1-4 and against group 5 without treating expression as dependency.
-4. Keep cse_state_mapping_gap unresolved unless state-resolved CSE perturbation proves functional coverage and survivor redistribution.
+1. Keep `cse_state_mapping_gap` reachable; do not credit descriptive CTH expression as functional closure.
+2. Run formal endpoint CTH differential-expression contrasts for groups 1-4 versus group 5 only if an expression-enrichment claim is needed.
+3. Search for or require state-resolved CSE perturbation with barcode-state survivor and redistribution readouts.
+4. If no such experiment exists, retain the functional state-mapping boundary and move to the next executable unresolved state.
 ```
