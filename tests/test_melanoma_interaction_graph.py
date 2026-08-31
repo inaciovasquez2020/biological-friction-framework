@@ -160,6 +160,22 @@ def test_pigmented_control_blocks_state_but_not_redistribution_gap():
     assert "pigmented_mitf_persister" in result["reachable_malignant"]
 
 
+def test_mitf_reduction_probe_requires_rtk_pi3k_escape_coverage():
+    cert = deepcopy(load_certificate())
+    cert["active_controls"].remove("C_PIGMENTED")
+    cert["active_controls"].append("PROBE_MITF_REDUCTION")
+
+    result = verify_graph(cert)
+    assert "pigmented_mitf_persister" not in result["reachable_malignant"]
+    assert "rtk_pi3k_survival" not in result["reachable_malignant"]
+    assert result["reachable_malignant"] == EXPECTED_UNRESOLVED
+
+    cert["active_controls"].remove("I_PI3K_SURVIVAL_CONTROL")
+    cert["declared_unresolved"] = sorted(EXPECTED_UNRESOLVED + ["rtk_pi3k_survival"])
+    result = verify_graph(cert)
+    assert "rtk_pi3k_survival" in result["reachable_malignant"]
+
+
 def test_adenosine_control_blocks_escape_but_not_melanoma_ligand_sink_gap():
     result = verify_graph(load_certificate())
     assert "adenosine_immune_escape" not in result["reachable_malignant"]
