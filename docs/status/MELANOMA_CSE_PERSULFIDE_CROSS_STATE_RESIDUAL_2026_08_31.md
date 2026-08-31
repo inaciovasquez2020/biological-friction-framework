@@ -160,6 +160,45 @@ between-group differential expression), followed by matched CSE perturbation
 within those states to determine dependency rather than expression alone.
 ```
 
+### Exact executable reduction from the released MeRLin analysis
+
+The public MeRLin source now narrows the expression-mapping input to a concrete processed object and metadata field:
+
+```text
+SOURCE_OBJECT := EP_Clonocluster.rds
+STATE_FIELD   := bc_group
+ASSAY         := RNA
+LAYER         := data
+TARGET_GENE   := CTH
+TARGET_STATES := Barcode group 1..4
+REFERENCE     := Barcode group 5
+```
+
+The released endpoint analysis performs barcode-group differential expression on this object with Seurat. It uses `FindAllMarkers(..., group.by = "bc_group", logfc.threshold = 0.8, min.pct = 0.3, only.pos = TRUE)` for group signatures and also compares each persister group with barcode group 5. The publication reports the stricter discriminative-marker surface as fold change at least 2, detection in at least 50% of cells, and FDR below 0.05.
+
+For `CTH`, the weakest state-mapping computation is therefore fully specified:
+
+```text
+for g in Barcode group 1..4:
+    detection_fraction[g] := fraction of cells in g with RNA[CTH] > 0
+    normalized_mean[g]    := mean normalized RNA-layer CTH expression in g
+
+pairwise_DE := CTH differential expression for each persister group vs group 5
+cross_group := CTH differential expression among groups 1..4
+```
+
+No `CTH` enrichment result is asserted until those values are read from the processed object or an equivalent exported matrix preserving `bc_group`.
+
+```text
+MISSING_OBJECT :=
+EP_Clonocluster.rds from the deposited GSE299711 processed data, or an
+equivalent cell-by-gene processed expression matrix with cell-level `bc_group`
+metadata sufficient to compute CTH detection fraction, normalized expression,
+and differential expression for endpoint barcode groups 1-4.
+```
+
+This reduces the unresolved expression question from a general literature search to one named dataset object and one named metadata field. It does not reduce the functional-dependency boundary.
+
 Even a positive expression map would not retire `cse_state_mapping_gap` without state-resolved functional dependency and redistribution evidence.
 
 ## Cross-state residual object
@@ -198,8 +237,8 @@ vulnerability, but its phenotype coverage and genotype generality are not proved
 
 ```text
 NEXT_ACTIONS :=
-1. Obtain the processed GSE299711 cell-expression object plus barcode-group metadata.
-2. Compute CTH detection fraction and normalized expression for endpoint groups 1-4.
-3. Test CTH differential expression across the four persister groups without treating expression as dependency.
+1. Retrieve `EP_Clonocluster.rds` from GSE299711, or an equivalent processed matrix preserving `bc_group`.
+2. Compute CTH detection fraction and normalized expression for endpoint barcode groups 1-4.
+3. Test CTH differential expression for groups 1-4 and against group 5 without treating expression as dependency.
 4. Keep cse_state_mapping_gap unresolved unless state-resolved CSE perturbation proves functional coverage and survivor redistribution.
 ```
