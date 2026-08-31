@@ -22,6 +22,10 @@ CROSS_STATE_GAPS = [
     "eif4a_cross_state_gap",
 ]
 
+COUPLED_ROUTE_GAPS = [
+    "rac1_fak_mapk_generality_gap",
+]
+
 EXPECTED_UNRESOLVED = sorted(
     [
         "apoe_dissemination_release",
@@ -29,6 +33,7 @@ EXPECTED_UNRESOLVED = sorted(
         "polk_stress_tolerance",
         *MRD_GAPS,
         *CROSS_STATE_GAPS,
+        *COUPLED_ROUTE_GAPS,
     ]
 )
 
@@ -68,6 +73,7 @@ def test_apoe_reduction_probe_exposes_signed_tradeoff():
             "polk_stress_tolerance",
             *MRD_GAPS,
             *CROSS_STATE_GAPS,
+            *COUPLED_ROUTE_GAPS,
         ]
     )
 
@@ -176,3 +182,16 @@ def test_translation_control_blocks_survival_and_mutability_but_not_cross_state_
     result = verify_graph(cert)
     assert "eif4a_persister_survival" in result["reachable_malignant"]
     assert "eif4a_adaptive_mutability" in result["reachable_malignant"]
+
+
+def test_rac1_composite_control_blocks_observed_route_but_not_generality_gap():
+    result = verify_graph(load_certificate())
+    assert "rac1_coupled_observed" not in result["reachable_malignant"]
+    assert "rac1_fak_mapk_generality_gap" in result["reachable_malignant"]
+
+    cert = deepcopy(load_certificate())
+    cert["active_controls"].remove("C_RAC1_FAK_MAPK_OBSERVED")
+    cert["declared_unresolved"] = sorted(EXPECTED_UNRESOLVED + ["rac1_coupled_observed"])
+    result = verify_graph(cert)
+    assert "rac1_coupled_observed" in result["reachable_malignant"]
+    assert "rac1_fak_mapk_generality_gap" in result["reachable_malignant"]

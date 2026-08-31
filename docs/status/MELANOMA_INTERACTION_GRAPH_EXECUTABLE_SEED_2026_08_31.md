@@ -4,13 +4,9 @@
 
 `EXECUTABLE / CONDITIONAL CERTIFICATE`
 
-This document records the repository-native executable seed and bounded expansions of the interaction-aware melanoma resistance invariant. It is a model-verification artifact, not clinical guidance, a treatment recommendation, or evidence of a cure.
+This document records the repository-native executable interaction-aware melanoma resistance certificate. It is a model-verification artifact, not clinical guidance, a treatment recommendation, or evidence of a cure.
 
-## Result
-
-`RESULT := INTERACTION-AWARE CERTIFICATE NOW INCLUDES SIGNED, NICHE, RESEEDING, CLASSIC MRD, IMMUNE, REDOX, AND TRANSLATION BOUNDARIES`
-
-The repository contains:
+## Executable surface
 
 ```text
 infra/certificates/melanoma_interaction_graph.json
@@ -18,58 +14,66 @@ infra/ci/verify_melanoma_interaction_graph.py
 tests/test_melanoma_interaction_graph.py
 ```
 
-The certificate remains deliberately incomplete and includes only evidence-bounded objects already retained in repository status documents.
-
-## Original executable slice
-
-The initial certificate encoded:
+The verifier checks evidence paths, computes fixed-point reachability after baseline and control-induced edges, and fails closed:
 
 ```text
-therapy pressure -> RTK / PI3K survival
-therapy pressure -> mTOR / ATF4 / MTHFD2 persistence
-therapy pressure -> NCSC nongenetic escape
-therapy pressure -> dynamic ERK-pulse escape
+claim := conditional
+  => declared_unresolved must equal every reachable malignant/gap state
+
+claim := closed
+  => no malignant/gap state may remain reachable
 ```
 
-with active controls:
+## Encoded control families
+
+The current certificate contains already-retained repository evidence for:
 
 ```text
-I_PI3K_SURVIVAL_CONTROL
-I_MTOR_ISR_CONTROL
-I_FAK_NCSC_CONTROL
-C_MAPK_DYNAMIC
+RTK / PI3K survival
+mTOR / ATF4 / MTHFD2 persistence
+NCSC -> FAK / MAPK evolutionary redirection
+dynamic ERK-pulse escape
+ApoE signed tradeoffs
+GPX4 / FSP1 metastatic-niche switching
+KDM5B persister reseeding
+SOX10-low MRD
+CD36+ SMC MRD
+pigmented / MITF-high MRD
+extracellular adenosine immune escape
+CSE / H2S-persulfide persistence
+eIF4A persister survival + adaptive mutability
+RAC1 coupled FAK/MAPK resistance
 ```
 
-and induced interactions:
+No new biological target is introduced by the executable representation; the graph only machine-encodes boundaries already retained in `docs/status`.
+
+## Control-induced and signed interactions
+
+### PI3K/mTOR -> Polκ antagonism
 
 ```text
-PI3K suppression -> nuclear Polκ stress tolerance
-mTOR suppression -> nuclear Polκ stress tolerance
-FAK/NCSC control -> observed ERK-sensitive genetic escape
+I_PI3K_SURVIVAL_CONTROL -> polk_stress_tolerance
+I_MTOR_ISR_CONTROL      -> polk_stress_tolerance
 ```
 
-The first executable result left `polk_stress_tolerance` reachable.
+`polk_stress_tolerance` remains unresolved. The certificate does not treat Polκ as a proved melanoma mutator route.
 
-## Expansion 1: ApoE signed tradeoff
+Evidence:
 
 ```text
-melanoma_context -> apoe_ferroptosis_resistance
-melanoma_context -> apoe_immune_escape
+docs/status/MELANOMA_MTOR_POLK_ANTAGONISTIC_COUPLING_2026_08_31.md
 ```
 
-The candidate probe:
+### ApoE signed probe
 
 ```text
 PROBE_APOE_REDUCTION
+  blocks apoe_ferroptosis_resistance
+  blocks apoe_immune_escape
+  induces apoe_dissemination_release
 ```
 
-blocks those two baseline outcomes but induces:
-
-```text
-apoe_dissemination_release
-```
-
-The tests remove the probe and require the ferroptosis/immune outcomes to reappear while dissemination release is no longer induced.
+The probe is not promoted to a globally admissible melanoma control. Tests remove it and require the opposite signed outcomes to reappear.
 
 Evidence:
 
@@ -77,15 +81,18 @@ Evidence:
 docs/status/MELANOMA_APOE_SIGNED_BOUNDARY_2026_08_31.md
 ```
 
-## Expansion 2: GPX4/FSP1 niche-switch boundary
+## Dynamic/niche boundaries
+
+### GPX4/FSP1
 
 ```text
-metastatic_context -> ln_fsp1_escape
-metastatic_context -> hemato_gpx4_escape
-metastatic_context -> ferroptosis_handoff_gap
+C_FERROPTOSIS_NICHE_ENDPOINTS
+  blocks ln_fsp1_escape
+  blocks hemato_gpx4_escape
+  does not block ferroptosis_handoff_gap
 ```
 
-`C_FERROPTOSIS_NICHE_ENDPOINTS` blocks the two endpoint escape states but not the unresolved functional handoff gap.
+The handoff gap remains because continuous functional coverage during reoxygenation/LN-to-blood transition is unproved.
 
 Evidence:
 
@@ -93,7 +100,7 @@ Evidence:
 docs/status/MELANOMA_FERROPTOSIS_NICHE_SWITCH_2026_08_31.md
 ```
 
-## Expansion 3: KDM5B reseeding dynamics
+### KDM5B
 
 ```text
 therapy_pressure
@@ -101,7 +108,7 @@ therapy_pressure
   -> kdm5b_reseed
 ```
 
-`C_KDM5B_RESEED` blocks both encoded states. Removing that control in the test suite restores both reservoir and reseed reachability.
+`C_KDM5B_RESEED` blocks both encoded states. Removing it in tests restores both states.
 
 Evidence:
 
@@ -109,64 +116,49 @@ Evidence:
 docs/status/MELANOMA_KDM5B_RESEEDING_BOUNDARY_2026_08_31.md
 ```
 
-## Expansion 4: classic MRD phenotype cluster
-
-The remaining classic MRD phenotypes are represented alongside the already encoded NCSC route.
+## Classic MRD phenotype accounting
 
 ```text
 SOX10-low / invasive
   -> C_SOX10_LOW
-  -> sox10_dual_vulnerability_gap remains unresolved
+  -> sox10_dual_vulnerability_gap remains
 
 CD36+ SMC
   -> C_SMC_METABOLIC
-  -> smc_redistribution_gap remains unresolved
+  -> smc_redistribution_gap remains
 
 NCSC
   -> I_FAK_NCSC_CONTROL + C_MAPK_DYNAMIC
 
 pigmented / MITF-high
   -> C_PIGMENTED
-  -> pigmented_redistribution_gap remains unresolved
+  -> pigmented_redistribution_gap remains
 ```
 
-The three phenotype tests remove each abstract control and require its phenotype state to reappear while the corresponding implementation-safety gap remains explicit.
+The abstract controls block the direct encoded phenotype states; the uncertainty/redistribution states remain reachable. Removing each abstract state control in tests restores its direct phenotype state.
 
 Evidence:
 
 ```text
 docs/status/MELANOMA_SOX10_LOW_DUAL_VULNERABILITY_2026_08_31.md
 docs/status/MELANOMA_CD36_SMC_PEROXISOME_UGCG_RESIDUAL_2026_08_31.md
+docs/status/MELANOMA_NCSC_FAK_MAPK_ROUTE_COMPRESSION_2026_08_31.md
 docs/status/MELANOMA_PIGMENTED_MITF_OXPHOS_RESIDUAL_2026_08_31.md
 ```
 
-This is state accounting, not MRD closure.
+This is four-state accounting, not MRD closure.
 
-## Expansion 5: cross-state immune, redox, and translation cluster
+## Cross-state immune/metabolic/evolutionary programs
 
-### Extracellular adenosine immune escape
-
-The encoded direct escape is:
-
-```text
-melanoma_context -> adenosine_immune_escape
-```
-
-The active functional control:
+### Adenosine
 
 ```text
 C_ADENOSINE_LIGAND
+  blocks adenosine_immune_escape
+  does not block adenosine_ligand_sink_gap
 ```
 
-blocks that direct encoded immune-escape state.
-
-The separate state:
-
-```text
-adenosine_ligand_sink_gap
-```
-
-remains reachable because the repository does not contain a melanoma-specific matched certificate establishing one spatially admissible source-independent ligand sink that lowers intratumoral adenosine, restores functional antitumor immune activity, covers relevant production routes, and avoids a new dissemination/host-safety failure.
+The gap represents the missing melanoma-specific matched source-independent ligand-sink certificate.
 
 Evidence:
 
@@ -174,29 +166,15 @@ Evidence:
 docs/status/MELANOMA_ADENOSINE_LIGAND_SINK_2026_08_31.md
 ```
 
-### CSE/H2S-persulfide cross-state persistence
-
-The encoded survival state is:
-
-```text
-therapy_pressure -> cse_persister_survival
-```
-
-The active functional control:
+### CSE/H2S-persulfide
 
 ```text
 C_CSE_REDOX
+  blocks cse_persister_survival
+  does not block cse_state_mapping_gap
 ```
 
-blocks that direct encoded persister state.
-
-The separate state:
-
-```text
-cse_state_mapping_gap
-```
-
-remains reachable because the retained evidence does not establish phenotype-wide dependency mapping, cross-genotype generality, or absence of state redistribution after CSE/H2S-persulfide control.
+The gap preserves state-mapping, genotype-generalization, and redistribution uncertainty.
 
 Evidence:
 
@@ -204,35 +182,53 @@ Evidence:
 docs/status/MELANOMA_CSE_PERSULFIDE_CROSS_STATE_RESIDUAL_2026_08_31.md
 ```
 
-### eIF4A selective translation and adaptive mutability
-
-The executable graph now distinguishes two direct functions:
-
-```text
-therapy_pressure -> eif4a_persister_survival
-therapy_pressure -> eif4a_adaptive_mutability
-```
-
-The active functional control:
+### eIF4A selective translation
 
 ```text
 C_TRANSLATION_PERSIST
+  blocks eif4a_persister_survival
+  blocks eif4a_adaptive_mutability
+  does not block eif4a_cross_state_gap
 ```
 
-blocks both encoded functions.
-
-The separate state:
-
-```text
-eif4a_cross_state_gap
-```
-
-remains reachable because the retained evidence does not prove matched cross-state/cross-genotype suppression of both persister survival and resistance-generating mutability without redistribution into another uncovered state.
+The gap preserves missing matched cross-state/cross-genotype coverage.
 
 Evidence:
 
 ```text
 docs/status/MELANOMA_EIF4A_TRANSLATION_ADAPTIVE_MUTABILITY_RESIDUAL_2026_08_31.md
+```
+
+## RAC1 coupled-route expansion
+
+The retained RAC1 result is not encoded as three independent JNK/p38, YAP/TAZ, and FAK routes. It is encoded as the coupled observed phenotype:
+
+```text
+therapy_pressure -> rac1_coupled_observed
+```
+
+with a composite functional control:
+
+```text
+C_RAC1_FAK_MAPK_OBSERVED
+```
+
+that blocks the tested coupled phenotype. This control represents the evidence-supported combination of FAK-pathway and MAPK-pathway control in the tested RAC1-driven resistant melanoma models; it does not assert that FAK or MAPK control alone is sufficient.
+
+A separate baseline state remains reachable:
+
+```text
+rac1_fak_mapk_generality_gap
+```
+
+because the retained evidence does not establish universal closure across all RAC1-mutant, RAC1-GEF-driven, differentiated, undifferentiated, metastatic, and treatment-evolved melanoma contexts.
+
+Tests remove `C_RAC1_FAK_MAPK_OBSERVED` and require `rac1_coupled_observed` to reappear while `rac1_fak_mapk_generality_gap` remains reachable in both cases.
+
+Evidence:
+
+```text
+docs/status/MELANOMA_RAC1_FAK_COUPLED_ROUTE_2026_08_31.md
 ```
 
 ## Current machine-checked expectation
@@ -247,11 +243,10 @@ eif4a_cross_state_gap
 ferroptosis_handoff_gap
 pigmented_redistribution_gap
 polk_stress_tolerance
+rac1_fak_mapk_generality_gap
 smc_redistribution_gap
 sox10_dual_vulnerability_gap
 ```
-
-reachable among encoded malignant/gap states.
 
 Therefore:
 
@@ -259,85 +254,63 @@ Therefore:
 claim := conditional
 ```
 
-and `declared_unresolved` must equal that exact set.
+and `declared_unresolved` must equal that exact ten-state set.
 
 ## Fail-closed behavior
 
-The tests now verify that:
+The test suite verifies that:
 
 ```text
-1. the full current conditional certificate passes;
-2. a closed claim fails while any encoded malignant/gap state is reachable;
-3. unresolved declarations must equal fixed-point reachability exactly;
-4. ApoE reduction remains signed rather than monotone;
-5. ferroptosis endpoint coverage does not imply handoff coverage;
-6. KDM5B reseeding returns if C_KDM5B_RESEED is removed;
-7. SOX10-low, SMC, and pigmented phenotype states return if their controls are removed;
-8. the corresponding MRD implementation-safety gaps remain explicit;
-9. adenosine immune escape returns if C_ADENOSINE_LIGAND is removed;
-10. the melanoma ligand-sink gap remains even with abstract adenosine control active;
-11. CSE persister survival returns if C_CSE_REDOX is removed;
-12. the CSE state-mapping/generalization gap remains explicit;
-13. eIF4A persister survival and adaptive mutability both return if C_TRANSLATION_PERSIST is removed;
-14. the eIF4A cross-state/generalization gap remains explicit.
+1. the current conditional certificate passes;
+2. claim := closed fails while any encoded malignant/gap state is reachable;
+3. declared_unresolved must exactly match fixed-point reachability;
+4. ApoE remains signed rather than monotone;
+5. GPX4/FSP1 endpoint coverage does not imply handoff coverage;
+6. KDM5B reseeding returns if its functional control is removed;
+7. classic MRD phenotype states return if their controls are removed;
+8. MRD implementation/redistribution gaps remain explicit;
+9. adenosine, CSE, and eIF4A direct states return when their controls are removed;
+10. their scope/generalization gaps remain explicit;
+11. RAC1 observed coupled escape returns when its composite control is removed;
+12. RAC1 FAK/MAPK generality uncertainty remains reachable even with observed-route control active.
 ```
 
 ## Evidence-file locking
 
-Every encoded edge and control carries one or more repository evidence paths. The verifier rejects empty or missing evidence references.
+Every encoded edge/control carries repository evidence paths. The verifier rejects missing or empty evidence references.
 
-This checks graph/evidence consistency, not clinical efficacy and not the independent truth of external scientific claims beyond the retained evidence audit.
+This checks graph/evidence consistency. It does not independently prove the external scientific literature or clinical efficacy.
 
 ## What this does not prove
 
 ```text
-DO_NOT_INFER :=
-this certificate represents every melanoma resistance mechanism
-
-DO_NOT_INFER :=
-all direct encoded states are safely controllable in patients
-
-DO_NOT_INFER :=
-abstract functional controls identify unique drugs or schedules
-
-DO_NOT_INFER :=
-the listed unresolved states are the only biological survivors
-
-DO_NOT_INFER :=
-active controls/probes form a treatment regimen
-
-DO_NOT_INFER :=
-conditional machine verification implies a cancer cure
-```
-
-## Remaining executable boundary
-
-The certificate now covers the major retained melanoma objects developed in this sequence, but it is still a partial research model.
-
-```text
-MISSING_OBJECT :=
-identify which retained status objects are still absent from the executable
-certificate, add them one bounded cluster at a time, and preserve fail-closed
-fixed-point semantics for every new interaction or implementation gap.
+DO_NOT_INFER := this certificate represents every melanoma resistance mechanism
+DO_NOT_INFER := abstract controls identify unique drugs, doses, or schedules
+DO_NOT_INFER := active controls/probes form a treatment regimen
+DO_NOT_INFER := the ten encoded unresolved states are the only biological survivors
+DO_NOT_INFER := conditional machine verification implies clinical efficacy or cure
 ```
 
 ## Boundary
 
 ```text
 BOUNDARY :=
-the executable melanoma graph now represents phenotype-state, niche-transition,
-immune-environment, stress-metabolic, translation/evolution, and control-induced
-escape objects, but nine encoded malignant/gap states remain reachable and
-full retained-graph or clinical closure is not established
+the executable melanoma graph now includes all major independent melanoma status
+objects currently retained in this 2026-08-31 sequence, including RAC1 coupled
+resistance, but ten encoded malignant/gap states remain reachable and the
+certificate remains conditional
 ```
+
+Supporting/refinement documents such as the ApoE 1D7 bridge and the earlier CD73 source-layer note are not duplicated as independent graph routes when their operative boundary is already represented by the signed ApoE and ligand-level adenosine objects.
 
 ## Next bounded action
 
 ```text
 NEXT_ACTIONS :=
-1. Compile this cross-state expansion on canonical PR CI.
+1. Compile the RAC1 expansion on canonical PR CI.
 2. Repair only the first authoritative failure if one appears.
-3. Merge only if all fail-closed tests pass.
-4. Audit the retained status directory against certificate evidence references
-   to find the first major already-retained melanoma object still unencoded.
+3. Merge only if the fail-closed tests pass.
+4. After merge, audit whether any retained independent melanoma status object is
+   still absent; if none is found, stop expanding breadth and attack the first
+   unresolved executable state instead.
 ```
