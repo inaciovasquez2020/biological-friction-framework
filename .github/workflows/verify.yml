@@ -26,69 +26,55 @@ jobs:
           ACTUAL=$(stat -c%s /tmp/GSM9044666_EP_Clonocluster.rds)
           echo "RDS_SIZE=${ACTUAL}"
           test "$ACTUAL" -eq "$EXPECTED"
-      - name: Diagnose endpoint RNA feature identifiers
+      - name: Diagnose Assay5 feature map
         run: |
           set -euo pipefail
           Rscript - <<'RS'
           suppressPackageStartupMessages(library(SeuratObject))
           suppressPackageStartupMessages(library(Matrix))
 
-          path <- '/tmp/GSM9044666_EP_Clonocluster.rds'
-          obj <- readRDS(path)
-          cat('CSE_FEATURE_DIAGNOSTIC_BEGIN\n')
-          cat('object_class=', paste(class(obj), collapse=','), '\n', sep='')
-          stopifnot(isS4(obj))
-          stopifnot('meta.data' %in% slotNames(obj))
-          meta <- obj@meta.data
-          stopifnot('bc_group' %in% colnames(meta))
-          stopifnot('assays' %in% slotNames(obj))
-          stopifnot('RNA' %in% names(obj@assays))
+          obj <- readRDS('/tmp/GSM9044666_EP_Clonocluster.rds')
           rna <- obj@assays[['RNA']]
-          cat('rna_class=', paste(class(rna), collapse=','), '\n', sep='')
-          cat('rna_slots=', paste(slotNames(rna), collapse='|'), '\n', sep='')
-
-          if ('data' %in% slotNames(rna)) {
-            mat <- rna@data
-            layer_source <- 'RNA@data'
-          } else if ('layers' %in% slotNames(rna) && 'data' %in% names(rna@layers)) {
-            mat <- rna@layers[['data']]
-            layer_source <- 'RNA@layers$data'
-          } else {
-            stop('normalized RNA data layer not found')
+          stopifnot(inherits(rna, 'Assay5'))
+          cat('CSE_ASSAY5_DIAGNOSTIC_BEGIN\n')
+          cat('layer_names=', paste(names(rna@layers), collapse='|'), '\n', sep='')
+          for (nm in names(rna@layers)) {
+            x <- rna@layers[[nm]]
+            cat('LAYER name=', nm,
+                ' nrow=', nrow(x),
+                ' ncol=', ncol(x),
+                ' rownames_null=', is.null(rownames(x)),
+                ' colnames_null=', is.null(colnames(x)),
+                '\n', sep='')
           }
 
-          features <- rownames(mat)
-          stopifnot(!is.null(features))
-          cat('layer_source=', layer_source, '\n', sep='')
-          cat('feature_count=', length(features), '\n', sep='')
-          cat('first_features=', paste(head(features, 10), collapse='|'), '\n', sep='')
-          cth_like <- grep('CTH', features, ignore.case=TRUE, value=TRUE)
-          cat('rownames_cth_like=', if (length(cth_like)) paste(cth_like, collapse='|') else '<none>', '\n', sep='')
-
-          if ('meta.features' %in% slotNames(rna)) {
-            mf <- rna@meta.features
-            cat('meta_features_columns=', paste(colnames(mf), collapse='|'), '\n', sep='')
-            cat('meta_features_rows=', nrow(mf), '\n', sep='')
-            hits <- integer(0)
-            if (nrow(mf) > 0 && ncol(mf) > 0) {
-              for (j in seq_len(ncol(mf))) {
-                vals <- as.character(mf[[j]])
-                hits <- union(hits, which(grepl('CTH', vals, ignore.case=TRUE)))
-              }
-            }
-            if (length(hits)) {
-              hits <- head(hits, 20)
-              for (i in hits) {
-                cat('META_CTH_HIT row=', i,
-                    ' feature=', rownames(mf)[i],
-                    ' values=', paste(as.character(mf[i, , drop=TRUE]), collapse='|'),
-                    '\n', sep='')
-              }
-            } else {
-              cat('meta_features_cth_like=<none>\n')
-            }
-          } else {
-            cat('meta_features_slot=<absent>\n')
+          fmap <- rna@features
+          cat('feature_map_class=', paste(class(fmap), collapse=','), '\n', sep='')
+          cat('feature_map_dim=', paste(dim(fmap), collapse='x'), '\n', sep='')
+          fmap_names <- rownames(fmap)
+          cat('feature_map_rownames_null=', is.null(fmap_names), '\n', sep='')
+          if (!is.null(fmap_names)) {
+            cat('feature_map_first=', paste(head(fmap_names, 10), collapse='|'), '\n', sep='')
+            hits <- grep('CTH', fmap_names, ignore.case=TRUE, value=TRUE)
+            cat('feature_map_cth_like=', if (length(hits)) paste(hits, collapse='|') else '<none>', '\n', sep='')
           }
-          cat('CSE_FEATURE_DIAGNOSTIC_END\n')
+
+          assay_names <- tryCatch(rownames(rna), error=function(e) NULL)
+          cat('assay_rownames_null=', is.null(assay_names), '\n', sep='')
+          if (!is.null(assay_names)) {
+            cat('assay_feature_count=', length(assay_names), '\n', sep='')
+            cat('assay_first=', paste(head(assay_names, 10), collapse='|'), '\n', sep='')
+            hits <- grep('CTH', assay_names, ignore.case=TRUE, value=TRUE)
+            cat('assay_cth_like=', if (length(hits)) paste(hits, collapse='|') else '<none>', '\n', sep='')
+          }
+
+          layer_features <- tryCatch(Features(rna, layer='data'), error=function(e) NULL)
+          cat('Features_data_null=', is.null(layer_features), '\n', sep='')
+          if (!is.null(layer_features)) {
+            cat('Features_data_count=', length(layer_features), '\n', sep='')
+            cat('Features_data_first=', paste(head(layer_features, 10), collapse='|'), '\n', sep='')
+            hits <- grep('CTH', layer_features, ignore.case=TRUE, value=TRUE)
+            cat('Features_data_cth_like=', if (length(hits)) paste(hits, collapse='|') else '<none>', '\n', sep='')
+          }
+          cat('CSE_ASSAY5_DIAGNOSTIC_END\n')
           RS
