@@ -14,7 +14,7 @@ Can the previously unresolved ApoE signed tradeoff be narrowed by requiring extr
 
 `RESULT := BLOCKING-ANTIBODY BRIDGE EXTENDED TO THE IMMUNE EDGE`
 
-Independent melanoma studies now support all four outcome classes under extracellular ApoE-blocking perturbations, but not in one matched experiment and not with one proven-identical antibody reagent.
+Independent melanoma studies support all four outcome classes under extracellular ApoE-blocking perturbations, but not in one matched experiment and not with one proven-identical antibody reagent.
 
 ### 1. Ferroptosis edge
 
@@ -51,7 +51,24 @@ DO_NOT_INFER :=
 anti-APOE blocking antibody in the B16 immune study = 1D7
 ```
 
-The immune paper describes a human anti-APOE / anti-APOE blocking antibody in its assay, but the main methods section does not identify it as clone `1D7` or provide a reagent identity sufficient to prove equivalence to the `1D7` used in the ferroptosis and invasion studies.
+## Public reagent-identity audit
+
+`REAGENT_IDENTITY_AUDIT := NOT RESOLVED FROM PUBLIC PAPER/PATENT`
+
+The 2022 B16-F10 paper describes the immune-assay reagent only as a `human anti-APOE antibody` / `anti-APOE blocking antibody` and gives assay concentrations. The paper does not provide a clone name, vendor, catalog number, isotype, epitope, sequence, or other identifier sufficient to reproduce the exact antibody identity.
+
+The related patent `WO2023086777A1`, which reproduces the same B16/splenocyte anti-APOE blocking-antibody experiment, likewise does not identify a clone, vendor, catalog number, or epitope for the experimental antibody and contains no `1D7` identifier.
+
+Therefore:
+
+```text
+UNRESOLVED_REAGENT_METADATA :=
+clone + vendor + catalog + isotype + epitope + sequence/species-reactivity metadata
+```
+
+The functional immune result remains a reported blocking-antibody result, but the public record inspected here does not establish molecular identity or equivalence to `1D7`.
+
+This distinction matters because `1D7` is a historically characterized monoclonal antibody whose epitope lies within the ApoE receptor-binding region, approximately residues 139–169 and most likely near 140–150. Historical work also reported reagent-specific complications in some `1D7` IgG preparations.
 
 ## Matched-context closure remains failed
 
@@ -65,12 +82,6 @@ No single melanoma experiment identified in this audit jointly measures, under o
 4. endothelial recruitment/angiogenesis.
 
 The studies differ in melanoma model, immune context, endpoint, timing, and antibody/reagent characterization. Their effect directions therefore cannot be collapsed into a proved scalar net-benefit sign.
-
-## Reagent boundary
-
-`1D7` is an old monoclonal antibody directed at the ApoE receptor-binding region. Historical biochemical work reported that some `1D7` IgG preparations could contain mouse ApoE-associated activity capable of perturbing LDL-receptor binding independently of simple ApoE immunoreactivity.
-
-Therefore a future matched experiment must establish the molecular identity, purity, and on-target extracellular ApoE-blocking behavior of the perturbation used.
 
 ## Weakest missing object
 
@@ -87,17 +98,15 @@ validated extracellular ApoE-blocking perturbation that jointly measures:
 with controls sufficient to establish on-target ApoE blockade.
 ```
 
-The narrowest reagent-level uncertainty is now:
+The reagent-level boundary is now precise:
 
 ```text
-UNRESOLVED_REAGENT_IDENTITY :=
-identity / epitope equivalence of the anti-APOE blocking antibody used in the
-B16 immune assay relative to 1D7
+BOUNDARY_REAGENT :=
+¬ molecular identity/equivalence(B16 immune antibody, 1D7) established
+from the public article or related patent
 ```
 
-The narrowest biological uncertainty remains the joint sign in one matched melanoma context.
-
-## Boundary
+The biological boundary remains:
 
 ```text
 BOUNDARY :=
@@ -114,9 +123,11 @@ ApoE remains a signed environmental coupling, not an admissible monotone treatme
 - Pencheva et al., Cell (2012); extracellular ApoE neutralization with `1D7` increases melanoma invasion and endothelial recruitment.
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC3753115/
   - https://pubmed.ncbi.nlm.nih.gov/23142051/
-- Tumor ApoE immune checkpoint study; anti-APOE blocking antibody increases IFNγ in immunogenic B16/splenocyte coculture, while ApoE knockout/conditioned-media experiments independently support tumor-ApoE-mediated immune suppression.
+- Tumor ApoE immune checkpoint study; anti-APOE blocking antibody increases IFNγ in immunogenic B16/splenocyte coculture, while the public methods do not molecularly identify that antibody.
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC9626815/
   - https://pubmed.ncbi.nlm.nih.gov/36341364/
+- Related patent reproducing the B16 anti-APOE blocking-antibody experiment without resolving the experimental antibody clone/identity.
+  - https://patents.google.com/patent/WO2023086777A1/en
 - Ostendorf et al., Nature Medicine (2020); APOE2/APOE4 knock-in melanoma models jointly connect genotype to progression, immunity, invasion and endothelial recruitment, but not ferroptosis.
   - https://pubmed.ncbi.nlm.nih.gov/32451497/
 - Historical `1D7` receptor-binding and reagent literature.
@@ -127,10 +138,10 @@ ApoE remains a signed environmental coupling, not an admissible monotone treatme
 
 ```text
 NEXT_ACTIONS :=
-1. Resolve the molecular identity/clone of the anti-APOE blocking antibody used
-   in the B16 immune assay if possible from supplementary or author-provided
-   reagent metadata.
+1. Retire public clone-identification as closed-by-literature unless new primary
+   reagent metadata appears; do not assume the B16 antibody is 1D7.
 2. Search for a melanoma model measuring both immune activation and
-   invasion/metastatic behavior under the same extracellular ApoE blockade.
+   invasion/metastatic behavior under the same molecularly identified
+   extracellular ApoE blockade.
 3. Do not rerun the no-escape optimizer as though the ApoE net sign were closed.
 ```
