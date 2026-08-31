@@ -50,6 +50,31 @@ DO_NOT_COLLAPSE := S_SMC into the ferroptosis GPX4/FSP1 switch
 
 The current evidence supports S_SMC as a distinct metabolic persister object in the residual graph.
 
+## Natural MRD trajectory refinement
+
+The SMC state is not merely a parallel terminal phenotype. Pseudotime/trajectory analyses of the Rambow MRD system place SMC early in the adaptive response and support subsequent movement toward either a differentiated pigmented state or dedifferentiated NCSC/invasive states. The 2023 JCI paper explicitly describes CD36+ SMC as an important transitory state leading to emergence of other MAPKi-tolerant states.
+
+For the executable graph, retain the natural untreated-control trajectory as:
+
+```text
+therapy pressure
+  -> S_SMC
+      -> pigmented / MITF-high MRD
+      -> NCSC MRD
+      -> invasive / SOX10-low MRD
+```
+
+These are natural state-transition edges under MAPKi adaptation. They are not asserted to be caused by PEX3/UGCG control.
+
+```text
+DO_NOT_INFER :=
+SMC -> downstream MRD trajectory
+=>
+C_SMC_METABOLIC induces downstream-state redistribution
+```
+
+That latter implication requires a post-control composition experiment and remains unresolved.
+
 ## Why existing abstract controls do not close S_SMC
 
 ### MAPK control
@@ -102,31 +127,50 @@ DO_NOT_INFER :=
 control(S_SMC) => control(all melanoma MRD states)
 ```
 
-In fact, the CD36+ SMC state is described as a transitory MRD state that can feed emergence of other drug-tolerant states. Selective removal of S_SMC can therefore strengthen the graph without proving global closure.
+The 2023 study directly demonstrates selective elimination of MAPKi-induced CD36+ persister cells and delayed resistance, but it does not report a matched post-control single-cell composition showing whether remaining cells are enriched or depleted for NCSC, invasive/SOX10-low, or pigmented states.
+
+The natural SMC trajectory is therefore now represented explicitly, while the intervention-specific redistribution question stays open.
 
 ## Weakest missing object
 
 ```text
 MISSING_OBJECT :=
-a matched-MRD state-coverage certificate showing whether C_SMC_METABOLIC:
+a matched-MRD post-control state-coverage certificate showing whether
+C_SMC_METABOLIC:
 
 1. eliminates CD36+ SMCs in the same MRD population,
-2. prevents transition from SMC into other tolerant states,
-3. does not merely redistribute surviving cells into NCSC, invasive, or
-   pigmented residual states,
+2. prevents or changes transition from SMC into downstream tolerant states,
+3. does not merely enrich surviving NCSC, invasive/SOX10-low, or pigmented cells,
 4. remains effective in clinically relevant BRAF-, NRAS-, and NF1-associated
    MAPK-inhibited contexts,
 5. does not create an uncovered metastatic / immune-escape phenotype.
 ```
 
-Until that object exists, S_SMC receives its own state-specific control requirement.
+The minimum informative experiment is a pre/post-control matched MRD composition analysis under continued MAPK pressure, ideally with single-cell or lineage/barcode resolution and long-term outgrowth.
+
+## Executable graph consequence
+
+The certificate now distinguishes:
+
+```text
+KNOWN_NATURAL_EDGES :=
+S_SMC -> pigmented_mitf_persister
+S_SMC -> ncsc_nongenetic_escape
+S_SMC -> sox10_low_mrd
+
+UNRESOLVED_CONTROL_EDGE :=
+C_SMC_METABOLIC -> ? redistribution / survivor-state enrichment
+```
+
+The existing destination-state controls are required to intercept the new natural incoming edges as well as the direct therapy-pressure edges. This preserves state-control semantics without pretending the SMC-control redistribution problem is solved.
 
 ## Boundary
 
 ```text
 BOUNDARY :=
-not proved that peroxisome/UGCG control closes the full melanoma MRD state space;
-it is supported as a selective vulnerability of CD36+ SMC persisters
+natural SMC-to-other-MRD trajectories are represented,
+but it is not proved that peroxisome/UGCG control prevents or avoids
+post-control redistribution into another tolerant state
 ```
 
 ## Evidence anchors
@@ -142,8 +186,10 @@ it is supported as a selective vulnerability of CD36+ SMC persisters
 
 ```text
 NEXT_ACTIONS :=
-1. Add abstract C_SMC_METABOLIC to the retained control set.
-2. Recompute the residual MRD-state graph without claiming global MRD closure.
-3. Test the SOX10-positive / NGFR-high NCSC-RXRG state next, because it is
-   transcriptionally distinct from both S_SMC and the already encoded SOX10-low state.
+1. Keep the three natural SMC destination edges in the executable graph.
+2. Keep smc_redistribution_gap reachable.
+3. Search specifically for post-PEX3/UGCG or post-CD36-state-control single-cell,
+   lineage, or marker-composition data under continued MAPKi pressure.
+4. Retire smc_redistribution_gap only if those data show the intervention does
+   not merely redirect the surviving reservoir into another MRD state.
 ```
