@@ -121,36 +121,58 @@ Therefore `S_KDM5B` remains separately represented.
 
 ## Weakest missing object
 
-The retained 2022 state-lock study already supplies more of the reseeding certificate than the earlier boundary credited.
+The retained 2022 study imposes a stricter implementation boundary than a simple `state-lock + MAPKi` model.
 
-Under continuous Cpd1 exposure, limited-dilution and 3D-colony assays showed loss of melanoma tumor-repopulation properties. A short 3-day pretreatment followed by drug withdrawal did not preserve that effect, directly supporting the interpretation that sustained state-lock, rather than transient KDM5B elevation, is required. Melanoma populations that had already developed MAPK-inhibitor resistance also responded to chemical enforcement of the KDM5B-high phenotype.
+KDM5B upregulation decreased susceptibility to MAPK-pathway inhibition across the tested melanoma cell lines. Thus sustained KDM5B-high enforcement can suppress proliferation and plasticity while simultaneously creating an immediately therapy-tolerant slow-cycling state. State-lock alone therefore cannot be counted as an additive MAPKi killing mechanism.
 
-The same study then tested Cpd1 in both a human melanoma xenograft and an immunocompetent syngeneic melanoma model. Tumor growth was significantly reduced versus vehicle in both models, and ex-vivo tumor immunostaining confirmed a shift toward high KDM5B expression states.
+The same study also supplies a stronger second-hit proof-of-concept than the earlier boundary credited. Cpd1 drove melanocytic differentiation and tyrosinase expression, creating sensitivity to the tyrosinase-processed lineage-directed agent TMECG. In established WM3734 xenografts, one week of Cpd1 priming followed by TMECG significantly reduced tumor growth, whereas starting Cpd1 and TMECG concurrently did not reduce tumor size within the reported protocol.
 
 ```text
 ESTABLISHED :=
-sustained KDM5B-high state enforcement can reduce repopulation properties
-in melanoma cells and can suppress melanoma tumor growth in vivo while
-maintaining the intended KDM5B-high state shift
+sustained KDM5B-high state enforcement can reduce melanoma repopulation
+properties and suppress tumor growth, but KDM5B-high enforcement can also
+reduce immediate MAPKi susceptibility
+
+ESTABLISHED :=
+state transition followed by a matched lineage-directed second hit can reduce
+established melanoma xenograft growth in the tested sequential Cpd1 -> TMECG
+proof-of-concept schedule
 ```
 
-What is not established is a matched residual-disease experiment combining that state-lock with continued MAPK-targeted pressure and then resolving whether surviving cells escape by transitioning into another retained MRD state.
+Therefore the admissible state-lock implementation is sequence-dependent:
+
+```text
+DO_NOT_INFER :=
+KDM5B-high state-lock + MAPKi
+=> elimination of the KDM5B persister reservoir
+
+REQUIRED_STRUCTURE :=
+state transition / lock
+-> verified state-specific vulnerability
+-> elimination of the locked residual population
+```
+
+What remains unproved is the clinically relevant residual-disease composition of that sequence under MAPK-targeted pressure.
 
 ```text
 MISSING_OBJECT :=
-a matched melanoma residual-disease experiment showing that sustained
-C_KDM5B_RESEED implementation under continued MAPK-targeted pressure:
+a matched melanoma residual-disease experiment showing that a complete
+C_KDM5B_RESEED implementation under MAPK-targeted pressure:
 
-1. preserves the demonstrated KDM5B-high state lock in residual tumor cells,
-2. prevents long-term relapse / resistant repopulation rather than only
-   reducing contemporaneous tumor growth,
-3. does not merely redistribute survivors into pigmented, SMC, NCSC,
+1. identifies and preserves the intended KDM5B-high state transition in the
+   residual population,
+2. applies a verified second hit that eliminates rather than merely arrests the
+   locked KDM5B-high cells,
+3. prevents long-term relapse / resistant repopulation after the sequence,
+4. does not merely redistribute survivors into pigmented, SMC, NCSC,
    invasive/SOX10-low, or another uncovered persister state,
-4. preserves the already retained metastatic and immune boundaries,
-5. generalizes beyond the tested models before any universal claim is made.
+5. resolves the observed KDM5B-high / MAPKi tolerance antagonism rather than
+   assuming state-lock itself increases MAPKi killing,
+6. preserves the already retained metastatic and immune boundaries,
+7. generalizes beyond the tested models before any universal claim is made.
 ```
 
-The missing object is therefore no longer proof that sustained KDM5B state-lock can reduce repopulation or tumor growth; those functions are directly supported. The remaining gap is transition-safe, MAPKi-context relapse control.
+The missing object is therefore no longer simply sustained KDM5B state-lock under continued MAPKi. It is a transition-then-elimination residual-disease sequence with long-term relapse and state-redistribution readouts.
 
 ## Boundary
 
