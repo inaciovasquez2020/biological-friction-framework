@@ -2,7 +2,7 @@
 
 ## Status
 
-`CONDITIONAL / LITERATURE-BOUNDED MODEL`
+`CONDITIONAL / LITERATURE- AND SOURCE-DATA-BOUNDED MODEL`
 
 This document records a bounded structural result for a melanoma residual-disease / metastatic-escape model. It is not clinical guidance, a treatment recommendation, or evidence of a cure.
 
@@ -91,6 +91,48 @@ FSP1 dependency in hypoxic LN => persistent FSP1 dependency in blood
 
 The endpoint niches are experimentally distinguishable; the functional dependency handoff itself remains unresolved.
 
+## Direct Fig. 3 source-data audit
+
+`SOURCE_DATA_AUDIT := REOXYGENATION SERIES IS GPX4-ONLY ON THE DEPOSITED FIG. 3 SURFACE`
+
+The deposited Nature Source Data Fig. 3 workbook (`41586_2025_9709_MOESM7_ESM.xlsx`) was downloaded and inspected directly with a temporary repository Actions probe. The workbook contains these sheets:
+
+```text
+Fig. 3b
+Fig. 3d
+Fig. 3h
+Fig. 3j
+Fig. 3k
+Fig. 3m
+Fig. 3n
+```
+
+The reoxygenation sheet is explicitly:
+
+```text
+Fig. 3d
+A2 := "GPX4 protein levels - re-oxygenation"
+B3 := "2 hrs re-oxygenation"
+D3 := "4 hrs re-oxygenation"
+F3 := "8 hrs re-oxygenation"
+```
+
+Across the deposited Fig. 3 workbook, the source-data label audit found GPX4 reoxygenation entries but no `FSP1`-labelled measurement on that same source-data surface.
+
+Therefore the missing simultaneous trajectory is not merely an omission from narrative wording:
+
+```text
+ESTABLISHED_FROM_SOURCE_DATA :=
+GPX4 protein is measured at 2 h, 4 h, and 8 h reoxygenation in Fig. 3d
+
+NOT_PRESENT_ON_MATCHED_FIG3_REOXYGENATION_SURFACE :=
+FSP1 abundance or FSP1 functional dependency at those same time points
+```
+
+This source-data audit does **not** prove that FSP1 was never measured anywhere else in the broader study or supplementary material. It establishes the narrower point needed for the handoff certificate: the deposited Fig. 3 GPX4 reoxygenation time course itself is not a paired GPX4/FSP1 trajectory.
+
+The temporary download workflow used to inspect the workbook is not part of the scientific control graph and is not to be merged into `main`.
+
 ## Weakest transition invariant
 
 Let:
@@ -135,7 +177,7 @@ HANDOFF_INVARIANT_STATUS := UNPROVED
 
 The earliest reported reoxygenation measurement in the GPX4 recovery experiment is 2 hours, followed by 4 and 8 hours.
 
-But the missing interval cannot be reduced merely to `0 < t < 2 h`, because the measured quantity is GPX4 protein abundance, not GPX4 functional dependency, and FSP1 dependency was not assayed at the same reoxygenation time points.
+But the missing interval cannot be reduced merely to `0 < t < 2 h`, because the measured quantity is GPX4 protein abundance, not GPX4 functional dependency, and the direct Fig. 3 source-data audit confirms that FSP1 was not assayed on the same reoxygenation series.
 
 The precise missing measurements are therefore:
 
@@ -185,7 +227,9 @@ This remains the first unresolved non-ApoE metastatic-state boundary in the curr
 ```text
 BOUNDARY :=
 not proved that GPX4/FSP1 surveillance provides continuous functional coverage
-across lymph-node, reoxygenation, and hematogenous melanoma states
+across lymph-node, reoxygenation, and hematogenous melanoma states; the deposited
+Fig. 3 reoxygenation series directly measures GPX4 protein but does not provide
+a matched FSP1 time course
 ```
 
 ## Evidence anchors
@@ -196,6 +240,7 @@ across lymph-node, reoxygenation, and hematogenous melanoma states
 - Palma et al., Nature (2025), `Lymph node environment drives FSP1 targetability in metastasizing melanoma`.
   - https://www.nature.com/articles/s41586-025-09709-1
   - https://pubmed.ncbi.nlm.nih.gov/41193799/
+  - Source Data Fig. 3: `41586_2025_9709_MOESM7_ESM.xlsx`
 
 ## Next bounded action
 
@@ -203,8 +248,7 @@ across lymph-node, reoxygenation, and hematogenous melanoma states
 NEXT_ACTIONS :=
 1. Retain SUFFICIENT_HANDOFF_INVARIANT as the exact transition requirement.
 2. Do not substitute GPX4 protein recovery for functional GPX4 dependency.
-3. Search for same-population reoxygenation experiments measuring GPX4- and
-   FSP1-dependency simultaneously.
-4. If none exists, retain R_FERROPTOSIS_SWITCH and return to the next independent
-   residual state in the full escape graph.
+3. Do not treat the Fig. 3 reoxygenation series as a paired GPX4/FSP1 time course.
+4. Search for an independent same-population reoxygenation experiment measuring
+   both functional dependencies; if none exists, retain R_FERROPTOSIS_SWITCH.
 ```
