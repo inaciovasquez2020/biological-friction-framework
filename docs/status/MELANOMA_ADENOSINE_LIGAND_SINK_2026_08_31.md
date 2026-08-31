@@ -76,6 +76,51 @@ The 2023 PEG-ADA study includes melanoma in its CD73-positive MDSC characterizat
 
 Therefore the melanoma-specific ligand-sink certificate remains missing.
 
+## 2025 B16-F10 IL-12 + ADA engineered-bacteria near-miss
+
+A 2025 Blood / ASH conference poster abstract reports a localized adenosine-depletion platform that is materially closer to the missing melanoma object.
+
+The study engineered non-pathogenic *E. coli* to display adenosine deaminase (ADA), IL-12, or a combined IL-12+ADA construct. The abstract reports:
+
+```text
+ADA enzymatic activity -> extracellular adenosine converted to inosine in vitro
+ADA-containing bacteria -> immune-function rescue in adenosine-rich AML assays
+intratumoral IL-12+ADA bacteria -> complete regression in a B16-F10 melanoma arm
+```
+
+This is important melanoma-specific evidence that a localized ADA-containing platform can coexist with strong B16-F10 tumor control.
+
+However, the available publication is a conference-poster abstract whose experimental center of gravity is AML. The B16-F10 result does not report the matched measurements required to discharge this repository boundary.
+
+In particular, the abstract does not establish in the same melanoma experiment:
+
+```text
+1. measured intratumoral extracellular-adenosine reduction,
+2. melanoma-specific CD8/T-cell functional rescue attributable to ADA,
+3. decomposition of ADA versus IL-12 versus combination contribution in the
+   reported B16-F10 regression result,
+4. coverage of membrane, soluble/exosomal, and noncanonical adenosine sources,
+5. absence of a new dissemination or host-safety failure.
+```
+
+The abstract reports ADA-alone and combination comparisons in the AML in-vivo model, but the stated B16-F10 melanoma outcome is specifically the intratumoral IL-12+ADA combination. Therefore the melanoma result cannot be promoted to an ADA-only ligand-sink certificate.
+
+A targeted search through 2026 did not identify a full peer-reviewed melanoma follow-up resolving those missing measurements.
+
+Thus:
+
+```text
+NEAR_MISS :=
+B16-F10 + localized IL-12/ADA bacterial platform + strong tumor-control outcome
+
+DO_NOT_INFER :=
+NEAR_MISS => melanoma-specific source-independent ligand-sink closure
+
+MELANOMA_LIGAND_SINK_SEARCH := STILL OPEN / UNRESOLVED
+```
+
+This near-miss narrows the experimental missing object: localized ADA delivery in melanoma is no longer merely hypothetical, but matched mechanistic attribution and source-independent immune restoration remain unproved.
+
 ## Source coverage
 
 At the abstraction level:
@@ -124,10 +169,11 @@ spatially admissible extracellular-adenosine control:
 3. suppresses both A2A-dominant lymphoid and A2B-associated myeloid escape,
 4. remains effective when adenosine is supplied by membrane, soluble/exosomal,
    and noncanonical production routes,
-5. does not create an uncovered dissemination or host-safety failure.
+5. separates the ligand-sink contribution from co-delivered immune stimulants,
+6. does not create an uncovered dissemination or host-safety failure.
 ```
 
-Until that object exists, the correct graph node is the functional ligand-level constraint rather than a particular receptor, enzyme inhibitor, antibody, or drug.
+Until that object exists, the correct graph node is the functional ligand-level constraint rather than a particular receptor, enzyme inhibitor, antibody, drug, or combination platform.
 
 ## Boundary
 
@@ -136,6 +182,8 @@ BOUNDARY :=
 not proved that a single source-independent extracellular-adenosine control
 closes melanoma immune escape safely and durably
 ```
+
+The 2025 B16-F10 IL-12+ADA abstract strengthens biological plausibility but does not change that boundary.
 
 ## Evidence anchors
 
@@ -147,6 +195,9 @@ closes melanoma immune escape safely and durably
 - Monocytic MDSCs exhibit superior immune suppression via adenosine; PEG-ADA depleted intratumoral adenosine, increased functional CD8-positive T-cell responses, and enhanced anti-PD-1 activity in preclinical solid-tumor models; the study also included B16-F10 melanoma in its CD73/MDSC analyses.
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC10313166/
   - https://pubmed.ncbi.nlm.nih.gov/37390211/
+- Sendker et al., Blood 2025 supplement / ASH poster 5912, `Dual-function engineered bacteria remodel AML tumor microenvironment via IL-12 delivery and adenosine depletion to sustain NK cell immunity`; includes the reported intratumoral IL-12+ADA B16-F10 melanoma result.
+  - https://www.sciencedirect.com/science/article/pii/S0006497125086598
+  - https://doi.org/10.1182/blood-2025-5912
 - General adenosine-pathway review documenting multiple production routes and complementary A2A/A2B signaling.
   - https://www.nature.com/articles/s41571-020-0382-2
 - 2025 pharmacology review of A2A/A2B adenosine signaling and dual-receptor strategies.
@@ -156,8 +207,9 @@ closes melanoma immune escape safely and durably
 
 ```text
 NEXT_ACTIONS :=
-1. Retain C_ADENOSINE_LIGAND as an abstract missing control rather than splitting
-   membrane, soluble and exosomal CD73 into separate mandatory controls.
-2. Return to the full residual graph and identify the next uncovered non-ApoE
-   melanoma state after abstract adenosine coverage.
+1. Retain adenosine_ligand_sink_gap as reachable in the executable certificate.
+2. Search specifically for melanoma ADA-only or mechanistically decomposed
+   ligand-depletion studies measuring intratumoral adenosine plus functional
+   antitumor immune rescue.
+3. Retire the gap only if that matched mechanistic certificate appears.
 ```
