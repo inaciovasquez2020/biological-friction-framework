@@ -110,17 +110,32 @@ A pigmented-state control is useful only if it does not create an uncovered tran
 
 ## Weakest missing object
 
+Smith et al. provides a stronger functional control surface than a simple association between MITF and pigmentation. In tested melanoma systems, PAX3/MITF suppression or MITF depletion sensitized cells to MAPK inhibition; combined PAX3/MITF suppression with MAPK inhibition prevented resistant colony outgrowth in drug-tolerant A375 derivatives; and in A375 xenografts the combination abolished treatment-induced PAX3/MITF upregulation while producing substantial tumor regression. Related sensitization was also demonstrated in tested NRAS-mutant melanoma models.
+
+```text
+ESTABLISHED :=
+the PAX3/MITF survival program is functionally suppressible in tested
+BRAF- and NRAS-associated melanoma models, and its suppression can improve
+MAPK-inhibitor response and suppress resistant outgrowth
+```
+
+Those experiments do not identify the residual survivors by the matched Rambow four-state MRD decomposition. Reduced MITF expression or tumor burden is therefore not equivalent to proving selective elimination of `S_PIGMENTED`, and it does not show whether surviving cells shift toward SMC, NCSC, or invasive/SOX10-low states.
+
 ```text
 MISSING_OBJECT :=
-a matched-MRD state-transition certificate demonstrating that control of the
-MITF-high / pigmented state:
+a matched post-control MRD state-composition / transition certificate showing
+that a validated PAX3/MITF- or pigmented-state control, in the same residual
+population under continued MAPK pressure:
 
-1. reduces the pigmented persister population under continued MAPK pressure,
-2. suppresses its functional survival program rather than pigmentation alone,
-3. does not increase SMC, NCSC, or invasive/SOX10-low residual populations,
-4. remains effective across relevant melanoma genotypes and MRD contexts,
+1. depletes the transcriptomically defined pigmented / MITF-high persister state,
+2. does not merely convert or enrich survivors into SMC, NCSC, or
+   invasive/SOX10-low states,
+3. preserves the effect through long-term residual outgrowth,
+4. generalizes across relevant melanoma genotypes and MRD contexts,
 5. preserves the already retained immune/metastatic boundaries.
 ```
+
+The minimum informative experiment is therefore state-resolved survivor mapping after a functionally validated pigmented/MITF control, rather than another demonstration that MITF suppression sensitizes bulk melanoma cells to MAPK inhibition.
 
 ## Four-state Rambow coverage status
 
