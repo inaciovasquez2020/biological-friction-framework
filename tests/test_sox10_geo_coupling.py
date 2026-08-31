@@ -68,7 +68,7 @@ def test_gse259389_wide_matrix_ratios(tmp_path):
     path = tmp_path / "GSE259389_allSamples.txt"
     columns = ["gene"]
     for clone in ("218", "421"):
-        for treatment in ("DMSO", "OPN9643", "OPN9652"):
+        for treatment in ("DMSO", "OPN8643", "OPN9652"):
             for rep in (1, 2, 3):
                 columns.append(f"{clone}_{treatment}_{rep}")
 
@@ -77,8 +77,8 @@ def test_gse259389_wide_matrix_ratios(tmp_path):
         for symbol, base in {"BIRC3": 100, "JUND": 80, "JUN": 60, "FOSL2": 40}.items():
             row = [symbol]
             for clone in ("218", "421"):
-                for treatment in ("DMSO", "OPN9643", "OPN9652"):
-                    scale = {"DMSO": 1.0, "OPN9643": 0.7, "OPN9652": 0.5}[treatment]
+                for treatment in ("DMSO", "OPN8643", "OPN9652"):
+                    scale = {"DMSO": 1.0, "OPN8643": 0.7, "OPN9652": 0.5}[treatment]
                     row.extend([str(base * scale)] * 3)
             f.write("\t".join(row) + "\n")
 
@@ -86,13 +86,13 @@ def test_gse259389_wide_matrix_ratios(tmp_path):
     assert result["dataset"] == "GSE259389"
     assert result["status"] == "descriptive_only"
     assert result["contrasts"]["218"]["OPN9652"]["BIRC3"]["ratio"] < 1
-    assert result["contrasts"]["421"]["OPN9643"]["JUN"]["ratio"] < 1
+    assert result["contrasts"]["421"]["OPN8643"]["JUN"]["ratio"] < 1
 
 
 def test_gse259389_fails_without_both_matched_clones(tmp_path):
     path = tmp_path / "matrix.txt"
     with open(path, "w", encoding="utf-8") as f:
-        f.write("gene\t218_DMSO_1\t218_DMSO_2\t218_DMSO_3\t218_OPN9643_1\t218_OPN9643_2\t218_OPN9643_3\t218_OPN9652_1\t218_OPN9652_2\t218_OPN9652_3\n")
+        f.write("gene\t218_DMSO_1\t218_DMSO_2\t218_DMSO_3\t218_OPN8643_1\t218_OPN8643_2\t218_OPN8643_3\t218_OPN9652_1\t218_OPN9652_2\t218_OPN9652_3\n")
         for symbol in GENES:
             f.write(symbol + "\t" + "\t".join(["1"] * 9) + "\n")
     with pytest.raises(AssertionError, match="need >=3 421 DMSO replicates"):
