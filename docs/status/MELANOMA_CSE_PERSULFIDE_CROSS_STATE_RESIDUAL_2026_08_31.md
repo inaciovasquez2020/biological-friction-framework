@@ -104,7 +104,7 @@ This is the first major scope boundary for the route.
 
 ## State-mapping boundary
 
-The paper establishes CSE as vital to the studied persister population but does not provide a matched four-state MRD atlas assigning functional CSE dependency separately to:
+The 2025 CSE paper establishes CSE as vital to the studied persister population but does not provide a matched four-state MRD atlas assigning functional CSE dependency separately to:
 
 ```text
 pigmented
@@ -113,14 +113,36 @@ NCSC
 invasive / SOX10-low
 ```
 
-Therefore:
+An independent melanoma thiol-stress study adds a specific plasticity constraint to this missing object. Meinert et al. (Redox Biology, 2024) showed that genetic xCT loss in a BRAF-V600E/Pten melanoma model increased `Cth`, while cystine withdrawal or glutathione depletion in human melanoma cells activated compensatory ATF4/NRF2 programs and produced a loss of differentiation markers with induction of pro-invasive features. The xCT-deficient tumors also showed `Cth` elevation together with EMT-gene enrichment.
+
+This is adjacent-pathway evidence, not a CSE-perturbation experiment. It therefore cannot assign CSE dependency to a specific MRD state and cannot be used to claim that CSE inhibition itself causes dedifferentiation.
+
+```text
+ESTABLISHED :=
+adjacent thiol stress can couple compensatory CTH induction with a
+less-differentiated / pro-invasive melanoma state program
+
+DO_NOT_INFER :=
+CSE inhibition => the same state switch
+
+DO_NOT_INFER :=
+pro-invasive state identity => unique CSE dependency
+```
+
+The redistribution test is therefore load-bearing rather than optional:
 
 ```text
 MISSING_OBJECT :=
-a matched single-cell / functional-dependency map showing which melanoma MRD
-states require CSE/H2S-persulfide buffering, whether the dependency is shared
-across states, and whether CSE control redistributes survivors into another
-state rather than eliminating the persister reservoir.
+a matched single-cell / functional-dependency map under continued MAPK pressure
+showing, after direct CTH/CSE perturbation:
+
+1. which melanoma MRD states require CSE/H2S-persulfide buffering,
+2. whether the dependency is shared across states,
+3. whether surviving lineages are eliminated or instead shift toward a
+   less-differentiated / pro-invasive program,
+4. whether any such program is actually equivalent to a retained MRD class
+   rather than inferred from marker similarity alone,
+5. whether long-term residual outgrowth remains suppressed.
 ```
 
 ## 2026 lineage-tracing / single-cell state-mapping audit
