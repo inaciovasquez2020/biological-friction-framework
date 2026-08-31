@@ -31,6 +31,9 @@ jobs:
           curl --fail --location --retry 3 \
             https://ftp.ncbi.nlm.nih.gov/geo/series/GSE259nnn/GSE259389/suppl/GSE259389_allSamples.txt.gz \
             --output /tmp/GSE259389_allSamples.txt.gz
+          echo 'GSE259389_HEADER_BEGIN'
+          gzip -cd /tmp/GSE259389_allSamples.txt.gz | head -n 1 || true
+          echo 'GSE259389_HEADER_END'
 
       - name: Analyze GSE259389 matched clones
         run: |
