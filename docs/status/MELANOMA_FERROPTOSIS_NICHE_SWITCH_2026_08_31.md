@@ -24,7 +24,7 @@ Nature (2020) showed that melanoma cells transiting through blood experience gre
 
 Nature (2025) showed that lymph-node-derived melanoma cells in a hypoxic lymphatic niche have reduced GCLC/GSH and reduced GPX4. Low oxygen promotes GPX4 ubiquitination/proteasomal degradation, and these cells acquire increased reliance on FSP1. Selective FSP1 inhibition suppressed melanoma growth in lymph nodes in the tested models but not in subcutaneous tumors.
 
-The same 2025 study showed that low-oxygen GPX4 reduction is reversible after reoxygenation, making the dependency dynamically state- and niche-dependent.
+The same study showed that GPX4 protein is rapidly restored after reoxygenation following a low-oxygen interval.
 
 Therefore:
 
@@ -56,59 +56,70 @@ This is a control abstraction. It does not select a drug, dose, delivery route, 
 
 The stronger missing object is not simply a second target. Melanoma cells can move between niches whose ferroptosis surveillance programs differ.
 
-The current evidence supports:
-
 ```text
 lymph / LN niche
   -> low oxidative stress / hypoxia
-  -> reduced GPX4 reliance
+  -> reduced GPX4 abundance / reliance
   -> FSP1 reliance
 
 reoxygenation / blood transition
-  -> GPX4 protein can recover
+  -> GPX4 protein recovers
   -> ferroptosis-surveillance state changes
 ```
 
-Therefore a static hitting set over `{GPX4, FSP1}` does not by itself prove closure. A cell could, in principle, switch surveillance state during dissemination.
+A static hitting set over `{GPX4, FSP1}` therefore does not by itself establish continuous coverage during dissemination.
+
+## Transition literature audit
+
+`TRANSITION_RESOLVED_SEARCH := NO DIRECT CERTIFICATE IDENTIFIED`
+
+A targeted search found direct evidence for rapid GPX4 recovery after reoxygenation, but did not identify a direct experiment establishing whether FSP1 dependency:
+
+```text
+persists,
+disappears,
+or overlaps with restored GPX4 dependency
+```
+
+during the reoxygenation / LN-to-blood transition.
+
+The endpoint niches are experimentally distinguishable; the dependency handoff itself remains unresolved.
 
 ## Weakest missing object
 
 ```text
 MISSING_OBJECT :=
 a transition-compatible melanoma ferroptosis certificate proving that the
-niche-conditioned control remains effective across the metastatic itinerary:
+niche-conditioned control remains effective across:
 
 S_LN_HYPOXIC -> reoxygenation -> S_HEMATO
 
-without a time/state interval in which neither required surveillance dependency
-is effectively intercepted.
+without an interval in which surveillance switches faster than control coverage.
 ```
 
-A stronger experimental certificate would track the same lineage or matched metastatic population while measuring:
+A direct experimental certificate would track the same lineage or matched metastatic population while measuring:
 
 1. oxygen / niche state,
-2. GPX4 abundance and dependency,
-3. FSP1 abundance and dependency,
+2. GPX4 abundance and functional dependency,
+3. FSP1 abundance and functional dependency,
 4. ferroptosis susceptibility,
 5. metastatic survival during LN-to-blood transition.
 
-## Why this matters for the residual graph
-
-Within the current graph, `LN_hypoxic × FSP1` is a real residual state, but simply appending `FSP1` as another independent node misses the dynamic switch.
-
-The correct residual object is:
+## Residual object
 
 ```text
 R_FERROPTOSIS_SWITCH :=
 state-dependent surveillance switching between GPX4- and FSP1-dominant niches
 ```
 
-Until the transition certificate exists:
+This is now the first unresolved non-ApoE metastatic-state boundary in the current graph.
+
+## Boundary
 
 ```text
 BOUNDARY :=
 not proved that one static ferroptosis intervention set closes metastatic
-melanoma across lymph-node and hematogenous niches
+melanoma across lymph-node, transition, and hematogenous niches
 ```
 
 ## Evidence anchors
@@ -124,10 +135,9 @@ melanoma across lymph-node and hematogenous niches
 
 ```text
 NEXT_ACTIONS :=
-1. Search for direct evidence that FSP1 dependence persists, disappears, or is
-   replaced as lymph-node melanoma re-enters oxygenated / blood environments.
-2. Search for same-lineage or paired-niche measurements of GPX4 and FSP1 across
-   LN-to-blood dissemination.
-3. If no transition-resolved dataset exists, retain R_FERROPTOSIS_SWITCH as the
-   first unresolved non-ApoE metastatic-state boundary.
+1. Retain R_FERROPTOSIS_SWITCH as the first unresolved non-ApoE metastatic-state
+   boundary.
+2. Do not collapse GPX4 and FSP1 into one static universal ferroptosis target.
+3. Next, test whether any published paired-niche lineage data constrain the
+   timing of the GPX4/FSP1 handoff enough to produce a transition invariant.
 ```
