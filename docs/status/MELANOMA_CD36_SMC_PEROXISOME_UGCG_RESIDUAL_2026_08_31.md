@@ -133,20 +133,31 @@ The natural SMC trajectory is therefore now represented explicitly, while the in
 
 ## Weakest missing object
 
+Huang et al. Figure 9 provides a stronger matched intervention surface than a purely in-vitro SMC endpoint. In A375M-derived melanomas kept under combined BRAF/MEK inhibition, tumors were collected after 10 days of treatment and analyzed by flow cytometry. The NNC+PPMP intervention decreased the percentage of CD36+ cells among CD45-negative tumor cells and reduced AGPS expression.
+
+```text
+ESTABLISHED :=
+in the tested A375M in-vivo model under continued BRAF/MEK inhibition,
+PEX3/PEX19 + UGCG pathway interference reduces the CD36+ SMC-marked
+survivor fraction after 10 days
+```
+
+The matched readout reported for that experiment is CD36 abundance plus AGPS. It does not report the same post-control tumors as a four-state MRD composition measurement resolving pigmented/MITF-high, NCSC, and invasive/SOX10-low survivors.
+
 ```text
 MISSING_OBJECT :=
-a matched-MRD post-control state-coverage certificate showing whether
-C_SMC_METABOLIC:
+a matched post-control MRD composition / transition certificate showing whether
+C_SMC_METABOLIC, in the same treated residual population:
 
-1. eliminates CD36+ SMCs in the same MRD population,
-2. prevents or changes transition from SMC into downstream tolerant states,
-3. does not merely enrich surviving NCSC, invasive/SOX10-low, or pigmented cells,
+1. prevents or changes transition from SMC into downstream tolerant states,
+2. does not merely enrich surviving NCSC, invasive/SOX10-low, or pigmented cells,
+3. preserves the observed SMC depletion through long-term residual outgrowth,
 4. remains effective in clinically relevant BRAF-, NRAS-, and NF1-associated
    MAPK-inhibited contexts,
 5. does not create an uncovered metastatic / immune-escape phenotype.
 ```
 
-The minimum informative experiment is a pre/post-control matched MRD composition analysis under continued MAPK pressure, ideally with single-cell or lineage/barcode resolution and long-term outgrowth.
+The minimum informative experiment is therefore no longer merely a repeat demonstration of CD36+ depletion. It is a post-control matched MRD composition analysis under continued MAPK pressure, ideally with single-cell or lineage/barcode resolution and long-term outgrowth.
 
 ## Executable graph consequence
 
