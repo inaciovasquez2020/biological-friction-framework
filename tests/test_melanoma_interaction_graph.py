@@ -16,13 +16,21 @@ MRD_GAPS = [
     "sox10_dual_vulnerability_gap",
 ]
 
-EXPECTED_UNRESOLVED = [
-    "apoe_dissemination_release",
-    "ferroptosis_handoff_gap",
-    *MRD_GAPS,
-    "polk_stress_tolerance",
+CROSS_STATE_GAPS = [
+    "adenosine_ligand_sink_gap",
+    "cse_state_mapping_gap",
+    "eif4a_cross_state_gap",
 ]
-EXPECTED_UNRESOLVED = sorted(EXPECTED_UNRESOLVED)
+
+EXPECTED_UNRESOLVED = sorted(
+    [
+        "apoe_dissemination_release",
+        "ferroptosis_handoff_gap",
+        "polk_stress_tolerance",
+        *MRD_GAPS,
+        *CROSS_STATE_GAPS,
+    ]
+)
 
 
 def test_conditional_interaction_graph_passes():
@@ -59,6 +67,7 @@ def test_apoe_reduction_probe_exposes_signed_tradeoff():
             "ferroptosis_handoff_gap",
             "polk_stress_tolerance",
             *MRD_GAPS,
+            *CROSS_STATE_GAPS,
         ]
     )
 
@@ -126,3 +135,44 @@ def test_pigmented_control_blocks_state_but_not_redistribution_gap():
     cert["declared_unresolved"] = sorted(EXPECTED_UNRESOLVED + ["pigmented_mitf_persister"])
     result = verify_graph(cert)
     assert "pigmented_mitf_persister" in result["reachable_malignant"]
+
+
+def test_adenosine_control_blocks_escape_but_not_melanoma_ligand_sink_gap():
+    result = verify_graph(load_certificate())
+    assert "adenosine_immune_escape" not in result["reachable_malignant"]
+    assert "adenosine_ligand_sink_gap" in result["reachable_malignant"]
+
+    cert = deepcopy(load_certificate())
+    cert["active_controls"].remove("C_ADENOSINE_LIGAND")
+    cert["declared_unresolved"] = sorted(EXPECTED_UNRESOLVED + ["adenosine_immune_escape"])
+    result = verify_graph(cert)
+    assert "adenosine_immune_escape" in result["reachable_malignant"]
+
+
+def test_cse_control_blocks_persister_but_not_state_mapping_gap():
+    result = verify_graph(load_certificate())
+    assert "cse_persister_survival" not in result["reachable_malignant"]
+    assert "cse_state_mapping_gap" in result["reachable_malignant"]
+
+    cert = deepcopy(load_certificate())
+    cert["active_controls"].remove("C_CSE_REDOX")
+    cert["declared_unresolved"] = sorted(EXPECTED_UNRESOLVED + ["cse_persister_survival"])
+    result = verify_graph(cert)
+    assert "cse_persister_survival" in result["reachable_malignant"]
+
+
+def test_translation_control_blocks_survival_and_mutability_but_not_cross_state_gap():
+    result = verify_graph(load_certificate())
+    assert "eif4a_persister_survival" not in result["reachable_malignant"]
+    assert "eif4a_adaptive_mutability" not in result["reachable_malignant"]
+    assert "eif4a_cross_state_gap" in result["reachable_malignant"]
+
+    cert = deepcopy(load_certificate())
+    cert["active_controls"].remove("C_TRANSLATION_PERSIST")
+    cert["declared_unresolved"] = sorted(
+        EXPECTED_UNRESOLVED
+        + ["eif4a_persister_survival", "eif4a_adaptive_mutability"]
+    )
+    result = verify_graph(cert)
+    assert "eif4a_persister_survival" in result["reachable_malignant"]
+    assert "eif4a_adaptive_mutability" in result["reachable_malignant"]
