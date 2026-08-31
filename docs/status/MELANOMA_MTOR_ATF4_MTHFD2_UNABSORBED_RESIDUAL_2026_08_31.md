@@ -1,4 +1,4 @@
-# Melanoma mTOR-ATF4-MTHFD2 unabsorbed residual — 2026-08-31
+# Melanoma mTOR-ATF4-MTHFD2 control boundary — 2026-08-31
 
 ## Status
 
@@ -8,13 +8,13 @@ This document records a bounded structural result for a melanoma drug-tolerant-p
 
 ## Question
 
-Does the existing abstract PI3K/AKT control already absorb the 2026 melanoma persister pathway in which mTOR maintains ATF4 and MTHFD2 during RAF/MEK pressure, or must that pathway remain separately represented?
+Does the existing abstract PI3K/AKT survival control absorb the 2026 melanoma persister pathway in which mTOR maintains ATF4 and MTHFD2 during RAF/MEK pressure, or must that pathway receive its own functional control requirement?
 
 ## Result
 
-`RESULT := THE mTOR -> ATF4 -> MTHFD2 PERSISTER ROUTE IS CURRENTLY UNABSORBED`
+`RESULT := PI3K/AKT ABSORPTION NOT ESTABLISHED; PROMOTE A SEPARATE FUNCTIONAL ISR/MTHFD2 CONTROL`
 
-Cai et al. (Cell Death & Disease, 2026) studied non-BRAF-V600 melanoma models treated with pan-RAF plus MEK inhibition. After prolonged treatment, persister cells retained/recovered ATF4 despite MAPK suppression. Addition of mTOR inhibition suppressed ATF4 and its downstream target MTHFD2, increased DNA damage, reduced persister survival, and improved tumor control in vivo.
+Cai et al. (Cell Death & Disease, 2026) studied non-BRAF-V600 melanoma models treated with pan-RAF plus MEK inhibition. After prolonged treatment, persister cells retained/recovered ATF4 despite MAPK suppression. Direct mTOR inhibition suppressed ATF4 and its downstream target MTHFD2, increased DNA damage, reduced persister survival, and improved tumor control in vivo.
 
 The supported route is:
 
@@ -42,35 +42,109 @@ mTOR inhibition + RAF/MEK blockade
   -> prolonged tumor control / improved survival in tested mouse models
 ```
 
-Human and murine melanoma models resistant to the RAF/MEK combination also showed elevated ATF4/MTHFD2 and remained sensitive to the mTOR-containing combination in the reported experiments.
+Human and murine melanomas resistant to the RAF/MEK combination also showed elevated ATF4/MTHFD2. Direct mTOR inhibition reduced ATF4/MTHFD2 and inhibited resistant-tumor outgrowth in the reported models.
 
 ## Why MAPK control alone is insufficient
 
-In persister cells exposed for approximately 10 days, ATF4 was no longer suppressed by RAF/MEK treatment alone. This establishes that MAPK suppression does not by itself certify elimination of the ATF4 stress-response program.
+In persister cells exposed for approximately 10 days, ATF4 was no longer suppressed by RAF/MEK treatment alone.
 
 ```text
 DO_NOT_INFER := C_MAPK => control(ATF4-MTHFD2 persister route)
 ```
 
-## PI3K/AKT absorption test
+Earlier melanoma work independently showed mTORC1/ATF4 enrichment during rapid escape from BRAF inhibition; rapamycin reduced ATF4 and blocked the escapee rebound.
 
-The repository already carries an abstract PI3K/AKT survival control. mTOR is biologically connected to PI3K/AKT signaling, but the same-model result required here is stronger:
+## Targeted PI3K/AKT absorption audit
+
+`ABSORPTION_SEARCH := NO SAME-CONTEXT CERTIFICATE IDENTIFIED`
+
+A targeted literature search was performed for melanoma experiments in which PI3K or AKT was directly suppressed while the same persister experiment measured:
 
 ```text
-NEEDED_FOR_ABSORPTION :=
-in the same melanoma persister context,
-C_PI3K_AKT -> suppression of mTOR-supported ATF4/MTHFD2 tolerance
+mTOR activity
+ATF4
+MTHFD2
+functional persister survival
+and/or relapse / tumor-control outcome
 ```
 
-The 2026 study demonstrates direct mTOR intervention and discusses PI3K-AKT-mTOR signaling, but it does not establish that a PI3K/AKT-directed perturbation necessarily suppresses ATF4/MTHFD2 in the tested persister state.
+No such same-context certificate was identified.
+
+The 2026 ATF4-MTHFD2 study diagrams the PI3K/AKT/mTOR pathway and notes that NRAS/NF1/KIT signaling can activate PI3K/mTOR, but the decisive perturbation used to suppress ATF4/MTHFD2 was direct mTOR inhibition with INK128/sapanisertib, not a PI3K- or AKT-directed perturbation.
 
 Therefore:
 
 ```text
-ABSORPTION_STATUS := UNPROVED
+UNPROVED :=
+C_PI3K_AKT
+  => mTOR suppressed
+  => ATF4 suppressed
+  => MTHFD2 suppressed
+  => persister survival / relapse suppressed
 ```
 
-and the route remains explicit.
+## AKT-only surrogate is specifically unsafe
+
+Older BRAF-V600E melanoma experiments provide an additional structural warning: PI3K and BRAF signaling were shown to cooperate on mTORC1-dependent protein translation through effects described as AKT-independent, while pharmacologic AKT inhibition had only modest effects in those models.
+
+That study is not a persister/ATF4-MTHFD2 experiment and therefore cannot resolve the current route. It does, however, rule out treating an abstract `AKT inhibition` implementation as automatically equivalent to control of all PI3K-to-mTOR signaling in melanoma.
+
+```text
+DO_NOT_INFER :=
+AKT control => all melanoma mTORC1 control
+```
+
+## Relationship to the existing RTK-survival constraint
+
+The previously encoded stromal/RTK repair was:
+
+```text
+C_RTK_SURVIVAL := control the shared PI3K/AKT survival branch
+```
+
+That object was introduced to cover routes such as:
+
+```text
+RTK -> PI3K -> AKT
+PTEN loss -> PI3K -> AKT
+HGF/MET -> PI3K -> AKT
+```
+
+The current route is experimentally certified at:
+
+```text
+mTOR -> ATF4 -> MTHFD2 -> DNA-repair-supported persistence
+```
+
+No repository-valid biological implication currently connects the first abstract control to suppression of the second route in the relevant persister context.
+
+Therefore the graph must not compress them merely because conventional pathway diagrams place mTOR downstream of PI3K/AKT.
+
+## Functional repair
+
+Promote a separate functional control requirement:
+
+```text
+C_ISR_MTHFD2 :=
+prevent mTOR-supported ATF4/MTHFD2 stress-response and DNA-repair activity
+from sustaining RAF/MEK-tolerant melanoma persisters
+```
+
+This is a functional model constraint. It does not specify a drug, dose, schedule, or clinical intervention.
+
+An experimentally supported implementation class in the cited 2026 models is direct mTOR suppression, but that implementation is not asserted to be unique or universally appropriate.
+
+## Compression rule retained
+
+Future compression remains admissible if a same-context epistasis certificate is produced.
+
+```text
+COMPRESSION_CONDITION :=
+prove in melanoma persisters that the retained PI3K/AKT control necessarily
+suppresses mTOR, ATF4, MTHFD2, and functional persistence/relapse
+```
+
+If that condition is established, `C_ISR_MTHFD2` can be absorbed into the broader survival control. Until then, it remains explicit.
 
 ## Residual object
 
@@ -79,8 +153,6 @@ R_ISR_MTHFD2 :=
 mTOR-supported ATF4/MTHFD2 stress-response and DNA-repair tolerance
 under RAF/MEK pressure
 ```
-
-This is a cross-state functional program rather than a Rambow phenotype label.
 
 ## Genotype/context boundary
 
@@ -92,37 +164,30 @@ universal dependence across every BRAF-V600, NRAS, NF1, KIT,
 triple-wild-type, or immunotherapy-only melanoma context
 ```
 
-The route should therefore be retained with its treatment/genotype context.
-
 ## Relationship to other retained metabolic programs
-
-### CSE/H2S-persulfide
-
-CSE-dependent sulfur/redox buffering and ATF4/MTHFD2 DNA-repair support are distinct experimentally described tolerance programs.
 
 ```text
 DO_NOT_COLLAPSE := R_ISR_MTHFD2 into R_CSE_CROSS_STATE
-```
-
-### Pigmented/OXPHOS and SMC/peroxisome-UGCG
-
-MTHFD2 participates in mitochondrial one-carbon metabolism, but that does not establish phenotype identity with MITF-high pigmented or CD36+ SMC persisters.
-
-```text
 DO_NOT_COLLAPSE := R_ISR_MTHFD2 into C_PIGMENTED
 DO_NOT_COLLAPSE := R_ISR_MTHFD2 into C_SMC_METABOLIC
 ```
+
+CSE-dependent sulfur/redox buffering, MITF/PGC1alpha mitochondrial adaptation, CD36+ peroxisome/UGCG metabolism, and ATF4/MTHFD2 DNA-repair support are experimentally distinct tolerance programs at the present evidence level.
 
 ## Weakest missing object
 
 ```text
 MISSING_OBJECT :=
-a same-context epistasis certificate showing whether the existing abstract
-PI3K/AKT control is sufficient to suppress the mTOR -> ATF4 -> MTHFD2
-persister-survival route.
+a same-context melanoma persister epistasis certificate proving or refuting:
+
+C_PI3K_AKT
+  => mTOR suppressed
+  => ATF4 suppressed
+  => MTHFD2 suppressed
+  => functional persister survival / relapse suppressed
 
 Required readouts:
-1. PI3K/AKT pathway suppression,
+1. PI3K and AKT pathway engagement,
 2. mTOR activity,
 3. ATF4 abundance/activity,
 4. MTHFD2 abundance/activity,
@@ -131,14 +196,12 @@ Required readouts:
 7. in vivo relapse/tumor-control outcome.
 ```
 
-If that implication is demonstrated, this route can be compressed into the existing PI3K/AKT control. If not, it requires its own functional control certificate.
-
 ## Boundary
 
 ```text
 BOUNDARY :=
-not proved that existing PI3K/AKT control absorbs the mTOR-ATF4-MTHFD2
-melanoma persister route
+existing PI3K/AKT coverage is not proved to absorb the mTOR-ATF4-MTHFD2
+melanoma persister route; C_ISR_MTHFD2 is therefore retained separately
 ```
 
 ## Evidence anchors
@@ -147,6 +210,12 @@ melanoma persister route
   - https://www.nature.com/articles/s41419-026-08836-5
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC13315934/
   - https://pubmed.ncbi.nlm.nih.gov/42091854/
+- Hangauer/rapid-escape follow-up, Nature Communications (2021), `Melanoma subpopulations that rapidly escape MAPK pathway inhibition incur DNA damage and rely on stress signalling`.
+  - https://www.nature.com/articles/s41467-021-21549-x
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC7979728/
+- Silva et al. / melanoma PI3K signaling study (2014), `BRAFV600E cooperates with PI3K signaling, independent of AKT, to regulate melanoma cell proliferation`.
+  - https://pubmed.ncbi.nlm.nih.gov/24425783/
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC3966216/
 - Shah et al., Cancer Science (2026), `MAPK Inhibitor-Tolerant Persister Cells in Melanoma: Mechanisms and Therapeutic Vulnerabilities`.
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC13394650/
 
@@ -154,9 +223,8 @@ melanoma persister route
 
 ```text
 NEXT_ACTIONS :=
-1. Retain R_ISR_MTHFD2 explicitly until same-context PI3K/AKT absorption is proved.
-2. Search for melanoma experiments directly suppressing PI3K/AKT while measuring
-   mTOR, ATF4, and MTHFD2 in persisters.
-3. Compress the route immediately if that implication is demonstrated.
-4. Otherwise add a distinct functional C_ISR_MTHFD2 control requirement.
+1. Retain C_ISR_MTHFD2 as a distinct functional control requirement.
+2. Do not substitute AKT-only control for the mTOR/ATF4/MTHFD2 certificate.
+3. Re-run the residual graph with C_ISR_MTHFD2 treated as abstractly covered.
+4. Return the first independent escape program that survives that augmented set.
 ```
