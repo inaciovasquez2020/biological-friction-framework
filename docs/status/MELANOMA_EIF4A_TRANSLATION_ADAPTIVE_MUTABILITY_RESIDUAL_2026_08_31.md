@@ -147,6 +147,43 @@ NRAS, NF1, KIT, triple-wild-type, immunotherapy-only, or every metastatic niche
 
 The older eIF4F literature does show broader links to resistance and translation control, including BRAF- and NRAS-mutant melanoma, but this does not prove universal persister-state closure.
 
+## RNA-only state maps are not an admissible closure proxy
+
+The 2026 adaptive-mutability study directly separates transcript abundance from the functional translation output that matters for this branch.
+
+In A375 melanoma cells surviving BRAFi/MEKi pressure, 53BP1 protein increased reversibly, whereas `TP53BP1` mRNA did not show a significant treatment-level increase; the paper notes only a less-than-twofold increase in two of six replicates. The study therefore identifies translational regulation, not a simple transcript-abundance increase, as the operative mechanism. The same paper reuses the earlier polysome-profiling evidence to identify 53BP1 as a selectively translated NHEJ component.
+
+Therefore an RNA-only single-cell atlas can classify melanoma cell states, but it cannot by itself certify or refute the eIF4A/53BP1 dependency.
+
+```text
+INADMISSIBLE_PROXY :=
+state-resolved EIF4A1 or TP53BP1 RNA abundance alone
+=> state-resolved C_TRANSLATION_PERSIST dependency
+
+DO_NOT_INFER :=
+flat / low EIF4A1 RNA across MRD states
+=> absence of eIF4A dependence
+
+DO_NOT_INFER :=
+flat / low TP53BP1 RNA across MRD states
+=> absence of 53BP1 translational upregulation or NHEJ mutability
+```
+
+This makes a purely transcriptomic reuse of the MeRLin endpoint object insufficient for retiring `eif4a_cross_state_gap`. The correct state-resolved surface must measure translation/protein output or functional dependency.
+
+A useful admissible hierarchy is:
+
+```text
+STATE_LABEL_ONLY              := insufficient
+RNA_ABUNDANCE_ONLY            := insufficient
+STATE + TRANSLATION/PROTEIN    := mechanistically informative
+STATE + eIF4A PERTURBATION     := functional dependency surface
+STATE + eIF4A PERTURBATION
+      + relapse/outgrowth      := closure-relevant surface
+```
+
+This is a methodological boundary, not evidence that the eIF4A dependency is uniform across all states.
+
 ## Current missing object
 
 ```text
@@ -159,15 +196,24 @@ a matched lineage-and-state certificate showing whether C_TRANSLATION_PERSIST:
 4. remains effective across the major retained melanoma MRD states,
 5. does not simply redistribute surviving cells into another uncovered state,
 6. preserves the immune / metastatic / ferroptosis boundaries already retained.
+
+MINIMUM_STATE_RESOLVED_READOUTS :=
+state identity
+AND eIF4A perturbation
+AND translation/protein output (for example 53BP1 protein or polysome/ribosome occupancy)
+AND functional NHEJ/mutability or persister-survival output
 ```
+
+An RNA-only state-expression ranking does not satisfy this object.
 
 ## Boundary
 
 ```text
 BOUNDARY :=
 eIF4A-dependent selective translation is supported as a distinct melanoma
-persister-survival and adaptive-mutability vulnerability, but universal
-cross-state / cross-genotype closure is not proved
+persister-survival and adaptive-mutability vulnerability, but RNA-only state
+maps cannot test this post-transcriptional dependency and universal cross-state /
+cross-genotype closure remains unproved
 ```
 
 ## Evidence anchors
@@ -176,10 +222,12 @@ cross-state / cross-genotype closure is not proved
   - https://www.nature.com/articles/s41467-019-13360-6
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC6915789/
   - https://pubmed.ncbi.nlm.nih.gov/31844050/
+  - GEO superseries: GSE137726
 - Fabbri et al., EMBO Molecular Medicine (2026), `Selective mRNA translation determines adaptative mutability of melanoma cells to anti-BRAF/MEK combination therapy`.
   - https://pubmed.ncbi.nlm.nih.gov/42477455/
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC13470486/
   - https://doi.org/10.1038/s44321-026-00479-5
+  - ProteomeXchange/PRIDE: PXD068007
 - Boussemart et al., Nature (2014), `eIF4F is a nexus of resistance to anti-BRAF and anti-MEK cancer therapies`.
   - https://pubmed.ncbi.nlm.nih.gov/25079330/
   - https://www.nature.com/articles/nature13572
@@ -188,10 +236,11 @@ cross-state / cross-genotype closure is not proved
 
 ```text
 NEXT_ACTIONS :=
-1. Add C_TRANSLATION_PERSIST as a distinct functional control requirement.
-2. Recompute the residual graph treating both survival and adaptive mutability
-   as quantities that must remain controlled.
-3. Search for the first surviving evolutionary escape route that can generate
-   acquired resistance despite the current survival-control set.
-4. Prefer a route with direct melanoma functional and in-vivo evidence.
+1. Keep eif4a_cross_state_gap reachable.
+2. Do not use scRNA transcript abundance as a surrogate for the eIF4A/53BP1
+   post-transcriptional dependency.
+3. Search for state-resolved melanoma translatome/proteome or eIF4A-perturbation
+   data that can be aligned to major persister phenotypes.
+4. Retire the gap only after a functional state-resolved dependency / survivor
+   certificate, not an RNA-expression map alone.
 ```
