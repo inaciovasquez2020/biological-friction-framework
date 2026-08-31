@@ -16,11 +16,11 @@ R7b RAC1 -> YAP/TAZ -> TEAD
 R7c RAC1 -> FAK
 ```
 
-That encoding is now too coarse for current evidence.
+That encoding is too coarse for current evidence.
 
 ## Result
 
-`RESULT := RAC1 ROUTES ARE FUNCTIONALLY COUPLED IN TESTED MAPKi-RESISTANT MELANOMA MODELS`
+`RESULT := RAC1 ROUTES ARE FUNCTIONALLY COUPLED ACROSS MULTIPLE TESTED MAPKi-RESISTANT MELANOMA CONTEXTS`
 
 A 2025 Oncogene study reports that Rac1-driven melanoma resistance is pleiotropic and includes:
 
@@ -32,13 +32,25 @@ activated RAC1
   |- a FAK dependency in undifferentiated melanoma cells
 ```
 
-The study tested multiple Rac1-driven BRAF-inhibitor-resistant A375 and 451Lu models, including RAC1 P29S and Rac1-GEF/VAV1-driven states. Combined RAF/MEK-clamp plus FAK inhibition controlled growth across the tested 2D and 3D cell models. A proof-of-concept A375 RAC1 P29S xenograft experiment also showed substantial tumor-growth control and prolonged survival with combined RAF/MEK and FAK pathway inhibition.
+The evidence is broader than a single A375 implementation. The study tested:
 
-The authors explicitly state that the mechanistic basis of the FAK dependency remains unresolved and that additional in-vivo single-agent/pharmacodynamic experiments are needed.
+```text
+A375 RAC1 P29S
+A375 VAV1/Rac1-GEF-driven resistance
+A375 independently derived VRPP1/VRPP2/VRPP3 resistant populations
+451Lu RAC1 P29S
+2D growth assays
+3D collagen growth
+an A375 RAC1 P29S xenograft proof-of-concept
+```
+
+Across the tested Rac1-driven settings, combined RAF/MEK-clamp plus FAK inhibition controlled growth despite the pleiotropic resistance program. In the xenograft experiment, the combination produced substantial tumor-growth control and prolonged survival compared with the tested comparators.
+
+The authors nevertheless state that the mechanistic basis of the FAK dependency remains unresolved. The study does not establish that every RAC1-mutant, RAC1-GEF-driven, differentiated, metastatic, brain-metastatic, or treatment-evolved melanoma state shares the same dependency.
 
 ## Structural correction
 
-Do not model R7a, R7b and R7c as fully independent escape paths for Rac1-driven MAPKi resistance.
+Do not model R7a, R7b and R7c as fully independent escape paths for the tested Rac1-driven MAPKi-resistant settings.
 
 Replace them with a coupled phenotype object:
 
@@ -64,71 +76,110 @@ C2 := FAK/NCSC control
 C3 := MAPK-reactivation control
 ```
 
-In the tested Rac1-driven models, evidence supports the possibility that the pair:
+For the experimentally tested RAC1-driven resistance family, evidence supports the composite abstraction:
 
 ```text
-C2 + C3
+C_RAC1_FAK_MAPK_OBSERVED := C2 + C3
 ```
 
-can suppress growth despite JNK/p38 activation and partial YAP/TAZ reliance.
+as a functional cover of the observed coupled phenotype.
 
-However, the evidence is not sufficient to promote that observation to a universal closure theorem across all RAC1-mutant, RAC1-GEF-driven, differentiated, undifferentiated, metastatic, and treatment-evolved melanoma states.
+The executable graph is therefore justified in blocking:
+
+```text
+rac1_coupled_observed
+```
+
+while separately retaining a scope state for untested generality.
+
+## What is now retired
+
+```text
+RETIRE :=
+"RAC1 + FAK evidence is only a single-cell-line / 2D observation"
+```
+
+The 2025 study includes multiple Rac1 implementations, two melanoma line backgrounds, 3D culture, and proof-of-concept xenograft evidence.
+
+Also retain:
+
+```text
+RETIRE :=
+R7a RAC1 -> JNK/p38
+R7b RAC1 -> YAP/TAZ -> TEAD
+R7c RAC1 -> FAK
+
+as three universally independent mandatory control paths
+```
+
+## Remaining generality boundary
+
+The unresolved object is now narrower:
+
+```text
+rac1_fak_mapk_generality_gap :=
+possible RAC1-driven melanoma context outside the tested A375/451Lu,
+undifferentiated/MAPKi-resistant, 2D/3D/xenograft evidence surface in which
+FAK + MAPK control does not cover the coupled resistance phenotype
+```
+
+The following implication is not proved:
+
+```text
+forall melanoma contexts S,
+  RAC1-driven resistance(S)
+    -> coverable_by(FAK + dynamic MAPK control, S)
+```
+
+This includes uncertainty across:
+
+```text
+different lineage/differentiation states
+additional RAC1-mutant or RAC1-GEF mechanisms
+non-BRAF-V600 driver contexts
+metastatic niches including brain
+heavily treatment-evolved states
+immune-competent contexts
+```
 
 Therefore:
 
 ```text
 DO_NOT_INFER :=
-R7a and R7b are universally closed merely because FAK + MAPK controls are present
+observed multi-model / xenograft coverage => universal RAC1-family closure
 ```
 
-## Conditional route reduction
+## Relationship to SOX10-low state
+
+The independently retained SOX10-low / TAZ-TEAD state remains distinct from RAC1-driven partial YAP/TAZ reliance.
 
 ```text
-Conditional
-
-IF RAC1_FAK_DEPENDENCY_GENERALIZES
-across the modeled Rac1-driven resistant states,
-THEN
-  R7a/R7b/R7c may be represented by the coupled R7_COUPLED object
-  and treated as functionally intercepted by C2 + C3.
-ELSE
-  an alternative JNK/p38 or YAP/TAZ escape may remain reachable.
+DO_NOT_COLLAPSE :=
+SOX10-low TAZ/TEAD MRD into R7_COUPLED
 ```
 
-## Next clean survivor under that condition
-
-If the above coupling generalizes, the next clean retained escape not already represented by C2, C3, or the new PI3K/AKT constraint is:
-
-```text
-R8 := SOX10-low persister -> TAZ -> TEAD
-```
-
-This route is independently supported by 2025 melanoma minimal-residual-disease work showing that SOX10 loss up-regulates a TAZ-dependent TEAD program; active TAZ is sufficient to confer tolerance to BRAF/MEK pathway inhibition, and TEAD inhibition delays acquired resistance from MRD in melanoma models.
-
-R8 is not assumed to be equivalent to RAC1-driven YAP/TAZ resistance. It is retained as a distinct SOX10-low persister-state route.
+The RAC1 route compression occurs because the tested RAC1 phenotype exhibits a FAK-dependent coupled program, not because every YAP/TAZ-dependent melanoma state is FAK-covered.
 
 ## Weakest missing object
 
 ```text
 MISSING_OBJECT :=
-evidence that the FAK dependency observed in tested Rac1-driven MAPKi-resistant
-melanoma models generalizes across the Rac1 states represented by R7_COUPLED,
-with sufficient in-vivo/context coverage to justify treating C2 + C3 as a
-functional cover of that resistance family.
+a cross-context RAC1 melanoma certificate testing the FAK + MAPK composite in
+RAC1-driven resistance outside the current A375/451Lu evidence surface, with
+at least one materially different phenotype, genotype, or metastatic niche and
+with functional growth/relapse readouts sufficient to determine whether the
+observed FAK dependency generalizes.
 ```
+
+A particularly informative next test would use a distinct RAC1-driven melanoma context rather than another derivative of the same A375 resistance system.
 
 ## Boundary
 
 ```text
 BOUNDARY :=
-¬ universal closure(RAC1-driven JNK/p38 + YAP/TAZ resistance by FAK + MAPK control)
-```
-
-and, conditionally:
-
-```text
-IF RAC1_FAK_DEPENDENCY_GENERALIZES
-THEN FIRST_CLEAN_SURVIVOR := SOX10-low -> TAZ -> TEAD
+FAK + MAPK control covers the observed multi-model RAC1 resistance phenotype,
+including 3D and proof-of-concept xenograft evidence, but universal
+cross-context RAC1-family closure remains unproved
 ```
 
 ## Evidence anchors
@@ -136,6 +187,7 @@ THEN FIRST_CLEAN_SURVIVOR := SOX10-low -> TAZ -> TEAD
 - A critical role of FAK signaling in Rac1-driven melanoma cell resistance to MAPK pathway inhibition, Oncogene (2025):
   - https://www.nature.com/articles/s41388-025-03603-w
   - https://pubmed.ncbi.nlm.nih.gov/41109929/
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC12602353/
 - RAC1 P29S resistance to RAF inhibition and MAPK-targeted therapy:
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC4167745/
   - https://pubmed.ncbi.nlm.nih.gov/25056119/
@@ -149,9 +201,9 @@ THEN FIRST_CLEAN_SURVIVOR := SOX10-low -> TAZ -> TEAD
 
 ```text
 NEXT_ACTIONS :=
-1. Treat R7 as a coupled conditional object rather than three independent paths.
-2. Keep C2 + C3 coverage of R7 conditional on FAK-dependency generalization.
-3. Advance to R8 SOX10-low -> TAZ -> TEAD as the next clean survivor under that condition.
-4. Test whether any existing control already functionally intercepts R8.
-5. Do not interpret preclinical pathway coverage as a treatment recommendation.
+1. Keep rac1_coupled_observed blocked by C_RAC1_FAK_MAPK_OBSERVED.
+2. Keep rac1_fak_mapk_generality_gap reachable.
+3. Search for a distinct RAC1-driven melanoma genotype/phenotype/niche testing
+   combined FAK + MAPK control.
+4. Retire the generality gap only after materially independent context coverage.
 ```
