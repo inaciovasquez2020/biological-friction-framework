@@ -9,3 +9,30 @@ jobs:
         run: python3 infra/ci/verify_certificate.py
       - name: Run melanoma interaction graph check
         run: python3 infra/ci/verify_melanoma_interaction_graph.py
+      - name: Probe GSE299711 processed files
+        run: |
+          set -euo pipefail
+          URL='https://ftp.ncbi.nlm.nih.gov/geo/series/GSE299nnn/GSE299711/suppl/'
+          echo 'GSE299711_SUPPL_BEGIN'
+          curl --fail --location --retry 3 "$URL" --output /tmp/gse299711_index.html
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+
+          class Links(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.links = []
+              def handle_starttag(self, tag, attrs):
+                  if tag == 'a':
+                      href = dict(attrs).get('href')
+                      if href:
+                          self.links.append(href)
+
+          parser = Links()
+          parser.feed(Path('/tmp/gse299711_index.html').read_text(encoding='utf-8', errors='replace'))
+          for href in parser.links:
+              if href not in {'../', '/'}:
+                  print(href)
+          PY
+          echo 'GSE299711_SUPPL_END'
