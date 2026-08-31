@@ -112,14 +112,29 @@ A pigmented-state control is useful only if it does not create an uncovered tran
 
 Smith et al. provides a stronger functional control surface than a simple association between MITF and pigmentation. In tested melanoma systems, PAX3/MITF suppression or MITF depletion sensitized cells to MAPK inhibition; combined PAX3/MITF suppression with MAPK inhibition prevented resistant colony outgrowth in drug-tolerant A375 derivatives; and in A375 xenografts the combination abolished treatment-induced PAX3/MITF upregulation while producing substantial tumor regression. Related sensitization was also demonstrated in tested NRAS-mutant melanoma models.
 
+A 2026 Nature Communications study further shows that MITF dependence can persist after acquired MAPK-inhibitor resistance rather than being restricted to the early adaptive-tolerance phase. MELHO cells made resistant by prolonged dabrafenib/trametinib exposure remained strongly sensitive to inducible MITF knockdown. The same qualitative dependence was retained in an additional BRAF-mutant acquired-resistant model (UACC-257) and an NRAS-mutant model (SK-MEL-30) adapted to trametinib. In resistant MELHO cells, acquisition of resistance reduced the aggregate MITF transcriptional signature and increased AXL / epithelial-mesenchymal-transition programs, yet the cells retained enough MITF and MITF-target activity for MITF knockdown to suppress survival and the same major transcriptional programs seen in treatment-naive cells.
+
 ```text
 ESTABLISHED :=
-the PAX3/MITF survival program is functionally suppressible in tested
-BRAF- and NRAS-associated melanoma models, and its suppression can improve
-MAPK-inhibitor response and suppress resistant outgrowth
+the MITF lineage-survival program can remain functionally required after
+prolonged acquisition of MAPK-inhibitor resistance in tested BRAF- and
+NRAS-associated melanoma models
+
+RETIRE :=
+"MITF dependence is supported only in the early reversible MAPKi-tolerant phase"
 ```
 
-Those experiments do not identify the residual survivors by the matched Rambow four-state MRD decomposition. Reduced MITF expression or tumor burden is therefore not equivalent to proving selective elimination of `S_PIGMENTED`, and it does not show whether surviving cells shift toward SMC, NCSC, or invasive/SOX10-low states.
+This stronger result also prevents a state-identification shortcut. Acquired-resistant cells can show an AXL/EMT-shifted transcriptome while remaining MITF-dependent, so functional MITF dependence alone is not a certificate that the surviving population is the transcriptomically defined Rambow pigmented / MITF-high state.
+
+```text
+DO_NOT_INFER :=
+MITF-dependent survival => S_PIGMENTED identity
+
+DO_NOT_INFER :=
+MITF knockdown sensitivity => selective depletion of S_PIGMENTED
+```
+
+The remaining object is therefore not another bulk demonstration that MITF matters before or after resistance. It is state-resolved survivor accounting after a functionally validated MITF/pigmented-state control:
 
 ```text
 MISSING_OBJECT :=
@@ -128,14 +143,16 @@ that a validated PAX3/MITF- or pigmented-state control, in the same residual
 population under continued MAPK pressure:
 
 1. depletes the transcriptomically defined pigmented / MITF-high persister state,
-2. does not merely convert or enrich survivors into SMC, NCSC, or
+2. distinguishes selective S_PIGMENTED depletion from broader MITF-dependent
+   killing in AXL/EMT-shifted or other melanoma states,
+3. does not merely convert or enrich survivors into SMC, NCSC, or
    invasive/SOX10-low states,
-3. preserves the effect through long-term residual outgrowth,
-4. generalizes across relevant melanoma genotypes and MRD contexts,
-5. preserves the already retained immune/metastatic boundaries.
+4. preserves the effect through long-term residual outgrowth,
+5. generalizes across relevant melanoma genotypes and MRD contexts,
+6. preserves the already retained immune/metastatic boundaries.
 ```
 
-The minimum informative experiment is therefore state-resolved survivor mapping after a functionally validated pigmented/MITF control, rather than another demonstration that MITF suppression sensitizes bulk melanoma cells to MAPK inhibition.
+The minimum informative experiment is therefore state-resolved survivor mapping after a functionally validated pigmented/MITF control, rather than another demonstration that MITF suppression sensitizes bulk melanoma cells or acquired-resistant cultures to MAPK inhibition.
 
 ## Four-state Rambow coverage status
 
