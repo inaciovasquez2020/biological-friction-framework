@@ -26,7 +26,7 @@ jobs:
           ACTUAL=$(stat -c%s /tmp/GSM9044666_EP_Clonocluster.rds)
           echo "RDS_SIZE=${ACTUAL}"
           test "$ACTUAL" -eq "$EXPECTED"
-      - name: Extract descriptive CTH by bc_group
+      - name: Diagnose endpoint RNA feature identifiers
         run: |
           set -euo pipefail
           Rscript - <<'RS'
@@ -35,8 +35,8 @@ jobs:
 
           path <- '/tmp/GSM9044666_EP_Clonocluster.rds'
           obj <- readRDS(path)
-          cat('CSE_ENDPOINT_OBJECT_BEGIN\n')
-          cat('class=', paste(class(obj), collapse=','), '\n', sep='')
+          cat('CSE_FEATURE_DIAGNOSTIC_BEGIN\n')
+          cat('object_class=', paste(class(obj), collapse=','), '\n', sep='')
           stopifnot(isS4(obj))
           stopifnot('meta.data' %in% slotNames(obj))
           meta <- obj@meta.data
@@ -44,6 +44,8 @@ jobs:
           stopifnot('assays' %in% slotNames(obj))
           stopifnot('RNA' %in% names(obj@assays))
           rna <- obj@assays[['RNA']]
+          cat('rna_class=', paste(class(rna), collapse=','), '\n', sep='')
+          cat('rna_slots=', paste(slotNames(rna), collapse='|'), '\n', sep='')
 
           if ('data' %in% slotNames(rna)) {
             mat <- rna@data
@@ -55,22 +57,38 @@ jobs:
             stop('normalized RNA data layer not found')
           }
 
-          stopifnot('CTH' %in% rownames(mat))
-          stopifnot(ncol(mat) == nrow(meta))
-          cth <- as.numeric(mat['CTH', ])
-          groups <- as.character(meta$bc_group)
-          stopifnot(length(cth) == length(groups))
-          keep <- !is.na(groups) & nzchar(groups)
-          cth <- cth[keep]
-          groups <- groups[keep]
-
+          features <- rownames(mat)
+          stopifnot(!is.null(features))
           cat('layer_source=', layer_source, '\n', sep='')
-          cat('cells_with_group=', length(groups), '\n', sep='')
-          cat('groups=', paste(sort(unique(groups)), collapse='|'), '\n', sep='')
-          for (g in sort(unique(groups))) {
-            x <- cth[groups == g]
-            cat(sprintf('CTH_GROUP group=%s n=%d detection_fraction=%.8f normalized_mean=%.8f normalized_median=%.8f\n',
-                        g, length(x), mean(x > 0), mean(x), median(x)))
+          cat('feature_count=', length(features), '\n', sep='')
+          cat('first_features=', paste(head(features, 10), collapse='|'), '\n', sep='')
+          cth_like <- grep('CTH', features, ignore.case=TRUE, value=TRUE)
+          cat('rownames_cth_like=', if (length(cth_like)) paste(cth_like, collapse='|') else '<none>', '\n', sep='')
+
+          if ('meta.features' %in% slotNames(rna)) {
+            mf <- rna@meta.features
+            cat('meta_features_columns=', paste(colnames(mf), collapse='|'), '\n', sep='')
+            cat('meta_features_rows=', nrow(mf), '\n', sep='')
+            hits <- integer(0)
+            if (nrow(mf) > 0 && ncol(mf) > 0) {
+              for (j in seq_len(ncol(mf))) {
+                vals <- as.character(mf[[j]])
+                hits <- union(hits, which(grepl('CTH', vals, ignore.case=TRUE)))
+              }
+            }
+            if (length(hits)) {
+              hits <- head(hits, 20)
+              for (i in hits) {
+                cat('META_CTH_HIT row=', i,
+                    ' feature=', rownames(mf)[i],
+                    ' values=', paste(as.character(mf[i, , drop=TRUE]), collapse='|'),
+                    '\n', sep='')
+              }
+            } else {
+              cat('meta_features_cth_like=<none>\n')
+            }
+          } else {
+            cat('meta_features_slot=<absent>\n')
           }
-          cat('CSE_ENDPOINT_OBJECT_END\n')
+          cat('CSE_FEATURE_DIAGNOSTIC_END\n')
           RS
