@@ -26,7 +26,7 @@ jobs:
           ACTUAL=$(stat -c%s /tmp/GSM9044666_EP_Clonocluster.rds)
           echo "RDS_SIZE=${ACTUAL}"
           test "$ACTUAL" -eq "$EXPECTED"
-      - name: Diagnose Assay5 feature map
+      - name: Extract descriptive CTH by bc_group
         run: |
           set -euo pipefail
           Rscript - <<'RS'
@@ -34,47 +34,39 @@ jobs:
           suppressPackageStartupMessages(library(Matrix))
 
           obj <- readRDS('/tmp/GSM9044666_EP_Clonocluster.rds')
+          meta <- obj@meta.data
+          stopifnot('bc_group' %in% colnames(meta))
           rna <- obj@assays[['RNA']]
           stopifnot(inherits(rna, 'Assay5'))
-          cat('CSE_ASSAY5_DIAGNOSTIC_BEGIN\n')
-          cat('layer_names=', paste(names(rna@layers), collapse='|'), '\n', sep='')
-          for (nm in names(rna@layers)) {
-            x <- rna@layers[[nm]]
-            cat('LAYER name=', nm,
-                ' nrow=', nrow(x),
-                ' ncol=', ncol(x),
-                ' rownames_null=', is.null(rownames(x)),
-                ' colnames_null=', is.null(colnames(x)),
-                '\n', sep='')
-          }
+          stopifnot('data' %in% names(rna@layers))
+          mat <- rna@layers[['data']]
 
-          fmap <- rna@features
-          cat('feature_map_class=', paste(class(fmap), collapse=','), '\n', sep='')
-          cat('feature_map_dim=', paste(dim(fmap), collapse='x'), '\n', sep='')
-          fmap_names <- rownames(fmap)
-          cat('feature_map_rownames_null=', is.null(fmap_names), '\n', sep='')
-          if (!is.null(fmap_names)) {
-            cat('feature_map_first=', paste(head(fmap_names, 10), collapse='|'), '\n', sep='')
-            hits <- grep('CTH', fmap_names, ignore.case=TRUE, value=TRUE)
-            cat('feature_map_cth_like=', if (length(hits)) paste(hits, collapse='|') else '<none>', '\n', sep='')
-          }
+          feature_names <- Features(rna, layer='data')
+          cell_names <- Cells(rna, layer='data')
+          stopifnot(length(feature_names) == nrow(mat))
+          stopifnot(length(cell_names) == ncol(mat))
+          cth_index <- which(feature_names == 'CTH')
+          stopifnot(length(cth_index) == 1)
 
-          assay_names <- tryCatch(rownames(rna), error=function(e) NULL)
-          cat('assay_rownames_null=', is.null(assay_names), '\n', sep='')
-          if (!is.null(assay_names)) {
-            cat('assay_feature_count=', length(assay_names), '\n', sep='')
-            cat('assay_first=', paste(head(assay_names, 10), collapse='|'), '\n', sep='')
-            hits <- grep('CTH', assay_names, ignore.case=TRUE, value=TRUE)
-            cat('assay_cth_like=', if (length(hits)) paste(hits, collapse='|') else '<none>', '\n', sep='')
-          }
+          meta_index <- match(cell_names, rownames(meta))
+          stopifnot(!anyNA(meta_index))
+          cth <- as.numeric(mat[cth_index, ])
+          groups <- as.character(meta$bc_group[meta_index])
+          stopifnot(length(cth) == length(groups))
+          keep <- !is.na(groups) & nzchar(groups)
+          cth <- cth[keep]
+          groups <- groups[keep]
 
-          layer_features <- tryCatch(Features(rna, layer='data'), error=function(e) NULL)
-          cat('Features_data_null=', is.null(layer_features), '\n', sep='')
-          if (!is.null(layer_features)) {
-            cat('Features_data_count=', length(layer_features), '\n', sep='')
-            cat('Features_data_first=', paste(head(layer_features, 10), collapse='|'), '\n', sep='')
-            hits <- grep('CTH', layer_features, ignore.case=TRUE, value=TRUE)
-            cat('Features_data_cth_like=', if (length(hits)) paste(hits, collapse='|') else '<none>', '\n', sep='')
+          cat('CSE_ENDPOINT_CTH_BEGIN\n')
+          cat('feature=CTH\n')
+          cat('layer=RNA@layers$data\n')
+          cat('cells_with_group=', length(groups), '\n', sep='')
+          cat('groups=', paste(sort(unique(groups)), collapse='|'), '\n', sep='')
+          for (g in sort(unique(groups))) {
+            x <- cth[groups == g]
+            cat(sprintf('CTH_GROUP group=%s n=%d detection_fraction=%.8f normalized_mean=%.8f normalized_median=%.8f\n',
+                        g, length(x), mean(x > 0), mean(x), median(x)))
           }
-          cat('CSE_ASSAY5_DIAGNOSTIC_END\n')
+          cat('interpretation=descriptive_expression_only_not_functional_dependency\n')
+          cat('CSE_ENDPOINT_CTH_END\n')
           RS
