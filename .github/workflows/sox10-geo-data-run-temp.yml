@@ -1,0 +1,40 @@
+name: sox10-geo-data-run-temp
+
+on:
+  push:
+    branches:
+      - research/sox10-geo-data-run-20260831
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download GSE259388 normalized tables
+        run: |
+          mkdir -p /tmp/gse259388
+          curl --fail --location --retry 3 \
+            https://ftp.ncbi.nlm.nih.gov/geo/series/GSE259nnn/GSE259388/suppl/GSE259388_RAW.tar \
+            --output /tmp/GSE259388_RAW.tar
+          tar -xf /tmp/GSE259388_RAW.tar -C /tmp/gse259388
+
+      - name: Analyze GSE259388 matched clones
+        run: |
+          echo 'GSE259388_RESULT_BEGIN'
+          python infra/ci/analyze_sox10_geo_coupling.py \
+            --gse259388-dir /tmp/gse259388
+          echo 'GSE259388_RESULT_END'
+
+      - name: Download GSE259389 normalized matrix
+        run: |
+          curl --fail --location --retry 3 \
+            https://ftp.ncbi.nlm.nih.gov/geo/series/GSE259nnn/GSE259389/suppl/GSE259389_allSamples.txt.gz \
+            --output /tmp/GSE259389_allSamples.txt.gz
+
+      - name: Analyze GSE259389 matched clones
+        run: |
+          echo 'GSE259389_RESULT_BEGIN'
+          python infra/ci/analyze_sox10_geo_coupling.py \
+            --gse259389-matrix /tmp/GSE259389_allSamples.txt.gz
+          echo 'GSE259389_RESULT_END'
