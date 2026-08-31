@@ -29,7 +29,7 @@ COUPLED_ROUTE_GAPS = [
 EXPECTED_UNRESOLVED = sorted(
     [
         "apoe_dissemination_release",
-        "fancd2_replication_stress_tolerance",
+        "fancd2_mapki_in_vivo_gap",
         "ferroptosis_handoff_gap",
         "polk_stress_tolerance",
         *MRD_GAPS,
@@ -70,7 +70,7 @@ def test_apoe_reduction_probe_exposes_signed_tradeoff():
         [
             "apoe_ferroptosis_resistance",
             "apoe_immune_escape",
-            "fancd2_replication_stress_tolerance",
+            "fancd2_mapki_in_vivo_gap",
             "ferroptosis_handoff_gap",
             "polk_stress_tolerance",
             *MRD_GAPS,
@@ -199,6 +199,16 @@ def test_rac1_composite_control_blocks_observed_route_but_not_generality_gap():
     assert "rac1_fak_mapk_generality_gap" in result["reachable_malignant"]
 
 
-def test_fancd2_replication_stress_state_remains_uncovered():
+def test_fancd2_control_blocks_direct_state_but_not_in_vivo_gap():
     result = verify_graph(load_certificate())
+    assert "fancd2_replication_stress_tolerance" not in result["reachable_malignant"]
+    assert "fancd2_mapki_in_vivo_gap" in result["reachable_malignant"]
+
+    cert = deepcopy(load_certificate())
+    cert["active_controls"].remove("C_FANCD2_REPLICATION_STRESS")
+    cert["declared_unresolved"] = sorted(
+        EXPECTED_UNRESOLVED + ["fancd2_replication_stress_tolerance"]
+    )
+    result = verify_graph(cert)
     assert "fancd2_replication_stress_tolerance" in result["reachable_malignant"]
+    assert "fancd2_mapki_in_vivo_gap" in result["reachable_malignant"]
