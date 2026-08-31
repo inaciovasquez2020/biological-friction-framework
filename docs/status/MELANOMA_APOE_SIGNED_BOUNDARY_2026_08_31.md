@@ -63,12 +63,36 @@ Do not collapse `J` to a single score without a matched-context calibration.
 
 ## Weakest missing object
 
+The dissemination penalty is directly supported by in-vivo experimental-metastasis data rather than only invasion/endothelial surrogates. Pencheva et al. reported that B16-F10 melanoma cells produced approximately 10-fold greater metastatic colonization in ApoE-null mice than in wild-type littermates. ApoE pretreatment strongly suppressed subsequent experimental metastatic colonization in both mouse and multiple human melanoma models, including B16-F10, MeWo-LM2, A375-LM3, WM-266-4, HT-144, and A2058.
+
+These are experimental colonization assays and should not be silently upgraded to a spontaneous-primary-tumor metastasis result. They are nevertheless sufficient to establish that removing the ApoE dissemination brake carries a direct in-vivo metastatic-colonization liability in the tested models.
+
+```text
+ESTABLISHED :=
+ApoE loss / reduced ApoE signaling can release melanoma metastatic-colonization
+capacity in vivo in tested experimental-metastasis models
+
+NOT_ESTABLISHED :=
+the magnitude of that dissemination liability under the same ApoE-reduction
+context that improves ferroptosis susceptibility and antitumor immunity
+```
+
+Therefore the weakest unresolved object is no longer whether ApoE reduction has a dissemination cost. It is the matched net-benefit calibration:
+
 ```text
 MISSING_OBJECT :=
-matched-context quantitative evidence establishing whether the benefit of
-reducing tumor ApoE (restored ferroptosis susceptibility plus improved
-antitumor T-cell activity) exceeds the accompanying loss of ApoE-mediated
-suppression of melanoma invasion and endothelial recruitment.
+a matched-context quantitative experiment under the same ApoE perturbation that
+jointly measures:
+
+1. ferroptotic melanoma death / ferroptosis susceptibility,
+2. functional antitumor CD8/T-cell activity,
+3. metastatic dissemination or colonization,
+4. endothelial recruitment / angiogenesis,
+5. long-term tumor control,
+
+so that the eradication/immune benefit of ApoE reduction can be compared against
+the directly demonstrated loss of ApoE-mediated metastatic suppression without
+combining incompatible models or surrogate endpoints.
 ```
 
 ## Boundary
