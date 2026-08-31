@@ -1,6 +1,11 @@
 from copy import deepcopy
+from pathlib import Path
+import sys
 
 import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 from infra.ci.verify_melanoma_interaction_graph import load_certificate, verify_graph
 
