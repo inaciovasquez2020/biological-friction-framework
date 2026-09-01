@@ -130,6 +130,23 @@ FANCD2/FA replication-stress control into eIF4A/53BP1/NHEJ control
 
 ## Updated missing object
 
+A related melanoma PDX study closes a weaker pathway-level uncertainty without closing the FANCD2-specific gap. In BRAF-mutant PDX, adding DNA-PK/NHEJ inhibition to BRAFi+MEKi significantly forestalled acquired resistance; in three NRAS-mutant PDX models, MEKi plus DNA-PK inhibition produced superior tumor control to MEKi alone. Early on-treatment genomic analysis further found reduced total CGR/ecDNA spans with MAPKi plus DNA-PK inhibition versus MAPKi alone in all five PDX models analyzed.
+
+```text
+ESTABLISHED_RELATED_PRECEDENT :=
+in-vivo suppression of DNA-break-repair-driven genomic-instability machinery
+can delay MAPKi resistance and reduce CGR/ecDNA evolution in melanoma PDX models
+
+DO_NOT_INFER :=
+DNA-PK/NHEJ inhibition => FANCD2/Fanconi suppression
+
+RETIRE :=
+"there is no in-vivo melanoma precedent that suppressing genomic-instability
+ machinery can delay MAPKi resistance"
+```
+
+Therefore the remaining object is specifically FANCD2/Fanconi-resolved rather than a generic proof that genome-instability control can work in vivo:
+
 ```text
 MISSING_OBJECT :=
 a matched melanoma in-vivo / PDX MAPK-therapy certificate showing that
