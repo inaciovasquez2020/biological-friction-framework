@@ -69,6 +69,37 @@ DO_NOT_INFER :=
 one downstream arm is a sufficient proxy for the other
 ```
 
+## Supplementary-table and deposited-data audit
+
+The public article exposes a 24-table supporting workbook and identifies the RNA-seq/target-prediction tables used to construct the treatment-context signatures. The rendered paper assigns bulk RNA-seq measurements to Tables S6-S7, target predictions to Tables S8-S9, and context-specific target sets to Tables S10-S13. Those tables support treatment-context signature construction; they are not reported as a cluster-by-gene certificate demonstrating a single scRNA-seq state jointly positive for both complete downstream resistance arms.
+
+The GEO record for `GSE318353` deposits condition-separated 10x count matrices for:
+
+```text
+WT
+miR-18a KO
+A375-TR
+A375-VR
+```
+
+but does not deposit a canonical processed cluster-annotation table that maps each cell to the 13 published states together with validated AJUBA/YAP and THBS1-CD47 program labels. The published single-cell result is therefore pathway enrichment in specific clusters, not a deposited matched-state dual-program certificate.
+
+A raw-count reanalysis could test transcriptional co-expression or module-score overlap, but it would still not by itself establish YAP activation because the load-bearing YAP evidence in the study includes phosphorylation and nuclear-localization measurements. Likewise, THBS1-CD47 immune escape is functionally supported by T-cell killing, CD47 blockade, and synapse-related experiments rather than RNA abundance alone.
+
+Therefore the supplementary and deposited-data surface does not justify promotion of:
+
+```text
+same_cell_transcriptional_overlap
+=> same_cell_functional_dual_resistance
+```
+
+or:
+
+```text
+YAP1 mRNA abundance
+=> AJUBA/YAP pathway activation
+```
+
 ## Structural consequence
 
 No executable graph change is justified.
@@ -132,6 +163,6 @@ programs remain unproved
 ```text
 NEXT_ACTIONS :=
 1. Preserve the existing graph state unchanged.
-2. Search the public supplementary tables for cluster-level genes/signatures that could support or refute direct YAP/THBS1 co-occurrence.
-3. Promote no causal coupling without matched cell-state evidence.
+2. Do not infer functional YAP activation from scRNA abundance alone.
+3. Resume this gap only if a matched cell-state assay or deposited processed annotation directly links both functional arms in the same resistant population.
 ```
