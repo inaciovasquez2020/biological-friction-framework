@@ -74,6 +74,40 @@ DO_NOT_PROMOTE_CLAUSE_2..CLAUSE_5_TO_CLOSURE_CREDIT
 
 The later evidence may be retained as supportive information but cannot make `H` admissible while Clause 1 remains unproved.
 
+## Bounded public-source residual-disease audit
+
+The same-arm source search was narrowed to measurements that could discharge Clause 1:
+
+```text
+pathology / histology
+residual tumor-burden assay
+viable-cell recovery / culture
+other quantified residual-disease measurement
+```
+
+The accessible Blood/ASH abstract reports quantitative leukemic-burden monitoring by bioluminescence imaging and blood in the WEHI-3 AML model, plus bacterial CFU measurements. Those assay statements are not assigned to the B16-F10 melanoma complete-regression cohort and therefore cannot be transferred to the melanoma exit certificate.
+
+For the B16-F10 cohort, the accessible source reports:
+
+```text
+complete regression
+100% survival
+tumor rechallenge confirming durable antitumor immunity
+```
+
+but no same-arm post-regression pathology, histology, residual tumor-burden, viable-cell, or other quantified residual-disease assay with an explicit detection threshold was found in this bounded public-source search.
+
+This is a negative evidence audit, not a claim that no such unpublished or inaccessible measurement exists.
+
+Therefore:
+
+```text
+PUBLIC_SOURCE_AUDIT_RESULT :=
+no retrieved same-arm measurement discharges CLAUSE_1
+```
+
+and the ordered gate remains stopped at Clause 1.
+
 ## Weakest missing object
 
 ```text
@@ -94,15 +128,13 @@ Even such a certificate would discharge only Clause 1; it would not automaticall
 BOUNDARY :=
 not proved that the B16-F10 complete-regression state contains zero viable malignant
 melanoma on a declared sufficiently sensitive measurement surface; the same-arm
-rechallenge result strengthens durability evidence but does not discharge Clause 1
+rechallenge result strengthens durability evidence, while the bounded public-source
+audit found no same-arm residual-disease measurement that discharges Clause 1
 ```
 
 ## Next bounded action
 
 ```text
 NEXT_ACTIONS :=
-1. Search for a same-arm B16-F10 pathology, histology, residual tumor-burden,
-   viable-cell, or other quantified residual-disease measurement tied to the
-   complete-regression cohort.
-2. If none is reported, retain Clause 1 as the first unresolved ER-exit barrier.
+No admissible next step on this candidate without a matched same-arm residual-viability certificate.
 ```
