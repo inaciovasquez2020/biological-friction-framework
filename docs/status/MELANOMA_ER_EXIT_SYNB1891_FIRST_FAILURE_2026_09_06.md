@@ -99,6 +99,49 @@ The SYNB1891 result therefore advances the candidate closer to the ER exit bound
 
 The separate repeated-dose B16.F10 durable-rejection result may become relevant to later recurrence/no-return clauses, but the ordered gate does not assign those clauses closure credit while Clause 1 is unresolved.
 
+## Supplementary / protocol audit
+
+The published Supplementary Information was inspected specifically for measurements that could discharge Clause 1.
+
+For B16.F10, Supplementary Figure 4 adds:
+
+```text
+individual tumor volumes
+bacterial abundance in tumor homogenates and blood
+SYNB1891-specific qPCR for bacterial DNA in blood
+```
+
+These measurements characterize tumor size and bacterial pharmacology; they are not melanoma-cell viability or residual-disease assays for the N.T.D. animals.
+
+Supplementary Figure 5 defines B16.F10 complete responders using a gross/palpation endpoint:
+
+```text
+C.R. := mice having no palpable tumor at the stated study timepoint
+```
+
+This remains a detection-limited near-exit rather than a viable-melanoma clearance certificate.
+
+A text search of the retrieved Supplementary Information found no matched B16.F10 N.T.D. result under the terms:
+
+```text
+histology / histopathology
+H&E
+viability
+microscopy
+necrosis
+```
+
+The later phase-I SYNB1891 clinical-development report does include human tumor core biopsies and multiplex immunofluorescence, but those observations are from human subjects and cannot be transferred to the earlier B16.F10 N.T.D. animals.
+
+The Nature Communications data-availability statement says additional data underlying figures and supplementary information are available from the corresponding authors on reasonable request. Therefore this audit establishes only that the required same-animal residual-viability certificate is absent from the retrieved public article/supplement/protocol surface; it does not establish that unpublished data do not exist.
+
+Thus:
+
+```text
+PUBLIC_SUPPLEMENT_AUDIT_RESULT :=
+no retrieved same-animal melanoma-directed measurement discharges CLAUSE_1
+```
+
 ## Weakest missing object
 
 ```text
@@ -114,15 +157,15 @@ malignant melanoma on that declared measurement surface
 ```text
 BOUNDARY :=
 SYNB1891 B16.F10 provides a stronger gross-dissection near-exit than regression alone,
-but no retrieved same-animal viability-sensitive measurement establishes Clause 1;
-therefore this candidate cannot yet instantiate the ER absorbing exit set H
+but the retrieved article, Supplementary Information, and later clinical protocol/report
+do not provide a same-animal viability-sensitive melanoma measurement establishing
+Clause 1; therefore this candidate cannot yet instantiate the ER absorbing exit set H
 ```
 
 ## Next bounded action
 
 ```text
 NEXT_ACTIONS :=
-1. Search the SYNB1891 supplementary/protocol record specifically for a melanoma-directed
-   microscopic, histopathologic, viable-cell, or residual-disease assay tied to the N.T.D. animals.
-2. If none exists, retain the censored near-exit B_gross < delta_gross and stop at Clause 1.
+No admissible next step on this candidate from the retrieved public record without
+additional same-animal residual-disease data from the original B16.F10 experiment.
 ```
