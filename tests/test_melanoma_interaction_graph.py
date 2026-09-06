@@ -23,6 +23,7 @@ CROSS_STATE_GAPS = [
 ]
 
 COUPLED_ROUTE_GAPS = [
+    "mir18a_pleiotropic_cross_resistance_gap",
     "perturbfate_convergent_dediff_gap",
     "rac1_fak_mapk_generality_gap",
 ]
@@ -249,3 +250,8 @@ def test_fancd2_control_blocks_direct_state_but_not_in_vivo_gap():
 def test_perturbfate_convergent_dediff_gap_remains_reachable():
     result = verify_graph(load_certificate())
     assert "perturbfate_convergent_dediff_gap" in result["reachable_malignant"]
+
+
+def test_mir18a_pleiotropic_cross_resistance_gap_remains_reachable():
+    result = verify_graph(load_certificate())
+    assert "mir18a_pleiotropic_cross_resistance_gap" in result["reachable_malignant"]
