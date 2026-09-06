@@ -40,7 +40,8 @@
     {"id": "eif4a_adaptive_mutability", "malignant": true},
     {"id": "eif4a_cross_state_gap", "malignant": true},
     {"id": "rac1_coupled_observed", "malignant": true},
-    {"id": "rac1_fak_mapk_generality_gap", "malignant": true}
+    {"id": "rac1_fak_mapk_generality_gap", "malignant": true},
+    {"id": "perturbfate_convergent_dediff_gap", "malignant": true}
   ],
   "baseline_edges": [
     {"id": "e_rtk_pi3k", "source": "therapy_pressure", "target": "rtk_pi3k_survival", "evidence": ["docs/status/MELANOMA_HGF_MET_PI3K_RESIDUAL_2026_08_31.md"]},
@@ -73,7 +74,8 @@
     {"id": "e_eif4a_mutability", "source": "therapy_pressure", "target": "eif4a_adaptive_mutability", "evidence": ["docs/status/MELANOMA_EIF4A_TRANSLATION_ADAPTIVE_MUTABILITY_RESIDUAL_2026_08_31.md"]},
     {"id": "e_eif4a_cross_state_gap", "source": "therapy_pressure", "target": "eif4a_cross_state_gap", "evidence": ["docs/status/MELANOMA_EIF4A_TRANSLATION_ADAPTIVE_MUTABILITY_RESIDUAL_2026_08_31.md"]},
     {"id": "e_rac1_coupled", "source": "therapy_pressure", "target": "rac1_coupled_observed", "evidence": ["docs/status/MELANOMA_RAC1_FAK_COUPLED_ROUTE_2026_08_31.md"]},
-    {"id": "e_rac1_generality_gap", "source": "therapy_pressure", "target": "rac1_fak_mapk_generality_gap", "evidence": ["docs/status/MELANOMA_RAC1_FAK_COUPLED_ROUTE_2026_08_31.md"]}
+    {"id": "e_rac1_generality_gap", "source": "therapy_pressure", "target": "rac1_fak_mapk_generality_gap", "evidence": ["docs/status/MELANOMA_RAC1_FAK_COUPLED_ROUTE_2026_08_31.md"]},
+    {"id": "e_perturbfate_convergent_dediff_gap", "source": "therapy_pressure", "target": "perturbfate_convergent_dediff_gap", "evidence": ["docs/status/MELANOMA_PERTURBFATE_CONVERGENT_DEDIFFERENTIATION_2026_09_06.md"]}
   ],
   "controls": [
     {
@@ -147,6 +149,7 @@
     "eif4a_cross_state_gap",
     "fancd2_mapki_in_vivo_gap",
     "ferroptosis_handoff_gap",
+    "perturbfate_convergent_dediff_gap",
     "pigmented_redistribution_gap",
     "polk_stress_tolerance",
     "rac1_fak_mapk_generality_gap",
