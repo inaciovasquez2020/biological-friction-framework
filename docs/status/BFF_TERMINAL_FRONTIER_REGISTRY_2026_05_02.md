@@ -22,14 +22,20 @@ The closed surface consists of:
 The theorem-level obstruction is exactly the current formal-gap inventory:
 
 - project-defined axioms
-- admit proof holes
-- sorry proof holes
+- recorded admit proof holes where still present
+- quarantined frontier assumptions replacing former `sorry` proof holes
 - archived foreign-scope formal dependencies
 - URF-core imported trusted assumptions
+
+Current project `sorry` token count: **0**.
+
+The zero `sorry` count does not imply theorem-level closure: former `sorry` holes were converted into explicit named frontier assumptions rather than proved. Those assumptions remain load-bearing until discharged or otherwise removed from the theorem dependency surface.
 
 ## Boundary Rule
 
 If `axiom + admit + sorry > 0`, no unconditional theorem-level closure claim is allowed.
+
+Even when `sorry = 0`, any theorem depending on project-defined axioms, admits, quarantined frontier assumptions, imported trusted assumptions, or explicitly named missing lemmas remains Conditional.
 
 Build success, CI success, repository-surface completion, and registry completion do not imply theorem-level closure.
 
