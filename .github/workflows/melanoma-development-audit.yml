@@ -1,0 +1,39 @@
+name: melanoma-gse78220-development-audit
+
+on:
+  push:
+    paths:
+      - "infra/ci/audit_gse78220_development.py"
+      - "tests/test_gse78220_development_audit.py"
+      - ".github/workflows/melanoma-development-audit.yml"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install audit dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest openpyxl
+
+      - name: Run development-audit unit tests
+        run: |
+          pytest -q tests/test_gse78220_development_audit.py
+
+      - name: Run checksum-locked GSE78220 development audit
+        run: |
+          python infra/ci/audit_gse78220_development.py --output gse78220-development-audit.json
+
+      - name: Upload development audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: gse78220-development-audit
+          path: gse78220-development-audit.json
+          if-no-files-found: error
