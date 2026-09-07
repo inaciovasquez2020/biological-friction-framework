@@ -1,0 +1,39 @@
+name: melanoma-v2-calibration-fit
+
+on:
+  push:
+    paths:
+      - "infra/ci/fit_melanoma_v2_calibration.py"
+      - "tests/test_melanoma_v2_calibration_fit.py"
+      - ".github/workflows/melanoma-v2-calibration-fit.yml"
+  workflow_dispatch:
+
+jobs:
+  fit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install fit dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest openpyxl
+
+      - name: Run deterministic calibration unit tests
+        run: |
+          pytest -q tests/test_melanoma_v2_calibration_fit.py tests/test_gse78220_v2_development_audit.py tests/test_melanoma_route_burden_v2.py
+
+      - name: Fit checksum-locked GSE78220 v2 calibration
+        run: |
+          python infra/ci/fit_melanoma_v2_calibration.py --output melanoma-v2-calibration.json
+
+      - name: Upload frozen calibration object
+        uses: actions/upload-artifact@v4
+        with:
+          name: melanoma-v2-calibration
+          path: melanoma-v2-calibration.json
+          if-no-files-found: error
