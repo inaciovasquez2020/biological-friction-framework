@@ -48,6 +48,6 @@ def test_zero_variation_or_single_class_fails_closed():
 
 
 def test_nll_is_finite_for_large_linear_predictors():
-    value = MODULE.logistic_nll([0.0, 1.0], [0, 1], -500.0, 1000.0)
+    value = MODULE.logistic_nll([0.0, 0.5, 1.0, 1.5], [0, 0, 1, 1], -500.0, 1000.0)
     assert math.isfinite(value)
     assert value >= 0.0
