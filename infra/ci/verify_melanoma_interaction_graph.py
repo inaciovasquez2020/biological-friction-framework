@@ -63,6 +63,7 @@ def verify_graph(cert):
             induced_edges.append(edge)
 
     induced_edge_ids = _require_unique(induced_edges, "induced edge")
+    assert baseline_edge_ids.isdisjoint(induced_edge_ids), "duplicate edge id across baseline and induced edges"
     all_edge_ids = baseline_edge_ids | induced_edge_ids
 
     active_controls = set(cert.get("active_controls", []))
