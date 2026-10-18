@@ -21,7 +21,7 @@ def test_fixed_score_fails_closed_when_panel_coverage_missing():
     try:
         MODULE.fixed_wnt_score({"RNF43": 1.0, "WNT2B": 1.0})
     except ValueError as exc:
-        assert "panel coverage inadequate" in str(exc)
+        assert "required panel genes missing" in str(exc)
     else:
         raise AssertionError("insufficient panel coverage must fail closed")
 
