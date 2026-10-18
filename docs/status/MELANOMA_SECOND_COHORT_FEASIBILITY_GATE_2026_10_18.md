@@ -49,6 +49,14 @@ The BioProject reports 91 SRA experiments and includes patients treated with ant
 
 Status: **potentially independent, but data/endpoint processing burden is materially higher.**
 
+### Candidate B2 — MGH GSE115821
+
+GEO: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE115821
+
+GEO provides a featureCounts raw-count matrix, not the frozen GSE78220 Cuffnorm FPKM values. Sample metadata include pretreatment and on-treatment biopsies, repeat biopsies for some patients, anti-PD-1 and anti-CTLA-4 exposure, and study-specific response labels (R/NR). A recent secondary analysis reports only 37 baseline samples for a related analysis, with 3 responders and 34 nonresponders; those labels and inclusion rules are not automatically the frozen CR/PR-versus-PD endpoint.
+
+**Decision:** not ready for frozen v2 scoring. It would require a patient-level baseline-only manifest, exact response reconstruction, treatment/prior-therapy audit, and a defensible expression-scale reconstruction. The very small responder count also makes performance estimates unstable.
+
 ### Candidate C — MGH GSE168204
 
 GEO: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168204
@@ -56,6 +64,15 @@ GEO: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168204
 GEO lists 27 samples and a featureCounts raw-count matrix. Its sample annotations use study-specific R/NR labels, and published analyses include pretreatment and on-treatment biopsies.
 
 **Decision:** not the immediate replication cohort. The sample count is small, repeated timepoints must be separated at patient level, and R/NR cannot be assumed equivalent to the frozen CR/PR-versus-PD endpoint without reconstructing the underlying response definitions. It may be useful only if patient-level endpoint compatibility can be established from source metadata.
+
+## Comparative conclusion after the next-candidate search
+
+No candidate located in this pass is ready for a valid second v2 score:
+- **Liu/DFCI:** source mapping and CR/PR-versus-PD endpoint crosswalk passed, but the available matrix is TPM and is not invertible to FPKM without sample-specific scaling information; separate raw counts do not establish same-pipeline compatibility.
+- **Gide/PRJEB23709:** raw counts and public sample metadata exist, but sample/treatment-arm reconciliation and a fixed, compatible expression quantification remain prerequisites. The study includes both anti-PD-1 monotherapy and combination therapy, so it cannot be pooled indiscriminately.
+- **MGH GSE115821 / GSE168204:** public count matrices, but timepoint/repeated-biopsy issues and R/NR labels or low responder counts prevent immediate frozen-endpoint replication.
+
+This is a data-compatibility stop, not evidence that no other cohort exists. The current v2 validation program has one completed independent test (GSE91061), and it failed the prespecified promotion gate. A second score should not be produced merely to fill the replication requirement.
 
 ## Locked next-step requirements
 
