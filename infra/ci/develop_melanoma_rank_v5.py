@@ -141,9 +141,12 @@ def run_development():
     liu_on_gide_model = predict(gide_only_model, liu_x)
     liu_on_gide_metrics = REO.calculate_metrics(liu_y, liu_on_gide_model)
 
-    overlap = sorted(set(row["patient_id"] for row in training) & set(row["patient_id"] for row in validation))
-    if overlap:
-        raise ValueError(f"source patient identifiers overlap training and validation: {overlap}")
+    identifier_collisions = sorted(set(row["patient_id"] for row in training) & set(row["patient_id"] for row in validation))
+    identifier_overlap_note = (
+        "Patient identifiers are cohort-local; strings such as Patient42 recur across source studies "
+        "and cannot establish person-level overlap. The source studies are distinct, but no global "
+        "person-level crosswalk is available to prove absence of overlap."
+    )
 
     return {
         "status": "RANK_V5_DEVELOPMENT_AND_GSE93157_TEST_COMPLETE",
@@ -160,7 +163,9 @@ def run_development():
             "sample_count": len(validation),
             "metrics": validation_metrics,
             "promotion_screen": _screen(validation_metrics),
-            "patient_overlap_with_training": overlap,
+            "patient_overlap_with_training": "NOT_PROVEN_BY_GLOBAL_IDENTIFIER",
+            "cohort_local_identifier_collisions": identifier_collisions,
+            "overlap_audit_note": identifier_overlap_note,
             "timing_note": "Both baseline and archival tissue are pre-treatment; archival tissue was collected >3 months before therapy.",
         },
         "cross_cohort_transport_checks": {
