@@ -620,9 +620,9 @@ def run_development():
                 "endpoint": "CR/PR versus PD; SD excluded",
             },
             "claim_boundary": (
-                "No model was fitted because the strict baseline-only melanoma subset is too small "
-                "for external validation. Do not substitute archival samples or use this cohort to "
-                "claim clinical prediction validity."
+                "No model was fitted because the pre-treatment melanoma subset (baseline plus archival) "
+                "is too small for external validation. Do not substitute on-treatment samples or use "
+                "this cohort to claim clinical prediction validity."
             ),
         }
     liu, liu_genes, liu_sources = _read_liu(panel_genes)
