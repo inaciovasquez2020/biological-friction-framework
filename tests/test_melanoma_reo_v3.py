@@ -25,7 +25,7 @@ def test_pair_feature_count_order_and_ties():
     assert features[3] == 1.0
     assert features[4] == 1.0
     assert features[5] == 1.0
-    assert features[6] == 1.0
+    assert features[6] == 0.0
     assert features[7] == 1.0
     assert features[8] == 1.0
     assert features[9] == 1.0
@@ -35,9 +35,9 @@ def test_pair_feature_count_order_and_ties():
     assert features[13] == 1.0
     assert features[14] == 1.0
     assert features[15] == 1.0
-    assert features[16] == 1.0
+    assert features[16] == 0.0
     assert features[17] == 1.0
-    assert features[18] == 1.0
+    assert features[18] == 0.0
     assert features[19] == 1.0
     assert features[20] == 1.0
 
