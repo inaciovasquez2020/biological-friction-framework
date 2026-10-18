@@ -1,0 +1,55 @@
+name: melanoma-wnt-v1
+on:
+  push:
+    branches:
+      - research/melanoma-wnt-gse165745-v1-20261018
+    paths:
+      - "infra/ci/develop_melanoma_wnt_v1.py"
+      - "infra/ci/audit_melanoma_wnt_inputs.py"
+      - "tests/test_melanoma_wnt_v1.py"
+      - "tests/test_melanoma_wnt_input_audit.py"
+      - "infra/ci/audit_geo_source_inventory.py"
+      - "tests/test_geo_source_inventory.py"
+      - ".github/workflows/melanoma-wnt-v1.yml"
+  pull_request:
+    paths:
+      - "infra/ci/develop_melanoma_wnt_v1.py"
+      - "infra/ci/audit_melanoma_wnt_inputs.py"
+      - "tests/test_melanoma_wnt_v1.py"
+      - "tests/test_melanoma_wnt_input_audit.py"
+      - "infra/ci/audit_geo_source_inventory.py"
+      - "tests/test_geo_source_inventory.py"
+      - ".github/workflows/melanoma-wnt-v1.yml"
+  workflow_dispatch:
+jobs:
+  test-and-run-exploratory-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependency
+        run: python -m pip install pytest pandas numpy
+      - name: Test fixed score mechanics and input audit
+        run: pytest -q tests/test_melanoma_wnt_v1.py tests/test_melanoma_wnt_input_audit.py tests/test_geo_source_inventory.py
+      - name: Inventory GSE165745 RCC source files
+        id: source_inventory
+        continue-on-error: true
+        run: python infra/ci/audit_geo_source_inventory.py --datasets GSE165745 --outdir geo-source-audit
+      - name: Upload GEO source inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: geo-source-inventory-audit
+          path: geo-source-audit/
+          if-no-files-found: warn
+      - name: Run fixed score against public GSE165745
+        run: python infra/ci/develop_melanoma_wnt_v1.py --output melanoma-wnt-v1-receipt.json
+      - name: Upload exploratory score receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: melanoma-wnt-v1-receipt
+          path: melanoma-wnt-v1-receipt.json
+          if-no-files-found: error
