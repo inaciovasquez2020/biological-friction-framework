@@ -124,3 +124,19 @@ def test_treatment_context_absence_is_reported_not_inferred(tmp_path):
     assert context["all_context_columns_present"] is False
     assert context["field_summary"]["treatment_class"]["column_present"] is False
     assert result["decision"]["treatment_context_columns_complete"] is False
+
+
+
+def test_published_source_ici_alias_is_counted_without_relabeling_it():
+    context = MODULE.summarize_treatment_context(
+        [
+            {"ICI": "0"},
+            {"ICI": "1"},
+            {"ICI": ""},
+        ]
+    )
+    assert context["field_summary"]["exposure_status"]["source_column"] == "ICI"
+    assert context["field_summary"]["exposure_status"]["categories"] == {"0": 1, "1": 1}
+    assert context["field_summary"]["exposure_status"]["unresolved_rows"] == 1
+    assert context["field_summary"]["treatment_class"]["column_present"] is False
+    assert context["analysis_performed"] is False
