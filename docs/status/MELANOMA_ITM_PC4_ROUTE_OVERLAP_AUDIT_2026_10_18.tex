@@ -1,0 +1,137 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xurl}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\title{ITM PC4 Melanocytic Signature and Frozen Route Markers\\
+\large A Source-Identity and Overlap Audit}
+\author{Inacio F. Vasquez\\Independent Researcher, United States}
+\date{18 October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note specifies an outcome-blind, reproducible comparison between the published in-transit melanoma (ITM) PC4 melanocytic transcriptional signature and the frozen seven-marker route-burden v2 feature definition. The current deliverable is an input-identity and signature-overlap audit, not a response score, prognostic model, or clinical analysis. The available evidence reconciles the reported cohort counts as 170 high-quality spatial regions of interest (ROIs) from 105 patients overall, including a described subset of 116 in-transit ROIs from 84 patients. The source matrix and complete PC4 signature were not retrieved for this audit; therefore no numerical overlap, correlation, survival estimate, or new prediction metric is claimed. These limitations are part of the result.
+\end{abstract}
+
+\section{Question and bounded result}
+
+\textbf{Question.} Can the published PC4 melanocytic signature be compared with the frozen seven-marker route-burden feature definition without confusing cohort identity, signature identity, expression units, or clinical endpoints?
+
+\textbf{Current result.}
+\begin{quote}
+\texttt{RESULT := REPRODUCIBLE INPUT AND OVERLAP GATE DEFINED; NUMERICAL OVERLAP NOT YET ESTABLISHED.}
+\end{quote}
+
+The audit is designed to verify matrix-to-manifest sample identity, count unique patients separately from ROIs, check signature completeness, inventory missing genes, and report exact and direction-labelled overlap between the two gene sets. It does not read expression values beyond the first-column gene inventory and sample header.
+
+\section{Source and cohort accounting}
+
+The published study reports 170 high-quality spatial ROIs from 105 distinct patients. It separately describes 116 ROIs from 84 patients as in-transit lesions, alongside ROIs from other metastatic sites. The latter count is a subset description and does not, by itself, demonstrate a contradictory dataset version. Any downstream patient-level analysis must identify the target population explicitly and join every ROI to its source-defined patient identifier.
+
+The source record identifies a PC4 positive melanocytic signature of 36 genes and a PC4 negative signature of 56 genes. PMEL, TYRP1, TRPM1, GPR143, and TSPAN10 are identified among the high-contribution positive genes. PC4 is a PCA-derived transcriptional state; it is not interchangeable by definition with the frozen seven-marker route score.
+
+Source records:
+\begin{itemize}[leftmargin=1.5em]
+  \item Article: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC13398476/}
+  \item Dryad data record: \url{https://datadryad.org/dataset/doi:10.5061/dryad.kh18932pf}
+  \item Related data/software record: \url{https://zenodo.org/records/19104096}
+  \item GEO series: \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE325123}
+  \item Released analysis code: \url{https://github.com/ziyinhuang96/stgemox_itm_mel_tma/releases/tag/submission-v2}
+\end{itemize}
+
+The available ITM matrix is described as log2 counts per million (log2CPM). The frozen route-burden v2 empirical cumulative distribution function (ECDF) reference was built from a GSE78220 FPKM matrix. These units and preprocessing pipelines are not presumed interchangeable. The current audit intentionally does not apply the frozen ECDF reference to log2CPM data.
+
+\section{Reproducible input contract}
+
+The audit script \texttt{infra/ci/audit\_itm\_pc4\_route\_overlap.py} expects three local inputs:
+
+\begin{enumerate}[leftmargin=2em]
+  \item A gene-by-ROI CSV or TSV matrix. The first column contains unique gene symbols; remaining column headers are ROI/sample IDs. Expression values are not used.
+  \item A complete PC4 signature table with columns \texttt{gene\_symbol,pc4\_direction}; direction must be \texttt{positive} or \texttt{negative}. The source-defined complete signature is expected to contain 36 positive and 56 negative genes.
+  \item A sample manifest with columns \texttt{sample\_id,patient\_id}, one row per ROI and the source-defined patient identifier.
+\end{enumerate}
+
+Example invocation:
+
+\begin{verbatim}
+python3 infra/ci/audit_itm_pc4_route_overlap.py \
+  --matrix ITM_log2CPM.csv \
+  --signature pc4_signature.csv \
+  --manifest itm_roi_manifest.csv \
+  --output itm_pc4_route_overlap_receipt.json
+\end{verbatim}
+
+The JSON receipt records input paths, matrix/manifest identity, ROI and unique-patient counts, repeated ROIs per patient, signature dimensions, genes missing from the matrix, exact route-marker overlap, and direction-consistent versus direction-conflicting overlap. A size-gate override is appropriate only if a documented source correction establishes different signature dimensions; the source evidence should be recorded before changing expected counts.
+
+\section{Comparison rule}
+
+The frozen route-marker directions are:
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Marker} & \textbf{Frozen route direction}\\
+\midrule
+KDM5B & high\\
+CD36 & high\\
+MITF & high\\
+MTHFD2 & high\\
+NGFR & high\\
+NT5E & high\\
+SOX10 & low\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For this audit only, a high-direction route marker is direction-consistent with a PC4-positive gene; the low-direction SOX10 marker is direction-consistent with a PC4-negative gene. This is a declared bookkeeping convention for comparison, not a claim that the PC4 and route signatures measure the same biological construct.
+
+\section{Interpretation and failure rules}
+
+\begin{itemize}[leftmargin=1.5em]
+  \item Exact gene overlap is descriptive and does not establish biological equivalence.
+  \item A matrix/manifest identity mismatch or incomplete PC4 signature blocks interpretation; unmatched rows must not be silently dropped.
+  \item ROIs are not independent patients. Any survival analysis must use patient-level outcomes and account for repeated ROIs within patients.
+  \item The frozen FPKM-based ECDF score must not be applied to the log2CPM matrix. A future same-pipeline reconstruction requires a separate, outcome-blind compatibility gate.
+  \item A published survival association for PC4 is prognostic evidence for that signature; it does not validate the frozen seven-marker score as an anti-PD-1 response predictor.
+\end{itemize}
+
+\section{Current evidence boundary}
+
+The source matrix and complete PC4 signature were not successfully retrieved for the current audit. As a result, this report does not provide numerical overlap, correlation, patient-level survival estimates, or a new prediction metric. The script and regression tests define a reproducible gate for when the complete inputs are available; they do not substitute for those inputs.
+
+\begin{quote}
+\texttt{SOURCE\_COHORT\_ACCOUNTING := 170 ROI / 105 patients overall; 116 ROI / 84 patients in the described ITM subset.}
+
+\texttt{PC4\_SIGNATURE\_EQUIVALENCE\_TO\_FROZEN\_ROUTE\_SCORE := NOT ESTABLISHED.}
+
+\texttt{FROZEN\_V2\_SCORING\_ON\_LOG2CPM := NOT PERMITTED BY CURRENT COMPATIBILITY EVIDENCE.}
+
+\texttt{NEW\_RESPONSE\_PREDICTION\_VALIDATION := NOT ESTABLISHED.}
+\end{quote}
+
+\texttt{BOUNDARY := $\neg$ established\_equivalence(PC4\_melanocytic\_signature, frozen\_7\_marker\_route\_score)}
+
+\texttt{BOUNDARY := $\neg$ established\_response\_prediction(frozen\_7\_marker\_route\_score)}
+
+\section{Final status}
+
+This is a bounded source and methods note. It documents a reproducible comparison procedure and explicit stop conditions; it does not report a completed numerical comparison or expand the clinical claims.
+
+\begin{thebibliography}{9}
+\bibitem{ITMPC4}
+Huang et al.
+\newblock ITM melanoma spatial-transcriptomic study and PC4 melanocytic signature.
+\newblock Article record: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC13398476/}.
+\newblock Data and code records are linked in Section 2.
+\end{thebibliography}
+
+\end{document}
