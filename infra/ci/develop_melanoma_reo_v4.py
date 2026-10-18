@@ -324,9 +324,14 @@ def _read_gse93157():
 
     counts = {str(y): sum(row["y"] == y for row in observations) for y in (0, 1)}
     if len(observations) < 15 or counts["0"] < 5 or counts["1"] < 5:
+        from collections import Counter
+        source_counts = dict(Counter(sample["source_name"] for sample in metadata))
+        biopsy_counts = dict(Counter(sample["fields"].get("biopsy", "") for sample in metadata))
+        drug_counts = dict(Counter(sample["fields"].get("drug", "") for sample in metadata))
         raise ValueError(
             "GSE93157 is too small for the prespecified external screen: "
-            f"included={len(observations)}, class_counts={counts}, baseline_melanoma={len(melanoma_baseline)}"
+            f"included={len(observations)}, class_counts={counts}, baseline_melanoma={len(melanoma_baseline)}, "
+            f"source_counts={source_counts}, biopsy_counts={biopsy_counts}, drug_counts={drug_counts}"
         )
     return observations, set(expression), {
         "series_matrix_url": GSE93157_MATRIX_URL,
