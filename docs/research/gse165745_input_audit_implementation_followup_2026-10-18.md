@@ -40,3 +40,22 @@ A review of the saved CI receipt and scorer found two concrete provenance/defini
 The workflow was repaired after a malformed path-filter edit and now includes the new input-audit tests and installs their `pandas`/`numpy` dependencies. The workflow's test command runs both the existing score tests and the new fail-closed audit tests.
 
 **Verification status:** these latest changes have been committed, but a workflow run for the latest commits has not yet been returned by the GitHub status query. Do not call the revised tests passing until a run on the revised head is confirmed. The raw RCC archive and supplemental tables still have not been retrieved and reconciled in this execution.
+
+
+## Corrected CI run and receipt inspection — 2026-10-18 18:37 UTC
+
+The first PR run of the expanded workflow failed during test collection because the test imported `infra.ci` as a package, but that namespace is not importable in this repository layout. The test was corrected to load the module by its file path.
+
+On commit `15366aef1d79cc4b26a51c4b7b678d5e17bd906c`, workflow run [39154944451](https://github.com/inaciovasquez2020/biological-friction-framework/actions/runs/39154944451) completed the test step successfully, ran the fixed-score evaluation against the GEO series matrix, and uploaded receipt artifact `12146667110`. The test and evaluation steps both report success.
+
+Receipt checks:
+- sample count: 24; 12 responders and 12 nonresponders;
+- all 18 frozen resistance-associated genes plus RNF43 were present;
+- AUROC for nonresponse: 0.5208333333333334;
+- balanced accuracy at the observed-range midpoint threshold: 0.625, descriptive only;
+- downloaded payload SHA-256: `c6973bc2a9e1a460b7585e605b47451fedd3c53f7b7d922252592b96bc6c164b`;
+- decompressed matrix-content SHA-256: `6a201f525da8b9bce96228ba66641c2264efbdc131f01a04dd54aca8555ab648`.
+
+These hashes identify the GEO series-matrix payload/content, not the raw RCC archive. This run still does not validate the deposited expression scale, justify the `log1p` transformation, reconcile raw RCC measurements, verify clinical endpoint details, or establish an independent validation cohort.
+
+**Updated gate:** software tests and the series-matrix score execution passed on this commit; scientific input provenance and clinical validation remain blocked. Do not merge or use clinically on this evidence.
