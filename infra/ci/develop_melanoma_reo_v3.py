@@ -40,6 +40,15 @@ GSE91061_FPKM_URL = (
     "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE91nnn/GSE91061/"
     "suppl/GSE91061_BMS038109Sample.hg19KnownGene.fpkm.csv.gz"
 )
+GIDE_EXPRESSION_URL = (
+    "https://raw.githubusercontent.com/xmuyulab/ims_gene_signature/"
+    "275be3c340e4cba698d085bc1a875b92dd45602c/data/mel_gide19_exp_data.csv"
+)
+GIDE_PHENOTYPE_URL = (
+    "https://raw.githubusercontent.com/Yun-Ching-Chen/NSCLC_ICB_CombBiomarker/"
+    "1e9d8b62b7226425985a4f10e3ae1830cc176937/"
+    "Data/Melanoma_Metastatic_PRJEB23709_Gide2019_pheno.csv"
+)
 GENES = ("KDM5B", "CD36", "MITF", "MTHFD2", "NGFR", "NT5E", "SOX10")
 ENTREZ_TO_SYMBOL = {
     "10765": "KDM5B",
@@ -426,19 +435,140 @@ def metrics(labels: list[int], probabilities: list[float]) -> dict:
     }
 
 
+
+def _gide_data():
+    expression_bytes, expression_sha = download(GIDE_EXPRESSION_URL)
+    phenotype_bytes, phenotype_sha = download(GIDE_PHENOTYPE_URL)
+    expression_text = expression_bytes.decode("utf-8-sig")
+    expression_reader = csv.reader(io.StringIO(expression_text))
+    header = next(expression_reader)
+    sample_ids = [token.strip() for token in header[1:]]
+    if not sample_ids or len(set(sample_ids)) != len(sample_ids):
+        raise ValueError("Gide expression sample IDs are empty or duplicated")
+
+    wanted = set(GENES)
+    matrix = {}
+    for line_number, row in enumerate(expression_reader, start=2):
+        if not row or all(not token.strip() for token in row):
+            continue
+        if len(row) != len(header):
+            raise ValueError(f"Gide expression row {line_number} has incorrect width")
+        gene = row[0].strip()
+        if gene not in wanted:
+            continue
+        if gene in matrix:
+            raise ValueError(f"duplicate Gide expression row for {gene}")
+        values = []
+        for sample, token in zip(sample_ids, row[1:]):
+            try:
+                value = float(token)
+            except ValueError as exc:
+                raise ValueError(f"non-numeric Gide expression for {gene}/{sample}") from exc
+            if not math.isfinite(value):
+                raise ValueError(f"non-finite Gide expression for {gene}/{sample}")
+            values.append(value)
+        matrix[gene] = dict(zip(sample_ids, values))
+    missing = sorted(wanted - set(matrix))
+    if missing:
+        raise ValueError(f"Gide matrix is missing required genes: {missing}")
+
+    phenotype_reader = csv.DictReader(io.StringIO(phenotype_bytes.decode("utf-8-sig")))
+    required = {"sid", "response", "Therapy", "biopsy_time", "pid"}
+    if not phenotype_reader.fieldnames or not required.issubset(phenotype_reader.fieldnames):
+        raise ValueError("Gide phenotype table lacks required accession/response/treatment fields")
+    phenotype_rows = list(phenotype_reader)
+    by_accession = {}
+    for row in phenotype_rows:
+        accession = row.get("sid", "").strip()
+        if not accession:
+            raise ValueError("Gide phenotype table contains an empty run accession")
+        if accession in by_accession:
+            raise ValueError(f"duplicate Gide phenotype accession: {accession}")
+        by_accession[accession] = row
+
+    observations = []
+    exclusions = []
+    pre_monotherapy = []
+    for accession, row in by_accession.items():
+        if row.get("Therapy", "").strip() != "anti-PD-1":
+            continue
+        if row.get("biopsy_time", "").strip() != "pre-treatment":
+            continue
+        pre_monotherapy.append(accession)
+        if accession not in matrix[GENES[0]]:
+            raise ValueError(f"Gide pretreatment accession lacks expression column: {accession}")
+        response = row.get("response", "").strip().upper()
+        if response in {"CR", "PR"}:
+            y = 1
+        elif response == "PD":
+            y = 0
+        elif response == "SD":
+            exclusions.append({
+                "sample_id": accession,
+                "patient_id": row.get("pid", "").strip(),
+                "response": response,
+                "reason": "stable_disease_excluded",
+            })
+            continue
+        else:
+            exclusions.append({
+                "sample_id": accession,
+                "patient_id": row.get("pid", "").strip(),
+                "response": response,
+                "reason": "unknown_or_unrecognized_response",
+            })
+            continue
+        observations.append({
+            "sample_id": accession,
+            "patient_id": row.get("pid", "").strip(),
+            "response_source": response,
+            "y": y,
+            "expression": {gene: matrix[gene][accession] for gene in GENES},
+        })
+
+    if len(pre_monotherapy) != 41 or len(observations) != 35:
+        raise ValueError(
+            "Gide pretreatment anti-PD-1 cohort changed: "
+            f"pre_monotherapy={len(pre_monotherapy)}, included={len(observations)}; "
+            "expected 41 pretreatment rows and 35 CR/PR-versus-PD rows"
+        )
+    class_counts = {str(y): sum(row["y"] == y for row in observations) for y in (0, 1)}
+    if class_counts != {"0": 16, "1": 19} or len(exclusions) != 6:
+        raise ValueError(
+            "Gide endpoint crosswalk changed: "
+            f"class_counts={class_counts}, exclusions={len(exclusions)}; "
+            "expected 19 CR/PR, 16 PD, and 6 SD exclusions"
+        )
+    return observations, {
+        "expression_url": GIDE_EXPRESSION_URL,
+        "expression_sha256": expression_sha,
+        "expression_bytes": len(expression_bytes),
+        "phenotype_url": GIDE_PHENOTYPE_URL,
+        "phenotype_sha256": phenotype_sha,
+        "phenotype_bytes": len(phenotype_bytes),
+        "expression_unit_processing": "secondary processed matrix; quantification/normalization is not proven numerically equivalent to either training TPM or GSE91061 FPKM",
+        "accession_join": "exact run accession; pretreatment anti-PD-1 monotherapy only",
+    }, exclusions
+
+
 def run_development() -> dict:
     training, training_hashes = _liu_data()
     validation, validation_sources, exclusions = _gse91061_data()
+    gide_validation, gide_sources, gide_exclusions = _gide_data()
     train_features = [pair_features(row["expression"]) for row in training]
     train_labels = [row["y"] for row in training]
     test_features = [pair_features(row["expression"]) for row in validation]
     test_labels = [row["y"] for row in validation]
+    gide_features = [pair_features(row["expression"]) for row in gide_validation]
+    gide_labels = [row["y"] for row in gide_validation]
 
     model = fit_ridge_logistic(train_features, train_labels)
     train_probabilities = predict_probability(train_features, model)
     test_probabilities = predict_probability(test_features, model)
+    gide_probabilities = predict_probability(gide_features, model)
     train_metrics = metrics(train_labels, train_probabilities)
     test_metrics = metrics(test_labels, test_probabilities)
+    gide_metrics = metrics(gide_labels, gide_probabilities)
     external_overlap = sorted(set(row["patient_id"] for row in training) & set(row["patient_id"] for row in validation))
     if external_overlap:
         raise ValueError(f"patient IDs overlap across development and validation: {external_overlap}")
@@ -470,6 +600,23 @@ def run_development() -> dict:
             "exclusions": exclusions,
             "patient_overlap_with_training": external_overlap,
         },
+        "second_external_validation_cohort": {
+            "name": "Gide PRJEB23709 pretreatment anti-PD-1 monotherapy",
+            "expression_source": gide_sources,
+            "endpoint": "CR/PR versus PD; SD/unknown/mixed excluded",
+            "metrics": gide_metrics,
+            "sample_count": len(gide_validation),
+            "patient_ids": sorted(row["patient_id"] for row in gide_validation),
+            "exclusions": gide_exclusions,
+            "patient_overlap_with_training": sorted(
+                set(row["patient_id"] for row in training)
+                & set(row["patient_id"] for row in gide_validation)
+            ),
+            "interpretation_limit": (
+                "Secondary processed matrix; cross-pipeline REO robustness is a testable assumption, "
+                "not proven numerical equivalence."
+            ),
+        },
         "model_parameters": model,
         "external_promotion_screen": {
             "auroc_point_estimate_gt_0_5": test_metrics["auroc"] > 0.5,
@@ -484,6 +631,18 @@ def run_development() -> dict:
             ),
             "second_independent_replication": False,
         },
+        "gide_external_screen": {
+            "auroc_point_estimate_gt_0_5": gide_metrics["auroc"] > 0.5,
+            "auroc_ci_lower_gt_0_5": gide_metrics["auroc_95_ci"]["lower_95"] > 0.5,
+            "brier_better_than_prevalence_baseline": gide_metrics["brier_beats_prevalence_baseline"],
+            "balanced_accuracy_gt_0_5": gide_metrics["balanced_accuracy_at_0_5"] > 0.5,
+            "passed_single_cohort_screen": (
+                gide_metrics["auroc"] > 0.5
+                and gide_metrics["auroc_95_ci"]["lower_95"] > 0.5
+                and gide_metrics["brier_beats_prevalence_baseline"]
+                and gide_metrics["balanced_accuracy_at_0_5"] > 0.5
+            ),
+        },
         "patients": {
             "training": [
                 {"sample_id": row["sample_id"], "patient_id": row["patient_id"], "y": row["y"],
@@ -494,6 +653,11 @@ def run_development() -> dict:
                 {"sample_id": row["sample_id"], "patient_id": row["patient_id"], "y": row["y"],
                  "probability": probability}
                 for row, probability in zip(validation, test_probabilities)
+            ],
+            "gide_external_validation": [
+                {"sample_id": row["sample_id"], "patient_id": row["patient_id"], "y": row["y"],
+                 "probability": probability}
+                for row, probability in zip(gide_validation, gide_probabilities)
             ],
         },
         "scale_robustness_note": (
@@ -523,7 +687,9 @@ def main():
         "model_version": result["model_version"],
         "training_metrics": result["training_cohort"]["metrics"],
         "external_validation_metrics": result["external_validation_cohort"]["metrics"],
+        "gide_external_validation_metrics": result["second_external_validation_cohort"]["metrics"],
         "external_promotion_screen": result["external_promotion_screen"],
+        "gide_external_screen": result["gide_external_screen"],
         "receipt": str(args.output),
     }, indent=2, sort_keys=True))
 
