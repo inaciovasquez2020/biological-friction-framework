@@ -7,11 +7,33 @@ on:
     paths:
       - "infra/ci/validate_gse91061_melanoma_v2.py"
       - "infra/ci/preflight_mel_dfci_v2_cohort.py"
+      - "infra/ci/audit_gse78220_development.py"
+      - "infra/ci/audit_gse78220_v2_development.py"
       - "tests/test_mel_dfci_v2_cohort_preflight.py"
+      - "tests/test_gse78220_v2_development_audit.py"
       - ".github/workflows/gse91061-frozen-melanoma-v2-validation.yml"
       - ".github/workflows/mel-dfci-v2-cohort-preflight.yml"
 
 jobs:
+  development-reference-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install audit dependencies
+        run: python -m pip install openpyxl
+      - name: Run checksum-locked GSE78220 development audit
+        run: python infra/ci/audit_gse78220_v2_development.py --output gse78220-v2-development-audit.json
+      - name: Upload development audit receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: gse78220-v2-development-audit
+          path: gse78220-v2-development-audit.json
+          if-no-files-found: error
+
   locked-validation:
     runs-on: ubuntu-latest
     timeout-minutes: 20
