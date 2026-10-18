@@ -49,6 +49,6 @@ jobs:
 
       - name: Reject tracked transient files only
         run: |
-          git ls-files | grep -E '(^|/)\\.venv/' && exit 1 || true
+          git ls-files | grep -E '(^|/)\.venv/' && exit 1 || true
           git ls-files | grep -E '(^|/)__pycache__/' && exit 1 || true
-          git ls-files | grep -E '\\.pyc$' && exit 1 || true
+          git ls-files | grep -E '\.pyc$' && exit 1 || true
