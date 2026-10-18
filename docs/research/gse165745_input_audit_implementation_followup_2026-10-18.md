@@ -28,3 +28,15 @@ The utility:
 ## Gate decision
 
 **BLOCKED — input provenance and cohort crosswalk remain unresolved.** The new utility is a guardrail for a later local/source-data audit; it is not itself evidence that the underlying data have passed validation.
+
+
+## Additional code audit and corrections — 2026-10-18
+
+A review of the saved CI receipt and scorer found two concrete provenance/definition defects, now corrected on this branch:
+
+1. The fixed-score implementation previously allowed a sample to be scored when only five resistance-associated genes and RNF43 were present. That silently changed the frozen 18-gene formula. It now fails closed if any of the 18 resistance genes or RNF43 is missing.
+2. The receipt previously labelled the SHA-256 of the decompressed GEO series matrix as `raw_sha256`, and the download and content hashes were identical because only the decompressed bytes were hashed. It now records `download_payload_sha256` for the bytes fetched from the URL and `matrix_content_sha256` for the decompressed series-matrix content. Neither field is a raw-RCC archive hash.
+
+The workflow was repaired after a malformed path-filter edit and now includes the new input-audit tests and installs their `pandas`/`numpy` dependencies. The workflow's test command runs both the existing score tests and the new fail-closed audit tests.
+
+**Verification status:** these latest changes have been committed, but a workflow run for the latest commits has not yet been returned by the GitHub status query. Do not call the revised tests passing until a run on the revised head is confirmed. The raw RCC archive and supplemental tables still have not been retrieved and reconciled in this execution.
