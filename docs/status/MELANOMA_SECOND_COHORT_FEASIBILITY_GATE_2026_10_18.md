@@ -44,7 +44,7 @@ The BioProject reports 91 SRA experiments and includes patients treated with ant
 **Blocking items before scoring:**
 1. Need a reproducible patient/sample manifest and exact mapping of pretreatment biopsies to response labels.
 2. Need to separate anti-PD-1 monotherapy from combination therapy or predeclare a treatment-arm-stratified analysis; do not pool unlike regimens without a frozen rationale.
-3. Available public records primarily identify sequence experiments. The processed expression matrix, reference annotation, and sample identity mapping need to be verified. Reprocessing raw FASTQ would require a fixed pipeline and should not silently replace the frozen v2 reference scale.
+3. The processed `xmuyulab/ims_gene_signature` Gide matrix is accessible: 20,294 gene rows by 91 sample columns; the seven frozen v2 genes are present, and the 41 pretreatment accessions in its clinical table match expression columns. The repository loader explicitly describes the data as quantile-normalized and log2-transformed, and conditionally applies `log2(x + 1)` when a dataset maximum exceeds 500. These checks establish parseability and accession joins, not equivalence to the frozen GSE78220 Cuffnorm FPKM reference. The matrix is therefore eligible for provenance inspection but not v2 scoring. Raw-read reprocessing would require a fixed, documented pipeline and independent evidence of compatibility with the frozen reference.
 4. Resolve whether each sample is bulk RNA-seq or single-cell-derived in the particular source surface being used; the same accession is described differently in secondary studies.
 
 Status: **potentially independent, but data/endpoint processing burden is materially higher.**
