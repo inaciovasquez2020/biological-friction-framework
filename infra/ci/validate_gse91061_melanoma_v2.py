@@ -193,11 +193,11 @@ def freeze_pretreatment(records):
 def endpoint(raw):
     token = re.sub(r"[_\-/]+", " ", str(raw).strip().upper())
     token = re.sub(r"\s+", " ", token)
-    if token in {"CR", "COMPLETE RESPONSE", "COMPLETE RESPONDER", "PR", "PARTIAL RESPONSE", "PARTIAL RESPONDER"}:
+    if token in {"CR", "COMPLETE RESPONSE", "COMPLETE RESPONDER", "PR", "PARTIAL RESPONSE", "PARTIAL RESPONDER", "PRCR", "CRPR", "CR PR", "PR CR", "PARTIAL OR COMPLETE RESPONSE", "COMPLETE OR PARTIAL RESPONSE"}:
         return 1, "CR_PR"
     if token in {"PD", "PROGRESSIVE DISEASE", "PROGRESSION", "PROGRESSIVE"}:
         return 0, "PD"
-    if token in {"SD", "STABLE DISEASE", "MIXED", "MIXED RESPONSE", "MR", "UNEVALUABLE", "NOT EVALUABLE", "NE", "UNKNOWN", "NA", "N A", "MISSING", ""}:
+    if token in {"SD", "STABLE DISEASE", "MIXED", "MIXED RESPONSE", "MR", "UNEVALUABLE", "NOT EVALUABLE", "NE", "UNKNOWN", "UNK", "UNKNOWN RESPONSE", "NA", "N A", "MISSING", ""}:
         return None, "excluded_nonprimary_endpoint"
     raise ValueError(f"unrecognised response annotation {raw!r}; fail closed")
 
