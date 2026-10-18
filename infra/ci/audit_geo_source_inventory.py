@@ -78,24 +78,36 @@ def audit_one(name: str, spec: dict, outdir: Path) -> dict:
     matrix_path = outdir / f"{name}_series_matrix.txt.gz"
     raw_path = outdir / f"{name}_RAW.tar"
     result = {"accession": name, "expected_samples": spec["expected_samples"]}
-    result["matrix_download"] = download(spec["matrix"], matrix_path)
-    result["matrix"] = matrix_inventory(matrix_path, spec["expected_samples"])
-    result["raw_archive_download"] = download(spec["raw"], raw_path)
-    members = []
-    with tarfile.open(raw_path, "r:*") as archive:
-        candidates = [m for m in archive.getmembers() if m.isfile()]
-        result["archive_member_count"] = len(candidates)
-        result["archive_member_names"] = [m.name for m in candidates]
-        for member in candidates:
-            if member.name.lower().endswith(".rcc.gz") or member.name.lower().endswith(".rcc"):
-                stream = archive.extractfile(member)
-                if stream is None:
-                    continue
-                members.append(rcc_inventory(member.name, stream.read()))
-    result["rcc_file_count"] = len(members)
-    result["rcc_files"] = members
-    result["rcc_count_matches_expected"] = len(members) == spec["expected_samples"]
-    result["status"] = "INVENTORY_COMPLETE" if result["matrix"]["sample_count_matches_expected"] and result["rcc_count_matches_expected"] else "INVENTORY_MISMATCH_REQUIRES_REVIEW"
+    try:
+        result["matrix_download"] = download(spec["matrix"], matrix_path)
+        result["matrix"] = matrix_inventory(matrix_path, spec["expected_samples"])
+    except Exception as exc:
+        result["matrix_error"] = {"type": type(exc).__name__, "message": str(exc)}
+    try:
+        result["raw_archive_download"] = download(spec["raw"], raw_path)
+        members = []
+        with tarfile.open(raw_path, "r:*") as archive:
+            candidates = [m for m in archive.getmembers() if m.isfile()]
+            result["archive_member_count"] = len(candidates)
+            result["archive_member_names"] = [m.name for m in candidates]
+            for member in candidates:
+                if member.name.lower().endswith(".rcc.gz") or member.name.lower().endswith(".rcc"):
+                    stream = archive.extractfile(member)
+                    if stream is not None:
+                        members.append(rcc_inventory(member.name, stream.read()))
+        result["rcc_file_count"] = len(members)
+        result["rcc_files"] = members
+        result["rcc_count_matches_expected"] = len(members) == spec["expected_samples"]
+    except Exception as exc:
+        result["raw_archive_error"] = {"type": type(exc).__name__, "message": str(exc)}
+    matrix_ok = result.get("matrix", {}).get("sample_count_matches_expected", False)
+    rcc_ok = result.get("rcc_count_matches_expected", False)
+    if matrix_ok and rcc_ok:
+        result["status"] = "INVENTORY_COMPLETE"
+    elif "matrix_error" in result or "raw_archive_error" in result:
+        result["status"] = "SOURCE_DOWNLOAD_OR_PARSE_BLOCKED"
+    else:
+        result["status"] = "INVENTORY_MISMATCH_REQUIRES_REVIEW"
     return result
 
 def main() -> None:
