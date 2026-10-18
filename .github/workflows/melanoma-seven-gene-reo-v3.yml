@@ -1,0 +1,33 @@
+name: melanoma-seven-gene-reo-v3
+
+on:
+  pull_request:
+    paths:
+      - "infra/ci/develop_melanoma_reo_v3.py"
+      - "infra/ci/preflight_mel_dfci_v2_cohort.py"
+      - "infra/ci/validate_gse91061_melanoma_v2.py"
+      - "tests/test_melanoma_reo_v3.py"
+      - ".github/workflows/melanoma-seven-gene-reo-v3.yml"
+  workflow_dispatch:
+
+jobs:
+  tests-and-locked-external-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependency
+        run: python -m pip install pytest
+      - name: Test model mechanics without network access
+        run: pytest -q tests/test_melanoma_reo_v3.py
+      - name: Develop on Liu/DFCI and test on locked GSE91061
+        run: python infra/ci/develop_melanoma_reo_v3.py --output melanoma-reo-v3-receipt.json
+      - name: Upload model and validation receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: melanoma-reo-v3-receipt
+          path: melanoma-reo-v3-receipt.json
+          if-no-files-found: error
