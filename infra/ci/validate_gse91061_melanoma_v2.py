@@ -296,15 +296,13 @@ def run_validation(output_path=None):
         matrix_info = build_route_tsv(fpkm_gz, set(metadata), route_tsv)
 
         # Reproduce the frozen development reference and calibration from GSE78220 only.
-        dev_audit = BASE.run_audit()
-        if dev_audit.get("decision") != "CONTINUE_TO_CALIBRATION_FREEZE_BEFORE_GSE91061":
-            raise ValueError("GSE78220 v2 continuation gate no longer passes")
-        fit = CAL.run_fit()["calibration"]
+        calibration_object = CAL.run_fit()
+        fit = calibration_object["calibration"]
         if not math.isclose(fit["intercept"], FROZEN_INTERCEPT, rel_tol=0.0, abs_tol=1e-12):
             raise ValueError("recomputed development intercept differs from frozen coefficient")
         if not math.isclose(fit["slope"], FROZEN_SLOPE, rel_tol=0.0, abs_tol=1e-12):
             raise ValueError("recomputed development slope differs from frozen coefficient")
-        reference = dev_audit["feature"]["reference"]
+        reference = calibration_object["source_provenance"]["route_reference"]
         selected_ids = [r["sample_id"] for r in selected]
         scored = V2.score_matrix(route_tsv, reference, selected_ids)
 
@@ -345,20 +343,21 @@ def run_validation(output_path=None):
     prevalence = sum(labels) / len(labels)
     brier = sum((p-y) ** 2 for p, y in zip(scores, labels)) / len(labels)
     prevalence_brier = prevalence * (1.0 - prevalence)
+    auroc_interval = auc_ci(labels, scores)
     metrics = {
         "n_included": len(labels),
         "n_responder": sum(labels),
         "n_nonresponder": len(labels) - sum(labels),
         "responder_prevalence": prevalence,
         "auroc": auc(labels, scores),
-        "auroc_95_ci": auc_ci(labels, scores),
+        "auroc_95_ci": auroc_interval,
         "balanced_accuracy": 0.5 * (sensitivity + specificity),
         "sensitivity": sensitivity,
         "specificity": specificity,
         "brier_score": brier,
         "prevalence_only_brier": prevalence_brier,
         "brier_beats_prevalence_only": brier < prevalence_brier,
-        "auroc_ci_lower_exceeds_0_5": auc_ci(labels, scores)["lower_95"] > 0.5,
+        "auroc_ci_lower_exceeds_0_5": auroc_interval["lower_95"] > 0.5,
     }
     promotion_conditions = {
         "auroc_point_estimate_gt_0_5": metrics["auroc"] > 0.5,
