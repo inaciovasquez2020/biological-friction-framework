@@ -12,6 +12,7 @@ The raw archive and processed series matrix were downloaded in CI and matched by
 - Sample scale classes: 23 `LINEAR_SCALAR_MULTIPLE`; 1 `LOG2_RAW_COUNT_PLUS_OFFSET`.
 - The exceptional sample is **GSM5049357** (RCC member `GSM5049357_R010.RCC.gz`, RCC-internal sample ID `GB12`). For its 19 panel genes, processed values equal `log2(raw RCC count) + offset` with offset approximately `-0.0243935`, to the audit tolerance.
 - The other 23 samples have processed panel values equal to raw RCC counts multiplied by a sample-specific scalar, within the audit tolerance.
+- Full-feature confirmation: a separate check of all 204 deposited gene rows shows the same split. GSM5049357 matches `log2(raw RCC count) + offset` across all 204 rows; the other 23 samples match sample-specific linear scalar multiples across the full table within relative numerical tolerance. The CI receipt now records panel-level and full-feature classifications.
 
 The scale classification is empirical. It does **not** establish which nSolver or downstream normalization settings were intended, nor justify converting one sample automatically. The original pipeline and the cause of the exceptional sample remain unresolved.
 
