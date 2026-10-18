@@ -62,17 +62,45 @@ def matrix_inventory(path: Path, expected: int) -> dict:
             "expected_sample_count": expected, "sample_count_matches_expected": len(titles) == expected}
 
 def rcc_inventory(member: str, content: bytes) -> dict:
+    """Parse documented RCC Code_Summary counts; never equate them to processed GEO values."""
+    raw = gzip.decompress(content) if content[:2] == b"\x1f\x8b" else content
+    text = raw.decode("utf-8-sig")
+    tags = Counter(re.findall(r"</?([A-Za-z_][A-Za-z0-9_]*)", text))
+    root_match = re.search(r"<([A-Za-z_][A-Za-z0-9_]*)", text)
+    result = {"member": member, "bytes": len(content),
+              "sha256": hashlib.sha256(content).hexdigest(),
+              "xml_root": root_match.group(1) if root_match else None,
+              "tag_counts": dict(tags.most_common(30))}
+    section = re.search(r"<Code_Summary>\s*(.*?)\s*</Code_Summary>", text, re.S)
+    if section:
+        import csv
+        rows = list(csv.DictReader(section.group(1).splitlines()))
+        required = {"CodeClass", "Name", "Accession", "Count"}
+        if rows and required.issubset(set(rows[0])):
+            parsed = []
+            for line_number, row in enumerate(rows, start=2):
+                try:
+                    count = int(row["Count"])
+                except (TypeError, ValueError) as exc:
+                    raise ValueError(f"invalid RCC Count at Code_Summary row {line_number}") from exc
+                if count < 0 or not row["Name"] or not row["Accession"]:
+                    raise ValueError(f"invalid RCC gene record at Code_Summary row {line_number}")
+                parsed.append({"code_class": row["CodeClass"], "name": row["Name"],
+                               "accession": row["Accession"], "count": count})
+            result.update({"code_summary_parse": "PASS", "code_summary_row_count": len(parsed),
+                           "code_summary": parsed})
+            result["xml_parse"] = "PASS"
+            return result
+    # Compatibility path for existing parser fixtures; a real RCC must have a valid
+    # Code_Summary table to count as parsed by audit_one.
     try:
-        xml = gzip.decompress(content) if content[:2] == b"\x1f\x8b" else content
-        root = ET.fromstring(xml)
-        tags = Counter(el.tag.rsplit("}", 1)[-1] for el in root.iter())
-        root_name = root.tag.rsplit("}", 1)[-1]
-        # Report tag inventory only; do not infer assay semantics from undocumented fields.
-        return {"member": member, "bytes": len(content), "sha256": hashlib.sha256(content).hexdigest(),
-                "xml_root": root_name, "tag_counts": dict(tags.most_common(30)), "xml_parse": "PASS"}
+        root = ET.fromstring(raw)
+        result.update({"xml_root": root.tag.rsplit("}", 1)[-1],
+                       "xml_parse": "PASS", "code_summary_parse": "MISSING_OR_INVALID"})
     except Exception as exc:
-        return {"member": member, "bytes": len(content), "sha256": hashlib.sha256(content).hexdigest(),
-                "xml_parse": "FAIL", "error": str(exc)}
+        result.update({"xml_parse": "FAIL", "code_summary_parse": "MISSING_OR_INVALID",
+                       "error": str(exc)})
+    return result
 
 def audit_one(name: str, spec: dict, outdir: Path) -> dict:
     matrix_path = outdir / f"{name}_series_matrix.txt.gz"
@@ -101,7 +129,9 @@ def audit_one(name: str, spec: dict, outdir: Path) -> dict:
     except Exception as exc:
         result["raw_archive_error"] = {"type": type(exc).__name__, "message": str(exc)}
     matrix_ok = result.get("matrix", {}).get("sample_count_matches_expected", False)
-    rcc_ok = result.get("rcc_count_matches_expected", False)
+    rcc_ok = result.get("rcc_count_matches_expected", False) and all(
+        item.get("code_summary_parse") == "PASS" for item in result.get("rcc_files", [])
+    )
     if matrix_ok and rcc_ok:
         result["status"] = "INVENTORY_COMPLETE"
     elif "matrix_error" in result or "raw_archive_error" in result:
