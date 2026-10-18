@@ -17,6 +17,8 @@ on:
       - "infra/ci/audit_melanoma_wnt_inputs.py"
       - "tests/test_melanoma_wnt_v1.py"
       - "tests/test_melanoma_wnt_input_audit.py"
+      - "infra/ci/audit_geo_source_inventory.py"
+      - "tests/test_geo_source_inventory.py"
       - ".github/workflows/melanoma-wnt-v1.yml"
   workflow_dispatch:
 jobs:
