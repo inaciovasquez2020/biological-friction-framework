@@ -142,21 +142,21 @@ def classify_sample_scale(raw_counts: dict[str, int], processed_values: dict[str
 def reconcile_rcc_to_matrix(matrix_path: Path, rcc_files: list[dict]) -> dict:
     """Match RCC raw counts to processed GEO values by GSM and classify per-sample scale."""
     raw = matrix_path.read_bytes()
-    if raw[:2] == b"\\x1f\\x8b":
+    if raw[:2] == b"\x1f\x8b":
         raw = gzip.decompress(raw)
     lines = raw.decode("utf-8-sig").splitlines()
     import csv
     gsm = []
     for line in lines:
         if line.startswith("!Sample_geo_accession"):
-            gsm = next(csv.reader([line], delimiter="\\t"))[1:]
+            gsm = next(csv.reader([line], delimiter="\t"))[1:]
             break
     try:
         start = lines.index("!series_matrix_table_begin")
         end = lines.index("!series_matrix_table_end", start)
     except ValueError:
         return {"status": "MATRIX_TABLE_MISSING", "sample_count": len(gsm)}
-    table = list(csv.reader(io.StringIO("\\n".join(lines[start + 1:end])), delimiter="\\t"))
+    table = list(csv.reader(io.StringIO("\n".join(lines[start + 1:end])), delimiter="\t"))
     if not table or len(table[0]) != len(gsm) + 1:
         return {"status": "MATRIX_WIDTH_MISMATCH", "sample_count": len(gsm)}
     processed = {}
@@ -172,7 +172,7 @@ def reconcile_rcc_to_matrix(matrix_path: Path, rcc_files: list[dict]) -> dict:
     samples = []
     missing_samples = []
     for item in rcc_files:
-        match = re.match(r"^(GSM\\d+)_", item.get("member", ""))
+        match = re.match(r"^(GSM\d+)_", item.get("member", ""))
         if not match:
             missing_samples.append(item.get("member"))
             continue
