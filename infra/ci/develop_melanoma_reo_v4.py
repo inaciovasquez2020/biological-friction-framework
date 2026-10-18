@@ -288,18 +288,19 @@ def _read_gse93157():
 
     observations = []
     exclusions = []
-    melanoma_baseline = []
+    melanoma_pretreatment = []
     for sample in metadata:
         fields = sample["fields"]
         source = sample["source_name"].lower()
         cancer_type = fields.get("cancer type", fields.get("tumor type", "")).lower()
         if "melanoma" not in source and "melanoma" not in cancer_type:
             continue
-        if fields.get("biopsy", "").strip().upper() != "BASELINE":
+        biopsy_type = fields.get("biopsy", "").strip().upper()
+        if biopsy_type not in {"BASELINE", "ARCHIVAL"}:
             continue
-        if fields.get("drug", "").strip().upper() not in {"NIVOLUMAB", "ANTI-PD-1", "ANTI PD 1"}:
+        if fields.get("drug", "").strip().upper() not in {"NIVOLUMAB", "PEMBROLIZUMAB", "ANTI-PD-1", "ANTI PD 1"}:
             continue
-        melanoma_baseline.append(sample["sample_id"])
+        melanoma_pretreatment.append(sample["sample_id"])
         response = fields.get("best resp", fields.get("best response", "")).strip().upper()
         if response in {"CR", "PR", "COMPLETE RESPONSE", "PARTIAL RESPONSE"}:
             y = 1
@@ -318,6 +319,7 @@ def _read_gse93157():
             "sample_id": sample["sample_id"],
             "patient_id": sample["sample_id"],
             "y": y,
+            "biopsy_type": fields.get("biopsy", "").strip().upper(),
             "expression": {gene: values[sample["sample_id"]] for gene, values in expression.items()},
             "response_source": response,
         })
@@ -328,13 +330,20 @@ def _read_gse93157():
     biopsy_counts = dict(Counter(sample["fields"].get("biopsy", "") for sample in metadata))
     drug_counts = dict(Counter(sample["fields"].get("drug", "") for sample in metadata))
     eligible = len(observations) >= 15 and counts["0"] >= 5 and counts["1"] >= 5
+    biopsy_type_counts = dict(Counter(row["biopsy_type"] for row in observations))
     return observations, set(expression), {
         "series_matrix_url": GSE93157_MATRIX_URL,
         "compressed_sha256": source_sha,
         "uncompressed_sha256": hashlib.sha256(raw).hexdigest(),
         "compressed_bytes": len(compressed),
         "uncompressed_bytes": len(raw),
-        "baseline_melanoma_samples": melanoma_baseline,
+        "pretreatment_melanoma_samples": melanoma_pretreatment,
+        "included_biopsy_type_counts": biopsy_type_counts,
+        "sample_timing_note": (
+            "GSE93157 publication states all tumors were obtained before anti-PD-1 therapy; "
+            "baseline samples were collected within 3 months without intervening treatment, while "
+            "archival samples were collected more than 3 months before therapy."
+        ),
         "excluded_endpoint_rows": exclusions,
         "class_counts": counts,
         "eligibility": {
@@ -346,8 +355,8 @@ def _read_gse93157():
             "biopsy_counts": biopsy_counts,
             "drug_counts": drug_counts,
             "reason": None if eligible else (
-                "Strict baseline-only melanoma subset is too small for external validation; "
-                "archival samples are not substituted for baseline samples."
+                "The pre-treatment melanoma subset (baseline plus archival) is too small for external "
+                "validation; on-treatment samples are not substituted."
             ),
         },
     }
@@ -610,7 +619,7 @@ def run_development():
             "status": "STOPPED_NO_ELIGIBLE_EXTERNAL_COHORT",
             "model_version": MODEL_VERSION,
             "external_validation_cohort": {
-                "name": "GSE93157 melanoma pretreatment anti-PD-1",
+                "name": "GSE93157 melanoma pre-anti-PD-1 (baseline and archival)",
                 "source": validation_sources,
                 "sample_count": len(validation),
                 "endpoint": "CR/PR versus PD; SD excluded",
@@ -664,7 +673,7 @@ def run_development():
             "endpoint": "CR/PR versus PD; SD/mixed/unknown excluded",
         },
         "external_validation_cohort": {
-            "name": "GSE93157 melanoma pretreatment anti-PD-1",
+            "name": "GSE93157 melanoma pre-anti-PD-1 (baseline and archival)",
             "source": validation_sources,
             "sample_count": len(validation),
             "metrics": validation_metrics,
