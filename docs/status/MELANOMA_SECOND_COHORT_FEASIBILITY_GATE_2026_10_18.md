@@ -12,12 +12,21 @@ Public study page: https://www.cbioportal.org/study/summary?id=mel_dfci_2019
 
 The cBioPortal study reports RNA-seq expression for 121 of 144 profiled patients. The original paper provides an RNA-seq TPM matrix as Supplementary Data 2. Published reanalyses report 47 CR/PR responders, 72 SD/PD nonresponders, and 2 heterogeneous responses among the 121 expression-profiled patients.
 
-**Blocking items before scoring:**
-1. The frozen GSE78220 reference was built from the GEO GSE78220_PatientFPKM.xlsx matrix. The Liu supplement is TPM. TPM and FPKM are not guaranteed to be a single global strictly increasing transform across samples; TPM introduces sample-specific scaling. Applying the frozen ECDF directly to TPM without proving measurement compatibility would make the score technically computable but the validation interpretation unsound.
-2. The 47/72/2 published grouping combines SD with PD in the nonresponder class, while the frozen v2 primary endpoint is CR/PR versus PD and explicitly excludes SD. The clinical response table must be obtained and joined to the expression matrix to identify PD-only patients; do not substitute the published binary grouping.
-3. Verify patient identifiers, response annotation, duplicate specimens, missing seven-gene values, and the exact set of patients represented in the expression matrix before opening outcomes to scoring.
+**Preflight receipt:** workflow run https://github.com/inaciovasquez2020/biological-friction-framework/actions/runs/39086990875; artifact `mel-dfci-v2-cohort-preflight`; pinned source commit `7a4b4ec142f76ac04db22834232b23142d25bd2a`.
 
-Status: **promising cohort; not yet eligible for locked v2 scoring.**
+Verified by the non-scoring preflight:
+- 121 TPM expression sample columns match 121 clinical sample IDs and map to 121 unique patients.
+- All seven required genes are present; no patient has multiple expression samples in the matrix.
+- Source response counts: 16 Complete Response, 31 Partial Response, 56 Progressive Disease, 16 Stable Disease, and 2 Mixed Response.
+- Frozen endpoint crosswalk: 47 CR/PR responders, 56 PD nonresponders, and 18 excluded SD/mixed cases.
+- The initial preflight had an endpoint-label bug that excluded Complete/Partial Response. It was corrected, covered by five regression tests, and the corrected preflight passed.
+
+**Remaining blocker before scoring:**
+1. The frozen GSE78220 reference was built from GEO's `GSE78220_PatientFPKM.xlsx` matrix. The Liu matrix is TPM. TPM and FPKM are not guaranteed to be a single global strictly increasing transform across samples; TPM introduces sample-specific scaling. Applying the frozen ECDF directly to TPM without proving measurement compatibility would make the score technically computable but the validation interpretation unsound.
+
+No response-informed conversion or refitting is permitted. If scale compatibility cannot be established independently, record **not comparable under v2** and do not score this cohort.
+
+Status: **source/sample mapping and endpoint crosswalk passed; expression-scale compatibility remains unresolved, so the cohort is not eligible for locked v2 scoring.**
 
 ### Candidate B — Gide / Melanoma Institute Australia (PRJEB23709)
 
