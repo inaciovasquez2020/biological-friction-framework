@@ -1,0 +1,113 @@
+# Second independent melanoma cohort — feasibility gate (2026-10-18)
+
+## Decision
+
+**Do not compute or report a second-cohort v2 validation metric yet.** The GSE91061 test failed. A second cohort is necessary for replication, but it must have an expression scale compatible with the frozen GSE78220 ECDF reference, a source-grounded patient/sample manifest, and the exact frozen CR/PR-versus-PD endpoint. Do not refit the v2 reference or coefficients using a candidate validation cohort.
+
+## Candidate audit
+
+### Candidate A — Liu / DFCI metastatic melanoma, Nature Medicine 2019 (mel_dfci_2019)
+
+Public study page: https://www.cbioportal.org/study/summary?id=mel_dfci_2019
+
+The cBioPortal study reports RNA-seq expression for 121 of 144 profiled patients. The original paper provides an RNA-seq TPM matrix as Supplementary Data 2. Published reanalyses report 47 CR/PR responders, 72 SD/PD nonresponders, and 2 heterogeneous responses among the 121 expression-profiled patients.
+
+**Preflight receipt:** workflow run https://github.com/inaciovasquez2020/biological-friction-framework/actions/runs/39086990875; artifact `mel-dfci-v2-cohort-preflight`; pinned source commit `7a4b4ec142f76ac04db22834232b23142d25bd2a`.
+
+Verified by the non-scoring preflight:
+- 121 TPM expression sample columns match 121 clinical sample IDs and map to 121 unique patients.
+- All seven required genes are present; no patient has multiple expression samples in the matrix.
+- Source response counts: 16 Complete Response, 31 Partial Response, 56 Progressive Disease, 16 Stable Disease, and 2 Mixed Response.
+- Frozen endpoint crosswalk: 47 CR/PR responders, 56 PD nonresponders, and 18 excluded SD/mixed cases.
+- The initial preflight had an endpoint-label bug that excluded Complete/Partial Response. It was corrected, covered by five regression tests, and the corrected preflight passed.
+
+**Scale-compatibility result: blocked from v2 scoring.**
+
+The frozen GSE78220 reference was built from GEO's `GSE78220_PatientFPKM.xlsx` matrix; the available cBioPortal Liu matrix is TPM. For sample (s), the relationship is
+
+`TPM[g,s] = 10^6 × FPKM[g,s] / sum_j FPKM[j,s]`.
+
+Recovering FPKM therefore requires the sample-specific `sum_j FPKM[j,s]` value under the same gene universe and quantification convention. TPM values alone do not identify that value. The unknown factor can differ by sample, and the frozen scorer applies each gene's development-reference ECDF to its raw expression value; a sample-specific scale factor can change those ECDF positions. There is no mathematically justified direct substitution of TPM for FPKM.
+
+The Liu study's code repository also describes a separate raw-count matrix. That does not by itself establish equivalence to the frozen Cuffnorm FPKM matrix: a reconstruction would need a fixed, documented quantification/annotation procedure and independent evidence that its resulting values are compatible with the frozen reference. No such reconstruction or equivalence evidence is currently established.
+
+No response-informed conversion or refitting is permitted. Current decision: **not comparable under v2 on the available TPM matrix**. Do not compute a v2 score from TPM. A future same-pipeline reconstruction would be a new preflight gate, not permission to score by assumption.
+
+Status: **source/sample mapping and endpoint crosswalk passed; expression-scale compatibility remains unresolved, so the cohort is not eligible for locked v2 scoring.**
+
+### Candidate B — Gide / Melanoma Institute Australia (PRJEB23709)
+
+BioProject: https://www.ncbi.nlm.nih.gov/bioproject/PRJEB23709
+
+The BioProject contains 91 SRA runs across anti-PD-1 monotherapy and anti-PD-1 plus anti-CTLA-4 treatment. A non-scoring accession crosswalk is now available in two public reanalysis repositories:
+
+- `xmuyulab/ims_gene_signature/data/mel_gide19_cli_data.csv` (clinical run accession, `pre/on`, response code).
+- `yuexujiang/IRnet/data/Gide/clinic.txt` and `qiluzhou/TMEImmune/TMEImmune/data/Gide/patient_df.txt` (run accession, response, and patient/sample alias or drug/target).
+
+**Accession-level result:** all 41 `pre` rows in the processed Gide19 clinical table match a run accession in the IRnet table, and each maps to a `PD1_<patient-number>_PRE` alias. The corresponding TMEImmune table independently lists those same accessions as `AntiPD1` / `PD1`. No pretreatment accession was unmatched. This supports the sample-level mapping and anti-PD-1 monotherapy assignment for these 41 rows; it is materially stronger than matching cohort counts alone.
+
+**Response-label crosswalk: PASS at accession level.** I found an independent phenotype table at [Yun-Ching-Chen/NSCLC_ICB_CombBiomarker](https://github.com/Yun-Ching-Chen/NSCLC_ICB_CombBiomarker/blob/main/Data/Melanoma_Metastatic_PRJEB23709_Gide2019_pheno.csv) that carries the run accession, treatment arm, biopsy timing, three-class response (CR, PR, SD, PD), and a binary response field. An exact accession join across all 41 processed pretreatment rows gives zero unmatched samples and this cross-tab:
+
+| Processed code | Linked phenotype category | Count |
+|---|---|---:|
+| 1 | CR | 4 |
+| 1 | PR | 15 |
+| 0 | PD | 16 |
+| -1 | SD | 6 |
+
+Thus the three-way code semantics are established by an accession-level clinical crosswalk rather than inferred from aggregate totals or table row order. The frozen endpoint is CR/PR versus PD; SD remains excluded, yielding 19 responders and 16 nonresponders for this endpoint. The linked phenotype table is an independent secondary curation, not the original Gide supplementary workbook itself, so record the source tier accurately and retain the accession-level crosswalk as a receipt.
+
+**Expression-scale gate remains blocked.** The processed matrix has 20,294 gene rows by 91 sample columns, includes all seven frozen v2 genes, and the 41 pretreatment accessions join to expression columns. However, the loader describes quantile-normalized/log2-transformed expression and conditionally applies `log2(x + 1)` when a dataset maximum exceeds 500. Cui et al. report a STAR/RSEM gene-level FPKM workflow followed by log transformation. These different processing descriptions do not establish numerical compatibility with the frozen GSE78220 Cuffnorm FPKM ECDF reference. Do not substitute the processed matrix directly into frozen v2 scoring.
+
+
+**Potential fixed-processing route identified, not yet validated.**
+
+GEO documents the frozen GSE78220 source as TopHat2-mapped reads quantified and normalized with Cuffnorm on hg19; its 28-sample series exposes the original `GSE78220_PatientFPKM.xlsx` matrix. Gide raw sequencing runs are publicly registered under PRJEB23709. Published Gide reanalyses demonstrate that raw-read reprocessing is feasible, but they do not converge on one identical pipeline: one uses STAR 2-pass plus HTSeq-count and GDC-style FPKM normalization, while another reports STAR/RSEM and log transformation. These are provenance leads, not evidence of equivalence to the frozen Cuffnorm reference.
+
+The defensible next route is a **reference-reproduction gate before Gide scoring**: recover the original GSE78220 annotation/configuration if possible; run the fixed pipeline on GSE78220 raw reads; compare the resulting seven-gene values and identifier mapping against the published FPKM workbook under a prespecified, outcome-blind technical acceptance rule; only after that gate passes, process the 41 Gide pretreatment monotherapy FASTQs with the same pinned pipeline and environment. Do not choose between pipelines based on Gide response separation, and do not derive a conversion from Gide outcomes. If the original reference processing cannot be reproduced or technical comparability cannot be justified independently, record `NOT_COMPARABLE_UNDER_V2`.
+
+This is a plausible route to test, not a pass: the exact GSE78220 GTF/annotation release and full quantification parameters remain unverified, and no reference-reproduction experiment has yet been run.
+
+**Preflight decision:** sample accession and treatment-arm crosswalk = **PASS for all 41 pretreatment rows**; accession-level CR/PR-versus-PD/SD mapping = **PASS against an independent phenotype table**; frozen-reference expression-scale compatibility = **FAIL / unresolved**. Gide remains ineligible for frozen v2 scoring regardless of the endpoint crosswalk result. Do not refit the v2 reference or estimate a response-informed conversion. If compatibility cannot be established by a fixed, independently justified processing route, record `NOT_COMPARABLE_UNDER_V2`.
+
+### Candidate B2 — MGH GSE115821
+
+GEO: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE115821
+
+GEO provides a featureCounts raw-count matrix, not the frozen GSE78220 Cuffnorm FPKM values. Sample metadata include pretreatment and on-treatment biopsies, repeat biopsies for some patients, anti-PD-1 and anti-CTLA-4 exposure, and study-specific response labels (R/NR). A recent secondary analysis reports only 37 baseline samples for a related analysis, with 3 responders and 34 nonresponders; those labels and inclusion rules are not automatically the frozen CR/PR-versus-PD endpoint.
+
+**Decision:** not ready for frozen v2 scoring. It would require a patient-level baseline-only manifest, exact response reconstruction, treatment/prior-therapy audit, and a defensible expression-scale reconstruction. The very small responder count also makes performance estimates unstable.
+
+### Candidate C — MGH GSE168204
+
+GEO: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168204
+
+GEO lists 27 samples and a featureCounts raw-count matrix. Its sample annotations use study-specific R/NR labels, and published analyses include pretreatment and on-treatment biopsies.
+
+**Decision:** not the immediate replication cohort. The sample count is small, repeated timepoints must be separated at patient level, and R/NR cannot be assumed equivalent to the frozen CR/PR-versus-PD endpoint without reconstructing the underlying response definitions. It may be useful only if patient-level endpoint compatibility can be established from source metadata.
+
+## Comparative conclusion after the next-candidate search
+
+No candidate located in this pass is ready for a valid second v2 score:
+- **Liu/DFCI:** source mapping and CR/PR-versus-PD endpoint crosswalk passed, but the available matrix is TPM and is not invertible to FPKM without sample-specific scaling information; separate raw counts do not establish same-pipeline compatibility.
+- **Gide/PRJEB23709:** the 41 pretreatment run accessions now match public secondary sample manifests and are labeled as anti-PD-1 monotherapy baseline samples. A direct accession join to an independent phenotype table resolves the 41 sample labels: code 1 maps to 4 CR + 15 PR; code 0 maps to 16 PD; code -1 maps to 6 SD. SD is excluded, leaving 19 responders and 16 PD nonresponders. The linked table is a secondary curation, not the original supplementary workbook. More importantly, expression-scale compatibility with the frozen GSE78220 Cuffnorm ECDF reference remains unresolved. Gide is not eligible for frozen v2 scoring; keep anti-PD-1 combination samples separate.
+- **MGH GSE115821 / GSE168204:** public count matrices, but timepoint/repeated-biopsy issues and R/NR labels or low responder counts prevent immediate frozen-endpoint replication.
+
+This is a data-compatibility stop, not evidence that no other cohort exists. The current v2 validation program has one completed independent test (GSE91061), and it failed the prespecified promotion gate. A second score should not be produced merely to fill the replication requirement.
+
+## Locked next-step requirements
+
+Before any second cohort is scored, retain an auditable preflight receipt with:
+- source URL and checksum for each expression and clinical file;
+- exact expression unit / quantification method and justification for compatibility with the frozen GSE78220 FPKM reference;
+- seven-gene ID mapping and missingness audit;
+- sample-to-patient mapping and one pretreatment sample per patient;
+- response-label crosswalk preserving CR/PR, PD, and excluded SD/unknown/mixed categories;
+- treatment regimen and any cohort-overlap audit;
+- explicit pass/fail decision before computing outcome metrics.
+
+Do not estimate or optimize a conversion from candidate expression to the development reference using response labels. If expression compatibility cannot be demonstrated without refitting the frozen reference, the correct outcome is **not comparable under v2**; a separately versioned model and new calibration would be a different study, not replication of this v2.
+
+## Claim boundary
+
+GSE91061 failed its prespecified promotion gate. No second independent cohort has yet replicated v2. Neither this feasibility note nor any candidate dataset establishes predictive validity, treatment selection, clinical utility, efficacy, or cure.
