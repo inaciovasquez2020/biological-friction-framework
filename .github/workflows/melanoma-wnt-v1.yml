@@ -1,0 +1,36 @@
+name: melanoma-wnt-v1
+on:
+  push:
+    branches:
+      - research/melanoma-wnt-gse165745-v1-20261018
+    paths:
+      - "infra/ci/develop_melanoma_wnt_v1.py"
+      - "tests/test_melanoma_wnt_v1.py"
+      - ".github/workflows/melanoma-wnt-v1.yml"
+  pull_request:
+    paths:
+      - "infra/ci/develop_melanoma_wnt_v1.py"
+      - "tests/test_melanoma_wnt_v1.py"
+      - ".github/workflows/melanoma-wnt-v1.yml"
+  workflow_dispatch:
+jobs:
+  test-and-run-exploratory-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependency
+        run: python -m pip install pytest
+      - name: Test fixed score mechanics without network
+        run: pytest -q tests/test_melanoma_wnt_v1.py
+      - name: Run fixed score against public GSE165745
+        run: python infra/ci/develop_melanoma_wnt_v1.py --output melanoma-wnt-v1-receipt.json
+      - name: Upload exploratory score receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: melanoma-wnt-v1-receipt
+          path: melanoma-wnt-v1-receipt.json
+          if-no-files-found: error
