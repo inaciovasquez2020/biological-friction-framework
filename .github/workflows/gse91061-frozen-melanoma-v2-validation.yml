@@ -7,6 +7,7 @@ on:
     paths:
       - "infra/ci/validate_gse91061_melanoma_v2.py"
       - "infra/ci/preflight_mel_dfci_v2_cohort.py"
+      - "tests/test_mel_dfci_v2_cohort_preflight.py"
       - ".github/workflows/gse91061-frozen-melanoma-v2-validation.yml"
       - ".github/workflows/mel-dfci-v2-cohort-preflight.yml"
 
