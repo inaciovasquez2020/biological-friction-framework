@@ -6,7 +6,9 @@ on:
       - validation/gse91061-frozen-v2-20261018
     paths:
       - "infra/ci/validate_gse91061_melanoma_v2.py"
+      - "infra/ci/preflight_mel_dfci_v2_cohort.py"
       - ".github/workflows/gse91061-frozen-melanoma-v2-validation.yml"
+      - ".github/workflows/mel-dfci-v2-cohort-preflight.yml"
 
 jobs:
   locked-validation:
@@ -29,3 +31,21 @@ jobs:
           name: gse91061-v2-validation
           path: gse91061-v2-validation.json
           if-no-files-found: error
+
+  candidate-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run non-scoring Liu DFCI cohort preflight
+        run: python infra/ci/preflight_mel_dfci_v2_cohort.py
+      - name: Upload preflight receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mel-dfci-v2-cohort-preflight
+          path: mel_dfci_v2_cohort_preflight.json
+          if-no-files-found: warn
