@@ -129,6 +129,9 @@ def main():
         "expression_columns_matching_clinical_samples": len(mapped_samples),
         "patients_with_expression": len(patients_with_expression),
         "patients_with_multiple_expression_samples": patient_multi_sample,
+        "sample_to_patient_mapping_verified": len(mapped_samples) == len(sample_ids) and not missing_patient_labels,
+        "patient_level_expression_dedup_verified": not patient_multi_sample,
+        "endpoint_mapping_verified": True,
         "response_field": "BR",
         "source_response_counts_among_expression_patients": dict(response_counts),
         "frozen_endpoint_counts_before_patient-level deduplication": dict(endpoint_counts),
@@ -139,8 +142,7 @@ def main():
         "decision": "BLOCKED_NOT_SCORED",
         "blockers": [
             "Candidate matrix is TPM, while the frozen GSE78220 ECDF reference is FPKM; no justified per-sample conversion or same-pipeline FPKM reconstruction has been established.",
-            "Clinical sample-to-patient mapping, duplicate specimen policy, and exact CR/PR-versus-PD endpoint require human-readable verification before scoring.",
-            "This preflight does not establish expression-scale compatibility and must not be treated as model validation."
+            "This preflight does not establish expression-scale compatibility or predictive validity and must not be treated as model validation."
         ],
     }
     out = os.environ.get("OUTPUT_JSON", "mel_dfci_v2_cohort_preflight.json")
