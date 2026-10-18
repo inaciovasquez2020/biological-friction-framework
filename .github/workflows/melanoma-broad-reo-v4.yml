@@ -1,0 +1,39 @@
+name: melanoma-broad-reo-v4
+
+on:
+  push:
+    branches:
+      - research/melanoma-reo-seven-gene-v3-20261018
+    paths:
+      - "infra/ci/develop_melanoma_reo_v4.py"
+      - "infra/ci/preflight_mel_dfci_v2_cohort.py"
+      - "tests/test_melanoma_reo_v4.py"
+      - ".github/workflows/melanoma-broad-reo-v4.yml"
+  pull_request:
+    paths:
+      - "infra/ci/develop_melanoma_reo_v4.py"
+      - "infra/ci/preflight_mel_dfci_v2_cohort.py"
+      - "tests/test_melanoma_reo_v4.py"
+      - ".github/workflows/melanoma-broad-reo-v4.yml"
+
+jobs:
+  tests-and-locked-external-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install scientific and test dependencies
+        run: python -m pip install numpy scipy pytest
+      - name: Test feature selection and model mechanics without network access
+        run: pytest -q tests/test_melanoma_reo_v4.py
+      - name: Develop on Liu and Gide; test on GSE93157
+        run: python infra/ci/develop_melanoma_reo_v4.py --output melanoma-reo-v4-receipt.json
+      - name: Upload model and external validation receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: melanoma-reo-v4-receipt
+          path: melanoma-reo-v4-receipt.json
+          if-no-files-found: error
