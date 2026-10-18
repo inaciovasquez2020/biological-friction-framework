@@ -4,13 +4,17 @@ on:
     branches:
       - research/melanoma-wnt-gse165745-v1-20261018
     paths:
-      - "infra/ci/develop_melanoma_wnt_v1.py"\n      - "infra/ci/audit_melanoma_wnt_inputs.py"\n      - "tests/test_melanoma_wnt_input_audit.py"
-      - "tests/test_melanoma_wnt_v1.py"\n      - "infra/ci/audit_melanoma_wnt_inputs.py"\n      - "tests/test_melanoma_wnt_input_audit.py"
+      - "infra/ci/develop_melanoma_wnt_v1.py"
+      - "infra/ci/audit_melanoma_wnt_inputs.py"
+      - "tests/test_melanoma_wnt_v1.py"
+      - "tests/test_melanoma_wnt_input_audit.py"
       - ".github/workflows/melanoma-wnt-v1.yml"
   pull_request:
     paths:
       - "infra/ci/develop_melanoma_wnt_v1.py"
+      - "infra/ci/audit_melanoma_wnt_inputs.py"
       - "tests/test_melanoma_wnt_v1.py"
+      - "tests/test_melanoma_wnt_input_audit.py"
       - ".github/workflows/melanoma-wnt-v1.yml"
   workflow_dispatch:
 jobs:
@@ -24,7 +28,7 @@ jobs:
           python-version: "3.11"
       - name: Install test dependency
         run: python -m pip install pytest
-      - name: Test fixed score mechanics without network
+      - name: Test fixed score mechanics and input audit
         run: pytest -q tests/test_melanoma_wnt_v1.py tests/test_melanoma_wnt_input_audit.py
       - name: Run fixed score against public GSE165745
         run: python infra/ci/develop_melanoma_wnt_v1.py --output melanoma-wnt-v1-receipt.json
