@@ -19,6 +19,12 @@ GSE = {
     },
 }
 VERSION = "GEO_SOURCE_INVENTORY_V1_2026_10_18"
+RECONCILIATION_GENES = (
+    "WNT2B", "WNT5A", "WNT7B", "WNT8B", "FZD1", "FZD2", "FZD4",
+    "FZD5", "FZD7", "FZD8", "FZD10", "LRP5", "LRP6", "DKK2",
+    "SFRP2", "SFRP4", "PYGO1", "DVL1", "RNF43",
+)
+RECONCILIATION_TOLERANCE = 1e-5
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
@@ -102,6 +108,98 @@ def rcc_inventory(member: str, content: bytes) -> dict:
                        "error": str(exc)})
     return result
 
+def classify_sample_scale(raw_counts: dict[str, int], processed_values: dict[str, float]) -> dict:
+    """Classify panel values as a common linear scaling or log2(raw count)+offset."""
+    common = [g for g in RECONCILIATION_GENES
+              if g in raw_counts and g in processed_values and raw_counts[g] > 0]
+    missing = [g for g in RECONCILIATION_GENES if g not in raw_counts or g not in processed_values]
+    if len(common) != len(RECONCILIATION_GENES):
+        return {"scale_class": "PANEL_MAPPING_INCOMPLETE", "matched_gene_count": len(common),
+                "missing_genes": missing}
+    ratios = [processed_values[g] / raw_counts[g] for g in common]
+    linear_factor = sorted(ratios)[len(ratios) // 2] if len(ratios) % 2 else (
+        sorted(ratios)[len(ratios) // 2 - 1] + sorted(ratios)[len(ratios) // 2]
+    ) / 2
+    linear_residual = max(abs(processed_values[g] - raw_counts[g] * linear_factor) for g in common)
+    offsets = [processed_values[g] - __import__("math").log2(raw_counts[g]) for g in common]
+    log2_offset = sorted(offsets)[len(offsets) // 2] if len(offsets) % 2 else (
+        sorted(offsets)[len(offsets) // 2 - 1] + sorted(offsets)[len(offsets) // 2]
+    ) / 2
+    log2_residual = max(abs(processed_values[g] - (__import__("math").log2(raw_counts[g]) + log2_offset))
+                        for g in common)
+    if linear_residual <= RECONCILIATION_TOLERANCE:
+        scale_class = "LINEAR_SCALAR_MULTIPLE"
+    elif log2_residual <= RECONCILIATION_TOLERANCE:
+        scale_class = "LOG2_RAW_COUNT_PLUS_OFFSET"
+    else:
+        scale_class = "UNRESOLVED_OR_MIXED_SCALE"
+    return {"scale_class": scale_class, "matched_gene_count": len(common), "missing_genes": missing,
+            "linear_factor": linear_factor, "linear_max_abs_residual": linear_residual,
+            "log2_offset": log2_offset, "log2_max_abs_residual": log2_residual,
+            "tolerance": RECONCILIATION_TOLERANCE}
+
+
+def reconcile_rcc_to_matrix(matrix_path: Path, rcc_files: list[dict]) -> dict:
+    """Match RCC raw counts to processed GEO values by GSM and classify per-sample scale."""
+    raw = matrix_path.read_bytes()
+    if raw[:2] == b"\\x1f\\x8b":
+        raw = gzip.decompress(raw)
+    lines = raw.decode("utf-8-sig").splitlines()
+    import csv
+    gsm = []
+    for line in lines:
+        if line.startswith("!Sample_geo_accession"):
+            gsm = next(csv.reader([line], delimiter="\\t"))[1:]
+            break
+    try:
+        start = lines.index("!series_matrix_table_begin")
+        end = lines.index("!series_matrix_table_end", start)
+    except ValueError:
+        return {"status": "MATRIX_TABLE_MISSING", "sample_count": len(gsm)}
+    table = list(csv.reader(io.StringIO("\\n".join(lines[start + 1:end])), delimiter="\\t"))
+    if not table or len(table[0]) != len(gsm) + 1:
+        return {"status": "MATRIX_WIDTH_MISMATCH", "sample_count": len(gsm)}
+    processed = {}
+    for row in table[1:]:
+        if len(row) != len(table[0]):
+            continue
+        gene = row[0].strip().strip('"').upper()
+        try:
+            values = [float(value) for value in row[1:]]
+        except ValueError:
+            continue
+        processed[gene] = dict(zip(gsm, values))
+    samples = []
+    missing_samples = []
+    for item in rcc_files:
+        match = re.match(r"^(GSM\\d+)_", item.get("member", ""))
+        if not match:
+            missing_samples.append(item.get("member"))
+            continue
+        accession = match.group(1)
+        counts = {row["name"].upper(): row["count"] for row in item.get("code_summary", [])}
+        values = {gene: processed[gene][accession] for gene in RECONCILIATION_GENES
+                  if gene in processed and accession in processed[gene]}
+        classified = classify_sample_scale(counts, values)
+        samples.append({"gsm_accession": accession, **classified})
+    classes = Counter(item["scale_class"] for item in samples)
+    complete = len(gsm) == len(rcc_files) and len(samples) == len(gsm) and not missing_samples and all(
+        item["matched_gene_count"] == len(RECONCILIATION_GENES) for item in samples
+    )
+    consistent = complete and len(classes) == 1 and next(iter(classes), None) == "LINEAR_SCALAR_MULTIPLE"
+    status = "CONSISTENT_LINEAR_SCALE" if consistent else (
+        "MIXED_SCALE_DETECTED" if complete and len(classes) > 1 or complete and "LOG2_RAW_COUNT_PLUS_OFFSET" in classes
+        else "RECONCILIATION_INCOMPLETE"
+    )
+    return {"status": status, "sample_count_matrix": len(gsm), "rcc_file_count": len(rcc_files),
+            "matched_sample_count": len(samples), "expected_panel_gene_count": len(RECONCILIATION_GENES),
+            "matched_panel_measurements": sum(item["matched_gene_count"] for item in samples),
+            "expected_panel_measurements": len(gsm) * len(RECONCILIATION_GENES),
+            "scale_class_counts": dict(classes), "sample_results": samples,
+            "missing_rcc_sample_identifiers": missing_samples,
+            "claim_boundary": "Scale classification is empirical; it does not identify the undocumented normalization procedure."}
+
+
 def audit_one(name: str, spec: dict, outdir: Path) -> dict:
     matrix_path = outdir / f"{name}_series_matrix.txt.gz"
     raw_path = outdir / f"{name}_RAW.tar"
@@ -126,6 +224,10 @@ def audit_one(name: str, spec: dict, outdir: Path) -> dict:
         result["rcc_file_count"] = len(members)
         result["rcc_files"] = members
         result["rcc_count_matches_expected"] = len(members) == spec["expected_samples"]
+        if "matrix_error" not in result and "matrix" in result and all(
+            item.get("code_summary_parse") == "PASS" for item in members
+        ):
+            result["rcc_to_matrix_reconciliation"] = reconcile_rcc_to_matrix(matrix_path, members)
     except Exception as exc:
         result["raw_archive_error"] = {"type": type(exc).__name__, "message": str(exc)}
     matrix_ok = result.get("matrix", {}).get("sample_count_matches_expected", False)
