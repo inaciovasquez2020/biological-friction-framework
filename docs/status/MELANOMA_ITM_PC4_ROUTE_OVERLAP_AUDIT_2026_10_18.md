@@ -82,3 +82,20 @@ FROZEN_SEVEN_MARKER_SCORE_CHANGED := FALSE
 \`\`\`
 
 \`BOUNDARY := ¬ established(treatment_predictive_validity)\`
+
+
+## Source-code follow-up: existing ICI interaction specification
+
+Inspection of the released analysis script found an existing exploratory interaction section in [geomx_wta_mel_tma_review.Rmd](https://github.com/ziyinhuang96/stgemox_itm_mel_tma/blob/submission-v2/geomx_wta_mel_tma_review.Rmd), lines 4081–4152. It reads a separate ITM_treatment_annotation.csv, maps Unique.ID to the patient key, joins an ICI field to the sample table, stratifies patients using the cohort PC4 survival cutpoint, and specifies a Cox model with ICI + PC4_POS_cluster + ICI*PC4_POS_cluster for melanoma-specific survival. This is evidence that the source code specifies an interaction analysis; it is not evidence that its result is significant, externally validated, or causal.
+
+The treatment annotation CSV and fitted result output were not present in the inspected public code release. The published expression matrix is listed on [Dryad](https://datadryad.org/dataset/doi:10.5061/dryad.kh18932pf), but its file endpoint returned HTTP 403 through the available retrieval path. The repository therefore does not claim to have independently rerun the authors' interaction. The audit now recognizes the source's literal ICI column as an exposure-status alias, preserving its recorded values (0/1) without inferring regimen, exposure timing, or response.
+
+Methodological boundary: this is an observational survival interaction, not a randomized treatment-effect estimate. The source code's cohort-derived PC4 cutpoint also means the interaction is not an independent validation of a locked predictive threshold. Interpretation requires the actual treatment annotation, patient linkage, endpoint data, full expression matrix/signature, and a prespecified reanalysis plan.
+
+```text
+SOURCE_CODE_SPECIFIES_ICI_X_PC4_COX_INTERACTION := TRUE
+INTERACTION_NUMERICAL_RESULT_INDEPENDENTLY_VERIFIED := FALSE
+CAUSAL_TREATMENT_BENEFIT_ESTABLISHED := FALSE
+```
+
+`BOUNDARY := ¬ established(causal_treatment_benefit)`
