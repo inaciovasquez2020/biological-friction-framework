@@ -33,11 +33,11 @@ def test_rcc_inventory_parses_xml_without_interpreting_assay_values():
 
 def test_rcc_inventory_extracts_documented_code_summary_counts():
     raw = (
-        b"<Header>\\nFileVersion,1.7\\n</Header>\\n"
-        b"<Sample_Attributes>\\nID,SampleA\\n</Sample_Attributes>\\n"
-        b"<Code_Summary>\\nCodeClass,Name,Accession,Count\\n"
-        b"Endogenous,WNT5A,NM_003392.5,123\\n"
-        b"Endogenous,RNF43,NM_017763.5,7\\n</Code_Summary>\\n"
+        b"<Header>\nFileVersion,1.7\n</Header>\n"
+        b"<Sample_Attributes>\nID,SampleA\n</Sample_Attributes>\n"
+        b"<Code_Summary>\nCodeClass,Name,Accession,Count\n"
+        b"Endogenous,WNT5A,NM_003392.5,123\n"
+        b"Endogenous,RNF43,NM_017763.5,7\n</Code_Summary>\n"
     )
     result = MODULE.rcc_inventory("sample.RCC", raw)
     assert result["code_summary_parse"] == "PASS"
@@ -50,8 +50,8 @@ def test_rcc_inventory_extracts_documented_code_summary_counts():
 
 def test_rcc_inventory_rejects_noninteger_counts():
     raw = (
-        b"<Code_Summary>\\nCodeClass,Name,Accession,Count\\n"
-        b"Endogenous,WNT5A,NM_003392.5,not-a-count\\n</Code_Summary>"
+        b"<Code_Summary>\nCodeClass,Name,Accession,Count\n"
+        b"Endogenous,WNT5A,NM_003392.5,not-a-count\n</Code_Summary>"
     )
     try:
         MODULE.rcc_inventory("sample.RCC", raw)
