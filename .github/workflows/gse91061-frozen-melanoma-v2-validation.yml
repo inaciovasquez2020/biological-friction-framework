@@ -40,6 +40,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install preflight test dependency
+        run: python -m pip install pytest
+      - name: Test Liu DFCI endpoint mapping
+        run: pytest -q tests/test_mel_dfci_v2_cohort_preflight.py
       - name: Run non-scoring Liu DFCI cohort preflight
         run: python infra/ci/preflight_mel_dfci_v2_cohort.py
       - name: Upload preflight receipt
