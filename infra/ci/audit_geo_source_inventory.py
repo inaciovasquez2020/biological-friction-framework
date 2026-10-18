@@ -139,6 +139,32 @@ def classify_sample_scale(raw_counts: dict[str, int], processed_values: dict[str
             "tolerance": RECONCILIATION_TOLERANCE}
 
 
+def classify_full_feature_scale(raw_counts: dict[str, int], processed_values: dict[str, float]) -> dict:
+    """Classify the full shared assay using relative residuals to tolerate matrix rounding."""
+    common = [g for g in raw_counts if g in processed_values and raw_counts[g] > 0]
+    if len(common) < 100:
+        return {"scale_class": "FEATURE_MAPPING_INCOMPLETE", "matched_feature_count": len(common)}
+    ratios = [processed_values[g] / raw_counts[g] for g in common]
+    factor = __import__("statistics").median(ratios)
+    linear_residual = max(abs(processed_values[g] - factor * raw_counts[g]) /
+                          max(1.0, abs(processed_values[g])) for g in common)
+    offsets = [processed_values[g] - __import__("math").log2(raw_counts[g]) for g in common]
+    offset = __import__("statistics").median(offsets)
+    log_residual = max(abs(processed_values[g] - (__import__("math").log2(raw_counts[g]) + offset)) /
+                       max(1.0, abs(processed_values[g])) for g in common)
+    tolerance = 1e-6
+    if linear_residual <= tolerance:
+        scale_class = "LINEAR_SCALAR_MULTIPLE"
+    elif log_residual <= tolerance:
+        scale_class = "LOG2_RAW_COUNT_PLUS_OFFSET"
+    else:
+        scale_class = "UNRESOLVED_OR_MIXED_SCALE"
+    return {"scale_class": scale_class, "matched_feature_count": len(common),
+            "linear_factor": factor, "linear_max_relative_residual": linear_residual,
+            "log2_offset": offset, "log2_max_relative_residual": log_residual,
+            "relative_tolerance": tolerance}
+
+
 def reconcile_rcc_to_matrix(matrix_path: Path, rcc_files: list[dict]) -> dict:
     """Match RCC raw counts to processed GEO values by GSM and classify per-sample scale."""
     raw = matrix_path.read_bytes()
@@ -181,7 +207,11 @@ def reconcile_rcc_to_matrix(matrix_path: Path, rcc_files: list[dict]) -> dict:
         values = {gene: processed[gene][accession] for gene in RECONCILIATION_GENES
                   if gene in processed and accession in processed[gene]}
         classified = classify_sample_scale(counts, values)
-        samples.append({"gsm_accession": accession, **classified})
+        full_values = {gene: samples[accession] for gene, samples in processed.items()
+                       if accession in samples}
+        full_classified = classify_full_feature_scale(counts, full_values)
+        samples.append({"gsm_accession": accession, **classified,
+                        "full_feature_scale": full_classified})
     classes = Counter(item["scale_class"] for item in samples)
     complete = len(gsm) == len(rcc_files) and len(samples) == len(gsm) and not missing_samples and all(
         item["matched_gene_count"] == len(RECONCILIATION_GENES) for item in samples
@@ -195,7 +225,14 @@ def reconcile_rcc_to_matrix(matrix_path: Path, rcc_files: list[dict]) -> dict:
             "matched_sample_count": len(samples), "expected_panel_gene_count": len(RECONCILIATION_GENES),
             "matched_panel_measurements": sum(item["matched_gene_count"] for item in samples),
             "expected_panel_measurements": len(gsm) * len(RECONCILIATION_GENES),
-            "scale_class_counts": dict(classes), "sample_results": samples,
+            "scale_class_counts": dict(classes),
+            "full_feature_scale_class_counts": dict(Counter(
+                item["full_feature_scale"]["scale_class"] for item in samples)),
+            "full_feature_sample_results": [
+                {"gsm_accession": item["gsm_accession"], **item["full_feature_scale"]}
+                for item in samples
+            ],
+            "sample_results": samples,
             "missing_rcc_sample_identifiers": missing_samples,
             "claim_boundary": "Scale classification is empirical; it does not identify the undocumented normalization procedure."}
 
