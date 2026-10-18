@@ -1,0 +1,32 @@
+name: geo-source-inventory-audit
+on:
+  push:
+    branches:
+      - research/melanoma-wnt-gse165745-v1-20261018
+    paths:
+      - "infra/ci/audit_geo_source_inventory.py"
+      - ".github/workflows/geo-source-inventory-audit.yml"
+  workflow_dispatch:
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Download and inventory GEO source archives
+        id: inventory
+        continue-on-error: true
+        run: python infra/ci/audit_geo_source_inventory.py --outdir geo-source-audit
+      - name: Upload source inventory and checksums
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: geo-source-inventory-audit
+          path: geo-source-audit/
+          if-no-files-found: warn
+      - name: Fail if source inventory is incomplete
+        if: steps.inventory.outcome != 'success'
+        run: exit 1
