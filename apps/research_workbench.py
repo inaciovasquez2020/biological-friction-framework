@@ -132,10 +132,9 @@ def main():
             labels=sorted(result["outcome"].dropna().unique().tolist())
             if len(labels)==2:
                 positive=st.selectbox("Outcome label treated as positive for descriptive AUROC",labels)
-                if st.button("Calculate descriptive AUROC"):
-                    auc=safe_auc([int(x==positive) for x in result["outcome"]],result["score"].astype(float).tolist())
-                    auc_note="Descriptive performance on this uploaded cohort only; not independent validation."
-                    if auc is not None: st.metric(f"AUROC for {positive}",f"{auc:.4f}"); st.caption(auc_note)
+                auc=safe_auc([int(x==positive) for x in result["outcome"]],result["score"].astype(float).tolist())
+                auc_note="Descriptive performance on this uploaded cohort only; not independent validation."
+                if auc is not None: st.metric(f"AUROC for {positive}",f"{auc:.4f}"); st.caption(auc_note)
             else: st.info("AUROC requires exactly two outcome classes.")
         receipt={"app_version":APP_VERSION,"created_utc":datetime.now(timezone.utc).isoformat(),"workflow":mode,"score_name":name,"input_sha256":sha256_bytes(raw),"input_rows":len(df),"scored_rows":len(scored),"blocked_rows":len(blocked),"group_a_genes":group_a,"group_b_genes":group_b,"missing_group_a_genes":missing_a,"missing_group_b_genes":missing_b,"transformation":transform,"formula":"mean(group A) - mean(group B)","definition_frozen_before_outcome_review":bool(frozen),"auc":auc,"performance_note":auc_note,"clinical_validity":"NOT_ESTABLISHED","warnings":["Research use only; not for diagnosis or treatment selection.","User-selected gene groups and transformation require scientific justification.","Performance on the uploaded cohort is not independent validation.","No probability calibration or clinical utility analysis is performed."]}
         st.download_button("Download run receipt JSON",json.dumps(receipt,indent=2),"bff_run_receipt.json","application/json")
