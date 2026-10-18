@@ -87,3 +87,40 @@ def test_nonfinite_expression_values_are_not_read_or_required(tmp_path):
     )
     assert result["decision"]["input_identity_gate_pass"] is True
     assert result["decision"]["frozen_v2_scoring_performed"] is False
+
+
+
+def test_treatment_context_is_inventoried_without_modeling_or_imputation(tmp_path):
+    matrix, signature, manifest = fixture_inputs(tmp_path)
+    write_csv(
+        manifest,
+        [
+            "sample_id", "patient_id", "treatment_class", "exposure_status",
+            "biopsy_timing", "response_endpoint", "response_status",
+        ],
+        [
+            ["AOI_1", "P1", "anti-PD-1", "previously treated", "post-treatment", "RECIST", "PD"],
+            ["AOI_2", "P1", "anti-PD-1", "unknown", "unknown", "RECIST", ""],
+        ],
+    )
+    result = MODULE.audit(
+        matrix, signature, manifest, expected_positive_genes=2, expected_negative_genes=2
+    )
+    context = result["treatment_context_inventory"]
+    assert context["all_context_columns_present"] is True
+    assert context["field_summary"]["treatment_class"]["categories"] == {"anti-PD-1": 2}
+    assert context["field_summary"]["exposure_status"]["reported_rows"] == 1
+    assert context["field_summary"]["biopsy_timing"]["unresolved_rows"] == 1
+    assert result["decision"]["treatment_response_analysis_performed"] is False
+    assert result["decision"]["treatment_interaction_test_performed"] is False
+
+
+def test_treatment_context_absence_is_reported_not_inferred(tmp_path):
+    matrix, signature, manifest = fixture_inputs(tmp_path)
+    result = MODULE.audit(
+        matrix, signature, manifest, expected_positive_genes=2, expected_negative_genes=2
+    )
+    context = result["treatment_context_inventory"]
+    assert context["all_context_columns_present"] is False
+    assert context["field_summary"]["treatment_class"]["column_present"] is False
+    assert result["decision"]["treatment_context_columns_complete"] is False

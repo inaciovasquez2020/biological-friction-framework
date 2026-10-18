@@ -104,6 +104,41 @@ For this audit only, a high-direction route marker is direction-consistent with 
   \item A published survival association for PC4 is prognostic evidence for that signature; it does not validate the frozen seven-marker score as an anti-PD-1 response predictor.
 \end{itemize}
 
+\section{Treatment context: metadata gate, not a new score}
+
+The audit now inventories optional source-defined manifest fields:
+\texttt{treatment\_class}, \texttt{exposure\_status},
+\texttt{biopsy\_timing}, \texttt{response\_endpoint}, and
+\texttt{response\_status}. For each field, the JSON receipt records column
+presence, reported and unresolved row counts, and counts by recorded category.
+Blank or explicitly unknown values remain unresolved; treatment assignment,
+timing, and outcomes are not inferred.
+
+This is a treatment-context parameterization of the audit metadata, not a new
+term in the frozen score and not a fitted clinical model. The seven-marker
+feature definition, marker directions, preprocessing, and thresholds remain
+unchanged. The audit does not estimate treatment-response associations or
+score-by-treatment interactions.
+
+A future interaction analysis requires source-supported patient-level linkage,
+a defined pretreatment baseline, documented treatment class and exposure,
+a prespecified endpoint and follow-up, and adequate treatment-comparison data.
+Repeated ROIs must not be treated as independent patients. Even a detectable
+score-by-treatment interaction would not alone establish treatment benefit or
+support treatment selection; confounding and study design remain material.
+
+\begin{quote}
+\texttt{TREATMENT\_CONTEXT := SOURCE-RECORDED METADATA ONLY.}
+
+\texttt{TREATMENT\_RESPONSE\_MODEL\_FIT := FALSE.}
+
+\texttt{SCORE\_X\_TREATMENT\_INTERACTION\_TESTED := FALSE.}
+
+\texttt{FROZEN\_SEVEN\_MARKER\_SCORE\_CHANGED := FALSE.}
+\end{quote}
+
+\texttt{BOUNDARY := $\neg$ established(treatment\_predictive\_validity)}
+
 \section{Current evidence boundary}
 
 The source matrix and complete PC4 signature were not successfully retrieved for the current audit. As a result, this report does not provide numerical overlap, correlation, patient-level survival estimates, or a new prediction metric. The script and regression tests define a reproducible gate for when the complete inputs are available; they do not substitute for those inputs.

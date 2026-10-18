@@ -105,6 +105,52 @@ def read_sample_manifest(path: Path, sample_column: str, patient_column: str) ->
     return rows
 
 
+TREATMENT_CONTEXT_FIELDS = (
+    "treatment_class",
+    "exposure_status",
+    "biopsy_timing",
+    "response_endpoint",
+    "response_status",
+)
+UNKNOWN_CONTEXT_VALUES = {"", "unknown", "not reported", "not available", "na", "n/a", "none"}
+
+
+def summarize_treatment_context(rows: list[dict[str, str]]) -> dict:
+    """Summarize supplied treatment metadata without inferring values or fitting outcomes."""
+    fields = set(rows[0]) if rows else set()
+    present = [field for field in TREATMENT_CONTEXT_FIELDS if field in fields]
+    summary = {}
+    for field in TREATMENT_CONTEXT_FIELDS:
+        if field not in fields:
+            summary[field] = {"column_present": False, "reported_rows": 0, "categories": {}}
+            continue
+        values = [row.get(field, "").strip() for row in rows]
+        reported = [
+            value for value in values
+            if value.lower() not in UNKNOWN_CONTEXT_VALUES
+        ]
+        categories: dict[str, int] = {}
+        for value in reported:
+            categories[value] = categories.get(value, 0) + 1
+        summary[field] = {
+            "column_present": True,
+            "reported_rows": len(reported),
+            "unresolved_rows": len(values) - len(reported),
+            "categories": dict(sorted(categories.items())),
+        }
+    return {
+        "metadata_fields_present": present,
+        "required_context_fields": list(TREATMENT_CONTEXT_FIELDS),
+        "all_context_columns_present": all(field in fields for field in TREATMENT_CONTEXT_FIELDS),
+        "field_summary": summary,
+        "analysis_performed": False,
+        "interpretation": (
+            "Metadata inventory only. No treatment-response association or treatment interaction "
+            "is estimated. Blank/unknown values remain unresolved; category labels are source-defined."
+        ),
+    }
+
+
 def audit(
     matrix_path: Path,
     signature_path: Path,
@@ -122,6 +168,7 @@ def audit(
     manifest_ids = {row[sample_column] for row in manifest}
     patients_by_sample = {row[sample_column]: row[patient_column] for row in manifest}
     patients = set(patients_by_sample.values())
+    treatment_context = summarize_treatment_context(manifest)
 
     positive = {gene for gene, direction in signature.items() if direction == "positive"}
     negative = {gene for gene, direction in signature.items() if direction == "negative"}
@@ -158,6 +205,7 @@ def audit(
             },
             "sample_manifest_matrix_identity_pass": matrix_ids == manifest_ids,
         },
+        "treatment_context_inventory": treatment_context,
         "signature_accounting": {
             "signature_gene_count": len(signature),
             "pc4_positive_gene_count": len(positive),
@@ -200,6 +248,9 @@ def audit(
             ),
             "frozen_v2_scoring_performed": False,
             "survival_analysis_performed": False,
+            "treatment_response_analysis_performed": False,
+            "treatment_interaction_test_performed": False,
+            "treatment_context_columns_complete": treatment_context["all_context_columns_present"],
             "claim_boundary": (
                 "Signature overlap is descriptive only. This audit does not establish "
                 "biological equivalence, prognosis, anti-PD-1 response prediction, clinical "
