@@ -169,4 +169,22 @@ Huang et al.
 \newblock Data and code records are linked in Section 2.
 \end{thebibliography}
 
+
+
+\\section{Source-code follow-up: existing ICI interaction specification}
+
+Inspection of the released analysis script found an exploratory interaction section in \\url{https://github.com/ziyinhuang96/stgemox_itm_mel_tma/blob/submission-v2/geomx_wta_mel_tma_review.Rmd}, lines 4081--4152. The script reads a separate \\texttt{ITM\_treatment\_annotation.csv}, maps \\texttt{Unique.ID} to the patient key, joins an \\texttt{ICI} field, stratifies samples using the cohort PC4 survival cutpoint, and specifies a Cox model containing ICI, PC4 group, and their interaction for melanoma-specific survival. This establishes that the released code specifies an interaction analysis; it does not establish its numerical result, external validity, or causality.
+
+The treatment annotation file and fitted output were not present in the inspected public code release. The expression matrix is listed on Dryad at \\url{https://datadryad.org/dataset/doi:10.5061/dryad.kh18932pf}, but the file endpoint returned HTTP 403 through the available retrieval route. The audit recognizes the source's literal \\texttt{ICI} column as an exposure-status alias and preserves recorded values without inferring regimen, timing, or response.
+
+This is an observational survival interaction, not a randomized treatment-effect estimate. The cohort-derived PC4 cutpoint also prevents treating this code path as independent validation of a locked predictive threshold. Reanalysis requires the treatment annotation, patient linkage, endpoint data, complete expression matrix and signature, and a prespecified analysis plan.
+
+\\begin{quote}
+\\texttt{SOURCE\_CODE\_SPECIFIES\_ICI\_X\_PC4\_COX\_INTERACTION := TRUE.}\\par
+\\texttt{INTERACTION\_NUMERICAL\_RESULT\_INDEPENDENTLY\_VERIFIED := FALSE.}\\par
+\\texttt{CAUSAL\_TREATMENT\_BENEFIT\_ESTABLISHED := FALSE.}
+\\end{quote}
+
+\\texttt{BOUNDARY := $\\neg$ established(causal\_treatment\_benefit)}
+
 \end{document}
