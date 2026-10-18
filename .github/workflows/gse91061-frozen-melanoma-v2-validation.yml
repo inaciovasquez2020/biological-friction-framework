@@ -1,0 +1,31 @@
+name: gse91061-frozen-melanoma-v2-validation
+
+on:
+  push:
+    branches:
+      - validation/gse91061-frozen-v2-20261018
+    paths:
+      - "infra/ci/validate_gse91061_melanoma_v2.py"
+      - ".github/workflows/gse91061-frozen-melanoma-v2-validation.yml"
+
+jobs:
+  locked-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run repository tests and frozen GSE91061 validation
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest openpyxl
+          pytest -q tests/test_melanoma_route_burden_v2.py tests/test_gse78220_v2_development_audit.py tests/test_melanoma_v2_calibration_fit.py
+          python infra/ci/validate_gse91061_melanoma_v2.py --output gse91061-v2-validation.json
+      - name: Upload validation receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: gse91061-v2-validation
+          path: gse91061-v2-validation.json
+          if-no-files-found: error
