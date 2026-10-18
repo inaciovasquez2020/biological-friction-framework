@@ -21,10 +21,17 @@ Verified by the non-scoring preflight:
 - Frozen endpoint crosswalk: 47 CR/PR responders, 56 PD nonresponders, and 18 excluded SD/mixed cases.
 - The initial preflight had an endpoint-label bug that excluded Complete/Partial Response. It was corrected, covered by five regression tests, and the corrected preflight passed.
 
-**Remaining blocker before scoring:**
-1. The frozen GSE78220 reference was built from GEO's `GSE78220_PatientFPKM.xlsx` matrix. The Liu matrix is TPM. TPM and FPKM are not guaranteed to be a single global strictly increasing transform across samples; TPM introduces sample-specific scaling. Applying the frozen ECDF directly to TPM without proving measurement compatibility would make the score technically computable but the validation interpretation unsound.
+**Scale-compatibility result: blocked from v2 scoring.**
 
-No response-informed conversion or refitting is permitted. If scale compatibility cannot be established independently, record **not comparable under v2** and do not score this cohort.
+The frozen GSE78220 reference was built from GEO's `GSE78220_PatientFPKM.xlsx` matrix; the available cBioPortal Liu matrix is TPM. For sample (s), the relationship is
+
+`TPM[g,s] = 10^6 × FPKM[g,s] / sum_j FPKM[j,s]`.
+
+Recovering FPKM therefore requires the sample-specific `sum_j FPKM[j,s]` value under the same gene universe and quantification convention. TPM values alone do not identify that value. The unknown factor can differ by sample, and the frozen scorer applies each gene's development-reference ECDF to its raw expression value; a sample-specific scale factor can change those ECDF positions. There is no mathematically justified direct substitution of TPM for FPKM.
+
+The Liu study's code repository also describes a separate raw-count matrix. That does not by itself establish equivalence to the frozen Cuffnorm FPKM matrix: a reconstruction would need a fixed, documented quantification/annotation procedure and independent evidence that its resulting values are compatible with the frozen reference. No such reconstruction or equivalence evidence is currently established.
+
+No response-informed conversion or refitting is permitted. Current decision: **not comparable under v2 on the available TPM matrix**. Do not compute a v2 score from TPM. A future same-pipeline reconstruction would be a new preflight gate, not permission to score by assumption.
 
 Status: **source/sample mapping and endpoint crosswalk passed; expression-scale compatibility remains unresolved, so the cohort is not eligible for locked v2 scoring.**
 
