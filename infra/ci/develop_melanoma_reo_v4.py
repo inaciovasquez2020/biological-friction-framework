@@ -447,11 +447,6 @@ def select_pairs(training, genes: list[str], cohort_deltas: dict, max_pairs: int
         item["gene_b"],
     ))
     selected = qualifying[:max_pairs]
-    if len(selected) < 3:
-        raise ValueError(
-            "TOO_FEW_CROSS_COHORT_STABLE_GENE_PAIRS: "
-            f"only {len(selected)} pairs passed FDR/effect gates"
-        )
     return selected, {
         "common_gene_count": len(genes),
         "tested_pair_count": total_pairs,
@@ -643,6 +638,28 @@ def run_development():
     labels = [row["y"] for row in training]
     cohort_deltas = {"Liu_DFCI": len(liu), "Gide_PRJEB23709": len(gide)}
     selected_pairs, selection = select_pairs(training, genes, cohort_deltas)
+    if len(selected_pairs) < 3:
+        return {
+            "status": "STOPPED_NO_CROSS_COHORT_STABLE_FEATURES",
+            "model_version": MODEL_VERSION,
+            "development_cohorts": {
+                "Liu_DFCI": {"sample_count": len(liu), "responders": sum(row["y"] for row in liu)},
+                "Gide_PRJEB23709": {"sample_count": len(gide), "responders": sum(row["y"] for row in gide)},
+                "combined_sample_count": len(training),
+            },
+            "external_validation_cohort": {
+                "name": "GSE93157 melanoma pre-anti-PD-1 (baseline and archival)",
+                "source": validation_sources,
+                "sample_count": len(validation),
+                "endpoint": "CR/PR versus PD; SD excluded",
+            },
+            "feature_space": {"common_gene_count": len(genes), "pair_selection": selection},
+            "claim_boundary": (
+                "No model was fitted because no gene pairs passed the prespecified cross-cohort "
+                "direction, effect-size, and multiplicity gates. Thresholds were not relaxed after "
+                "seeing the result; no external validation scores were generated."
+            ),
+        }
     train_features = [pair_features(row["expression"], selected_pairs) for row in training]
     validation_features = [pair_features(row["expression"], selected_pairs) for row in validation]
     model = fit_ridge_logistic(train_features, labels)
@@ -706,6 +723,11 @@ def main():
     }
     if result["status"] == "STOPPED_NO_ELIGIBLE_EXTERNAL_COHORT":
         summary["external_validation_eligibility"] = result["external_validation_cohort"]["source"]["eligibility"]
+    elif result["status"] == "STOPPED_NO_CROSS_COHORT_STABLE_FEATURES":
+        summary["common_gene_count"] = result["feature_space"]["common_gene_count"]
+        summary["pair_selection"] = result["feature_space"]["pair_selection"]
+        summary["external_validation_sample_count"] = result["external_validation_cohort"]["sample_count"]
+        summary["claim_boundary"] = result["claim_boundary"]
     else:
         summary.update({
             "common_gene_count": result["feature_space"]["common_gene_count"],
