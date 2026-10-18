@@ -1,12 +1,18 @@
+import importlib.util
+from pathlib import Path
+
 import pandas as pd
 import pytest
 
-from infra.ci.audit_melanoma_wnt_inputs import (
-    REFERENCE_GENE,
-    RESISTANCE_GENES,
-    calculate_frozen_score,
-    reconcile_ids,
-)
+MODULE_PATH = Path(__file__).resolve().parents[1] / "infra" / "ci" / "audit_melanoma_wnt_inputs.py"
+SPEC = importlib.util.spec_from_file_location("melanoma_wnt_input_audit", MODULE_PATH)
+MODULE = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(MODULE)
+
+REFERENCE_GENE = MODULE.REFERENCE_GENE
+RESISTANCE_GENES = MODULE.RESISTANCE_GENES
+calculate_frozen_score = MODULE.calculate_frozen_score
+reconcile_ids = MODULE.reconcile_ids
 
 
 def expression_fixture():
