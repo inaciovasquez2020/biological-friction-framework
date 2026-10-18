@@ -44,6 +44,16 @@ def parse_cbio_tsv(data: bytes, name: str):
     return headers, records
 
 
+def classify_response(label: str):
+    """Map source clinical response labels to the frozen CR/PR-vs-PD endpoint."""
+    norm = "".join(ch for ch in label.upper() if ch.isalnum())
+    if norm in {"CR", "PR", "CRPR", "PRCR", "COMPLETERESPONSE", "PARTIALRESPONSE"}:
+        return "RESPONDER_CR_PR"
+    if norm in {"PD", "PROGRESSIVEDISEASE"}:
+        return "NONRESPONDER_PD"
+    return "EXCLUDED_NONMATCHING_OR_UNKNOWN"
+
+
 def main():
     raw = {k: get_bytes(k) for k in FILES}
     patient_headers, patients = parse_cbio_tsv(raw["patient"], "patient clinical")
@@ -90,15 +100,12 @@ def main():
             continue
         label = p.get("BR", "").strip()
         response_counts[label or "MISSING_RESPONSE"] += 1
-        norm = label.upper().replace(" ", "").replace("/", "")
-        if norm in {"CR", "PR", "CRPR", "PRCR", "COMPLETE/PARTIALRESPONSE"}:
-            endpoint_counts["RESPONDER_CR_PR"] += 1
+        endpoint_class = classify_response(label)
+        endpoint_counts[endpoint_class] += 1
+        if endpoint_class == "RESPONDER_CR_PR":
             endpoint_patients.append({"patient_id": pid, "source_response": label, "frozen_class": "CR_PR"})
-        elif norm in {"PD", "PROGRESSIVEDISEASE"}:
-            endpoint_counts["NONRESPONDER_PD"] += 1
+        elif endpoint_class == "NONRESPONDER_PD":
             endpoint_patients.append({"patient_id": pid, "source_response": label, "frozen_class": "PD"})
-        else:
-            endpoint_counts["EXCLUDED_NONMATCHING_OR_UNKNOWN"] += 1
 
     genes_missing = [g for g in GENES if g not in gene_symbols]
     duplicate_sample_ids = len(sample_ids) != len(exp_header[2:])
