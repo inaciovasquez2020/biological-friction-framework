@@ -256,7 +256,11 @@ def main() -> None:
         except Exception as exc:
             report["datasets"].append({"accession": name, "status": "SOURCE_DOWNLOAD_OR_PARSE_BLOCKED",
                                        "error_type": type(exc).__name__, "error": str(exc)})
-    report["overall_status"] = "INVENTORY_COMPLETE" if all(d["status"] == "INVENTORY_COMPLETE" for d in report["datasets"]) else "REVIEW_REQUIRED"
+    report["overall_status"] = "INVENTORY_COMPLETE" if all(
+        d["status"] == "INVENTORY_COMPLETE"
+        and d.get("rcc_to_matrix_reconciliation", {}).get("status") == "CONSISTENT_LINEAR_SCALE"
+        for d in report["datasets"]
+    ) else "REVIEW_REQUIRED"
     report_path = outdir / "source_inventory.json"
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"overall_status": report["overall_status"], "datasets": [
@@ -264,6 +268,7 @@ def main() -> None:
          "sample_count": d.get("matrix", {}).get("sample_count"),
          "rcc_file_count": d.get("rcc_file_count"),
          "status": d["status"],
+         "reconciliation_status": d.get("rcc_to_matrix_reconciliation", {}).get("status"),
          "error": d.get("error")} for d in report["datasets"]
     ], "report": str(report_path)}, indent=2))
     if report["overall_status"] != "INVENTORY_COMPLETE":
