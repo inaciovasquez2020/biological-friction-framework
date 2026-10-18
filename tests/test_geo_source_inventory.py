@@ -31,6 +31,36 @@ def test_rcc_inventory_parses_xml_without_interpreting_assay_values():
     assert "tag_counts" in result
 
 
+def test_rcc_inventory_extracts_documented_code_summary_counts():
+    raw = (
+        b"<Header>\\nFileVersion,1.7\\n</Header>\\n"
+        b"<Sample_Attributes>\\nID,SampleA\\n</Sample_Attributes>\\n"
+        b"<Code_Summary>\\nCodeClass,Name,Accession,Count\\n"
+        b"Endogenous,WNT5A,NM_003392.5,123\\n"
+        b"Endogenous,RNF43,NM_017763.5,7\\n</Code_Summary>\\n"
+    )
+    result = MODULE.rcc_inventory("sample.RCC", raw)
+    assert result["code_summary_parse"] == "PASS"
+    assert result["code_summary_row_count"] == 2
+    assert result["code_summary"] == [
+        {"code_class": "Endogenous", "name": "WNT5A", "accession": "NM_003392.5", "count": 123},
+        {"code_class": "Endogenous", "name": "RNF43", "accession": "NM_017763.5", "count": 7},
+    ]
+
+
+def test_rcc_inventory_rejects_noninteger_counts():
+    raw = (
+        b"<Code_Summary>\\nCodeClass,Name,Accession,Count\\n"
+        b"Endogenous,WNT5A,NM_003392.5,not-a-count\\n</Code_Summary>"
+    )
+    try:
+        MODULE.rcc_inventory("sample.RCC", raw)
+    except ValueError as exc:
+        assert "invalid RCC Count" in str(exc)
+    else:
+        raise AssertionError("invalid RCC Count must fail closed")
+
+
 def test_audit_one_preserves_matrix_when_raw_archive_download_fails(tmp_path, monkeypatch):
     matrix = tmp_path / "GSE_TEST_series_matrix.txt.gz"
     matrix.write_bytes(gzip.compress(
