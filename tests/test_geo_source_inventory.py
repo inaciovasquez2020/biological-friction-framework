@@ -61,6 +61,25 @@ def test_rcc_inventory_rejects_noninteger_counts():
         raise AssertionError("invalid RCC Count must fail closed")
 
 
+def test_full_feature_classifier_detects_log2_sample_scale():
+    import math
+    raw = {f"GENE{i}": i + 10 for i in range(204)}
+    processed = {gene: math.log2(count) - 0.0243935046 for gene, count in raw.items()}
+    result = MODULE.classify_full_feature_scale(raw, processed)
+    assert result["scale_class"] == "LOG2_RAW_COUNT_PLUS_OFFSET"
+    assert result["matched_feature_count"] == 204
+    assert result["log2_max_relative_residual"] < 1e-6
+
+
+def test_full_feature_classifier_detects_linear_sample_scale():
+    raw = {f"GENE{i}": i + 10 for i in range(204)}
+    processed = {gene: count * 0.570987 for gene, count in raw.items()}
+    result = MODULE.classify_full_feature_scale(raw, processed)
+    assert result["scale_class"] == "LINEAR_SCALAR_MULTIPLE"
+    assert result["matched_feature_count"] == 204
+    assert result["linear_max_relative_residual"] < 1e-6
+
+
 def test_scale_classifier_detects_linear_scalar_multiple():
     raw = {gene: index + 10 for index, gene in enumerate(MODULE.RECONCILIATION_GENES)}
     processed = {gene: count * 2.75 for gene, count in raw.items()}
