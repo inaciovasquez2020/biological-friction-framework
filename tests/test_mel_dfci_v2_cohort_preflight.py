@@ -1,4 +1,13 @@
-from infra.ci.preflight_mel_dfci_v2_cohort import classify_response
+import importlib.util
+from pathlib import Path
+
+
+SCRIPT = Path(__file__).resolve().parents[1] / "infra" / "ci" / "preflight_mel_dfci_v2_cohort.py"
+SPEC = importlib.util.spec_from_file_location("mel_dfci_preflight", SCRIPT)
+MODULE = importlib.util.module_from_spec(SPEC)
+assert SPEC and SPEC.loader
+SPEC.loader.exec_module(MODULE)
+classify_response = MODULE.classify_response
 
 
 def test_complete_response_is_responder():
