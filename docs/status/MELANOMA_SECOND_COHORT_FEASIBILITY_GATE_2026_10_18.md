@@ -39,7 +39,7 @@ Status: **source/sample mapping and endpoint crosswalk passed; expression-scale 
 
 BioProject: https://www.ncbi.nlm.nih.gov/bioproject/PRJEB23709
 
-The BioProject reports 91 SRA experiments and includes patients treated with anti-PD-1 monotherapy and anti-PD-1 plus anti-CTLA-4. Published reports describe 73 pretreatment tumors in related analyses, with treatment arms having different responder counts.
+The BioProject reports 91 SRA experiments and includes patients treated with anti-PD-1 monotherapy and anti-PD-1 plus anti-CTLA-4. A published secondary analysis reports 72 pretreatment anti-PD-1-monotherapy samples (45 R, 27 NR) after its own exclusions; it also notes that 30 of the 54 monotherapy patients had prior anti-CTLA-4. A separate reanalysis reports restricting to 41 patients with baseline samples and processing raw reads with STAR 2-pass, HTSeq-count, then an NCI/GDC-style FPKM procedure. These are useful provenance leads, but they do not supply a verified manifest for the exact frozen CR/PR-versus-PD endpoint, and they do not prove that the resulting FPKM values are numerically compatible with the frozen GSE78220 Cuffnorm reference. Sources: https://pmc.ncbi.nlm.nih.gov/articles/PMC8519947/ and https://discovery.ucl.ac.uk/id/eprint/10135694/1/s41467-021-25894-9.pdf
 
 **Blocking items before scoring:**
 1. Need a reproducible patient/sample manifest and exact mapping of pretreatment biopsies to response labels.
@@ -69,7 +69,7 @@ GEO lists 27 samples and a featureCounts raw-count matrix. Its sample annotation
 
 No candidate located in this pass is ready for a valid second v2 score:
 - **Liu/DFCI:** source mapping and CR/PR-versus-PD endpoint crosswalk passed, but the available matrix is TPM and is not invertible to FPKM without sample-specific scaling information; separate raw counts do not establish same-pipeline compatibility.
-- **Gide/PRJEB23709:** raw counts and public sample metadata exist, but sample/treatment-arm reconciliation and a fixed, compatible expression quantification remain prerequisites. The study includes both anti-PD-1 monotherapy and combination therapy, so it cannot be pooled indiscriminately.
+- **Gide/PRJEB23709:** a secondary analysis provides candidate baseline counts (72 pretreatment anti-PD-1-monotherapy samples, 45 R/27 NR), and another reports a reproducible raw-read-to-FPKM pipeline on 41 baseline patients. This makes Gide the best next candidate for a *non-scoring provenance audit*, but not yet a valid v2 score: endpoint mapping, prior anti-CTLA-4 handling, sample manifest, and numerical compatibility with the frozen Cuffnorm reference remain unverified. Anti-PD-1 combination samples must stay separate.
 - **MGH GSE115821 / GSE168204:** public count matrices, but timepoint/repeated-biopsy issues and R/NR labels or low responder counts prevent immediate frozen-endpoint replication.
 
 This is a data-compatibility stop, not evidence that no other cohort exists. The current v2 validation program has one completed independent test (GSE91061), and it failed the prespecified promotion gate. A second score should not be produced merely to fill the replication requirement.
