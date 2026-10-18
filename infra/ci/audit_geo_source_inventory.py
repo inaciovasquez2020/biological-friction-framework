@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Download and inventory public GEO source files; no model fitting or preprocessing."""
 from __future__ import annotations
-import argparse, gzip, hashlib, json, re, tarfile, tempfile, urllib.request
+import argparse, gzip, hashlib, io, json, re, tarfile, tempfile, urllib.request
 from collections import Counter
 from pathlib import Path
 import xml.etree.ElementTree as ET
