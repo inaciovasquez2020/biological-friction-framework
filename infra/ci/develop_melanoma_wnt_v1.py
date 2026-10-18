@@ -10,7 +10,7 @@ RESISTANCE_GENES = ("WNT2B","WNT5A","WNT7B","WNT8B","FZD1","FZD2","FZD4","FZD5",
 RESPONDER_GENES = ("RNF43",)
 MIN_PANEL_GENES = 5
 
-def fetch_matrix(url: str = URL) -> tuple[bytes, str]:
+def fetch_matrix(url: str = URL) -> tuple[bytes, str, str]:
     request = urllib.request.Request(url, headers={"User-Agent": VERSION})
     with urllib.request.urlopen(request, timeout=90) as response:
         raw = response.read()
@@ -60,7 +60,7 @@ def parse_series_matrix(raw: bytes) -> tuple[list[dict], dict]:
         else:
             raise ValueError(f"unrecognized response label in GEO title: {title}")
         rows.append({"sample_title":title,"label":label,"y":y,"expression":expression})
-    return rows, {"dataset":"GSE165745","source_url":URL,"raw_sha256":hashlib.sha256(raw).hexdigest(),
+    return rows, {"dataset":"GSE165745","source_url":URL,"matrix_content_sha256":hashlib.sha256(raw).hexdigest(),
         "sample_count":len(rows),"response_counts":{"responders":sum(r["y"] for r in rows),"nonresponders":sum(1-r["y"] for r in rows)},"sample_titles":titles}
 
 def fixed_wnt_score(expression: dict[str,float]) -> tuple[float,dict]:
