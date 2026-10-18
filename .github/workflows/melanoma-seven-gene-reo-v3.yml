@@ -1,6 +1,15 @@
 name: melanoma-seven-gene-reo-v3
 
 on:
+  push:
+    branches:
+      - research/melanoma-reo-seven-gene-v3-20261018
+    paths:
+      - "infra/ci/develop_melanoma_reo_v3.py"
+      - "infra/ci/preflight_mel_dfci_v2_cohort.py"
+      - "infra/ci/validate_gse91061_melanoma_v2.py"
+      - "tests/test_melanoma_reo_v3.py"
+      - ".github/workflows/melanoma-seven-gene-reo-v3.yml"
   pull_request:
     paths:
       - "infra/ci/develop_melanoma_reo_v3.py"
