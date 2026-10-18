@@ -272,11 +272,18 @@ def _read_gse93157():
         if len(row) != len(header):
             raise ValueError(f"GSE93157 expression row {line_number} width mismatch")
         gene = row[0].strip().strip('"')
-        if not gene or gene in expression:
-            raise ValueError(f"empty or duplicate GSE93157 gene identifier: {gene!r}")
-        values = [float(token) for token in row[1:]]
+        if not gene:
+            continue
+        try:
+            values = [float(token) for token in row[1:]]
+        except ValueError:
+            # Some NanoString control/feature rows have empty cells; exclude the whole
+            # row rather than imputing expression or creating sample-specific missingness.
+            continue
         if not all(math.isfinite(value) for value in values):
-            raise ValueError(f"non-finite GSE93157 expression values for {gene}")
+            continue
+        if gene in expression:
+            raise ValueError(f"duplicate GSE93157 gene identifier: {gene!r}")
         expression[gene] = dict(zip(titles, values))
 
     observations = []
