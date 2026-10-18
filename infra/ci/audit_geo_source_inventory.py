@@ -107,7 +107,11 @@ def main() -> None:
     outdir.mkdir(parents=True, exist_ok=True)
     report = {"schema_version": VERSION, "datasets": []}
     for name in args.datasets:
-        report["datasets"].append(audit_one(name, GSE[name], outdir))
+        try:
+            report["datasets"].append(audit_one(name, GSE[name], outdir))
+        except Exception as exc:
+            report["datasets"].append({"accession": name, "status": "SOURCE_DOWNLOAD_OR_PARSE_BLOCKED",
+                                       "error_type": type(exc).__name__, "error": str(exc)})
     report["overall_status"] = "INVENTORY_COMPLETE" if all(d["status"] == "INVENTORY_COMPLETE" for d in report["datasets"]) else "REVIEW_REQUIRED"
     report_path = outdir / "source_inventory.json"
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
