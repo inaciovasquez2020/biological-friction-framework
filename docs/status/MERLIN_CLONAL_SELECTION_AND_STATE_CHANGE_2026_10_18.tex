@@ -1,0 +1,161 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xurl}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\title{Clonal Selection and Lineage-Associated State Change in Melanoma Drug Resistance\\
+\large A Bounded Evidence Note on the MeRLin Study}
+\author{Inacio F. Vasquez\\Independent Researcher, United States}
+\date{18 October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note records a bounded conclusion for the Biological Friction Framework (BFF) from the published MeRLin melanoma study. The central question is whether resistance under BRAF/MEK inhibitor pressure is explained only by the increased abundance of pre-existing surviving lineages, or whether surviving lineages also exhibit changes in biological state. The published results support a qualitative account involving both clonal selection and lineage-associated transcriptional-state dynamics. They do not provide a numerical causal decomposition of resistance into these components. Nor do they establish that the observed transcriptional programs are caused by a specific CSE/H$_2$S-persulfide mechanism, generalize to every melanoma genotype or therapy, or prove a general BFF theorem. These boundaries are part of the result, not optional caveats.
+\end{abstract}
+
+\section{Question and bounded result}
+
+\textbf{Question.} Under targeted-therapy pressure, is resistance adequately represented as a change in the relative abundance of pre-existing clones, or is there evidence that lineage-associated biological states also change over time?
+
+\textbf{Result.}
+\begin{quote}
+\texttt{RESULT := CLONAL SELECTION AND LINEAGE-ASSOCIATED STATE DYNAMICS ARE BOTH SUPPORTED QUALITATIVELY IN THE STUDIED MODEL.}
+\end{quote}
+
+The MeRLin study combines clonal barcoding, single-cell RNA sequencing, bulk RNA sequencing, and spatial transcriptomics in a melanoma model exposed to BRAF/MEK inhibition. It reports loss of detectable barcode diversity, expansion of resistant lineages, multiple persister-associated transcriptional programs, and longitudinal changes in those programs during minimal residual disease (MRD) and recurrence \cite{Li2026}.
+
+The evidence therefore argues against an abundance-only description as a complete account of the studied resistance process. It does not establish that selection and state change contribute equally, or quantify their respective causal contributions.
+
+\section{Evidence for clonal selection}
+
+The study reports 1,127 unique barcodes at baseline and 261 detectable unique barcodes at the endpoint. Thus, approximately 23.2\% of the baseline barcode diversity remained detectable at the endpoint:
+\[
+\frac{261}{1127} \approx 0.232.
+\]
+This is a measure of retained detectable barcode diversity, \emph{not} a claim that 23.2\% of cells survived treatment.
+
+The dominant endpoint clone represented 11.3\% of cells in pooled tumors, and the five leading persister lineages together accounted for approximately 40\% of recurrent tumor cells. The authors report that resistant clones expanded from minor pretreatment subpopulations while sensitive clones declined \cite{Li2026}.
+
+These observations support a clonal-selection component: treatment changes the relative representation of lineages, and endpoint composition is less diverse than baseline composition.
+
+\section{Evidence for state dynamics}
+
+The study identifies four principal persister-associated transcriptional programs:
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Stress-like:} including markers such as \texttt{BNIP3}, \texttt{PDK1}, \texttt{ATF4}, and \texttt{SLC2A1}.
+  \item \textbf{Neural-crest-like with lipid-metabolism features:} including \texttt{FASN}, \texttt{APOE}, and \texttt{ETV5}.
+  \item \textbf{Neural-crest-like with PI3K-signaling features:} including \texttt{AKT3}, \texttt{FGFR1}, and \texttt{LEF1}.
+  \item \textbf{ECM-remodeling:} including \texttt{ECM1}, \texttt{VCL}, \texttt{MET}, and \texttt{ETS1}.
+\end{enumerate}
+
+A fifth group serves as a more sensitive or lower-abundance reference in the paper's analyses. These labels describe study-defined transcriptional programs; they should not be reified as exhaustive or mutually exclusive biological cell types.
+
+The authors' longitudinal analysis reports that the stress-like persister population shifts from a relatively more differentiated profile during early MRD toward a more dedifferentiated profile at recurrence. Lipid-metabolism and ECM-remodeling features, comparatively weak early in the course, become more consolidated during recurrence. Pseudotime analysis shows a branched transcriptional trajectory rather than one uniquely linear route \cite{Li2026}.
+
+These results support lineage-associated state dynamics in addition to changes in lineage abundance. The strongest careful formulation is \emph{longitudinal evidence consistent with state change associated with persisting lineages}; it is not repeated observation of the same individual cell, and it does not by itself identify the causal driver of each transition.
+
+\section{Joint interpretation}
+
+The evidence is consistent with two coupled processes:
+\[
+\text{observed resistance dynamics}
+\sim
+\text{lineage selection}
++
+\text{lineage-associated state dynamics}.
+\]
+
+This expression is a conceptual decomposition, not a fitted additive model. The processes may interact: a lineage's abundance can change while its state distribution also changes, and state-dependent fitness can itself alter lineage abundance.
+
+\begin{center}
+\begin{tabular}{p{0.28\linewidth}p{0.31\linewidth}p{0.31\linewidth}}
+\toprule
+\textbf{Evidence layer} & \textbf{Supported interpretation} & \textbf{Boundary} \\
+\midrule
+Barcode abundance & Lineages are differentially retained and expanded under treatment. & Barcode diversity is not cell survival fraction. \\
+Longitudinal transcriptional programs & Persister-associated programs change in prevalence and show reported state shifts over time. & Does not quantify the causal share attributable to state change. \\
+Pseudotime and branching & The expression landscape is compatible with multiple trajectories. & Pseudotime is an inferred ordering, not direct observation of cell fate. \\
+Spatial transcriptomics & Some programs show spatial patterning or co-localization. & Spatial association alone does not establish causal interaction. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Design and inference limits}
+
+The study's single-cell profiling at each time point pooled tumor chunks from three replicates. Pooling is useful for characterizing cell-state diversity but limits the ability to treat individual sequenced cells as independent biological tumor replicates. The paper also notes that replicate-specific clonal copy-number variation may affect transcriptional features and that additional replicates, time points, and models could reveal further states \cite{Li2026}.
+
+Accordingly, the following claims are \textbf{not established by the published result summarized here}:
+
+\begin{itemize}[leftmargin=1.5em]
+  \item a numerical fraction of resistance attributable to clonal selection versus within-lineage state change;
+  \item a fully identified causal transition mechanism for each persister-associated program;
+  \item universality across melanoma genotypes, models, or immunotherapy settings;
+  \item a causal link from CSE/H$_2$S-persulfide buffering to the observed MeRLin state transitions;
+  \item closure of a general BFF theorem or proof that all relevant biological escape routes have been enumerated.
+\end{itemize}
+
+\section{BFF mapping}
+
+For BFF, the useful structural update is that a resistance representation based only on clone abundance is incomplete for this model. A bounded representation should track at least two coupled observables:
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Lineage composition:} abundance and persistence of barcoded lineages under treatment.
+  \item \textbf{Lineage-conditioned state distribution:} transcriptional-program scores and their changes over time within matched barcodes, where the data support that comparison.
+\end{enumerate}
+
+This is an evidence-informed modeling requirement, not a proof that a particular BFF state graph is complete. State labels and marker scores should remain distinct from functional dependencies: expression of a marker does not by itself prove dependence on the associated pathway.
+
+A future quantitative decomposition would require an explicit analysis of matched barcode-by-time observations, with a prespecified state-program definition and biological-replicate-aware uncertainty. It should compare a selection-only model against a model that additionally permits within-lineage state-distribution change. No such numerical model comparison is claimed in this note.
+
+\section{Relation to the CSE/persulfide residual}
+
+The MeRLin result does not close the separate BFF question concerning cystathionine gamma-lyase (CSE), hydrogen sulfide, and persulfide-mediated stress buffering. The existing BFF CSE note records heterogeneous endpoint \texttt{CTH} transcript abundance across MeRLin barcode groups and explicitly distinguishes transcript abundance from functional CSE dependency \cite{BFFCSE}. Neither the longitudinal state findings nor endpoint transcript measurements establish that CSE is a universal persister dependency, that CSE perturbation causes dedifferentiation, or that CSE explains the state changes reported by MeRLin.
+
+The correct boundary is:
+\begin{quote}
+\texttt{BOUNDARY := MeRLin supports clonal selection plus lineage-associated state dynamics; CSE/persulfide causality and state-resolved functional dependency remain separate questions.}
+\end{quote}
+
+\section{Data and source record}
+
+The study's public data records include single-cell and bulk RNA-sequencing accessions \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE299711}{GSE299711} and \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE299589}{GSE299589}, and spatial transcriptomics accession \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE245582}{GSE245582}. The analysis scripts are available in the authors' \href{https://github.com/Yeqing95/MeRLin}{MeRLin repository}. This note synthesizes published findings; it does not claim a fresh independent reanalysis of the deposited expression matrices.
+
+\section{Final status}
+
+\begin{quote}
+\texttt{ESTABLISHED\_QUALITATIVELY := selection and lineage-associated state dynamics both occur in the studied MeRLin model.}
+
+\texttt{NOT\_ESTABLISHED := quantitative causal decomposition, universal mechanism, CSE/persulfide causality, or general BFF closure.}
+
+\texttt{NEXT\_ACTION := NONE for this bounded literature synthesis.}
+\end{quote}
+
+\begin{thebibliography}{9}
+
+\bibitem{Li2026}
+Li et al.
+\newblock \emph{Clonal dynamics shaped by diverse drug-tolerant persister states in melanoma resistance}.
+\newblock Molecular Cancer, 25, article 127 (2026).
+\newblock Published 3 March 2026.
+\newblock \url{https://doi.org/10.1186/s12943-026-02622-9}.
+\newblock Full text: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC13162433/}.
+
+\bibitem{BFFCSE}
+Vasquez, I. F.
+\newblock \emph{Melanoma CSE/H2S-persulfide cross-state residual} (BFF status note, 31 August 2026).
+\newblock \url{https://github.com/inaciovasquez2020/biological-friction-framework/blob/main/docs/status/MELANOMA_CSE_PERSULFIDE_CROSS_STATE_RESIDUAL_2026_08_31.md}.
+
+\end{thebibliography}
+
+\end{document}
