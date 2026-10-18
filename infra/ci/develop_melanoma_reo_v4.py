@@ -323,16 +323,11 @@ def _read_gse93157():
         })
 
     counts = {str(y): sum(row["y"] == y for row in observations) for y in (0, 1)}
-    if len(observations) < 15 or counts["0"] < 5 or counts["1"] < 5:
-        from collections import Counter
-        source_counts = dict(Counter(sample["source_name"] for sample in metadata))
-        biopsy_counts = dict(Counter(sample["fields"].get("biopsy", "") for sample in metadata))
-        drug_counts = dict(Counter(sample["fields"].get("drug", "") for sample in metadata))
-        raise ValueError(
-            "GSE93157 is too small for the prespecified external screen: "
-            f"included={len(observations)}, class_counts={counts}, baseline_melanoma={len(melanoma_baseline)}, "
-            f"source_counts={source_counts}, biopsy_counts={biopsy_counts}, drug_counts={drug_counts}"
-        )
+    from collections import Counter
+    source_counts = dict(Counter(sample["source_name"] for sample in metadata))
+    biopsy_counts = dict(Counter(sample["fields"].get("biopsy", "") for sample in metadata))
+    drug_counts = dict(Counter(sample["fields"].get("drug", "") for sample in metadata))
+    eligible = len(observations) >= 15 and counts["0"] >= 5 and counts["1"] >= 5
     return observations, set(expression), {
         "series_matrix_url": GSE93157_MATRIX_URL,
         "compressed_sha256": source_sha,
@@ -342,6 +337,19 @@ def _read_gse93157():
         "baseline_melanoma_samples": melanoma_baseline,
         "excluded_endpoint_rows": exclusions,
         "class_counts": counts,
+        "eligibility": {
+            "eligible_for_prespecified_external_screen": eligible,
+            "included_endpoint_sample_count": len(observations),
+            "minimum_total_samples": 15,
+            "minimum_samples_per_class": 5,
+            "source_counts": source_counts,
+            "biopsy_counts": biopsy_counts,
+            "drug_counts": drug_counts,
+            "reason": None if eligible else (
+                "Strict baseline-only melanoma subset is too small for external validation; "
+                "archival samples are not substituted for baseline samples."
+            ),
+        },
     }
 
 
@@ -597,6 +605,22 @@ def calculate_metrics(labels, probabilities):
 
 def run_development():
     validation, panel_genes, validation_sources = _read_gse93157()
+    if not validation_sources["eligibility"]["eligible_for_prespecified_external_screen"]:
+        return {
+            "status": "STOPPED_NO_ELIGIBLE_EXTERNAL_COHORT",
+            "model_version": MODEL_VERSION,
+            "external_validation_cohort": {
+                "name": "GSE93157 melanoma pretreatment anti-PD-1",
+                "source": validation_sources,
+                "sample_count": len(validation),
+                "endpoint": "CR/PR versus PD; SD excluded",
+            },
+            "claim_boundary": (
+                "No model was fitted because the strict baseline-only melanoma subset is too small "
+                "for external validation. Do not substitute archival samples or use this cohort to "
+                "claim clinical prediction validity."
+            ),
+        }
     liu, liu_genes, liu_sources = _read_liu(panel_genes)
     gide, gide_genes, gide_sources = _read_gide(panel_genes)
     genes = sorted(panel_genes & liu_genes & gide_genes)
@@ -666,16 +690,22 @@ def main():
     args = parser.parse_args()
     result = run_development()
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({
+    summary = {
         "status": result["status"],
         "model_version": result["model_version"],
-        "common_gene_count": result["feature_space"]["common_gene_count"],
-        "selection": result["feature_space"]["pair_selection"],
-        "selected_pairs": result["selected_pairs"],
-        "external_validation_metrics": result["external_validation_cohort"]["metrics"],
-        "external_promotion_screen": result["external_promotion_screen"],
         "receipt": str(args.output),
-    }, indent=2, sort_keys=True))
+    }
+    if result["status"] == "STOPPED_NO_ELIGIBLE_EXTERNAL_COHORT":
+        summary["external_validation_eligibility"] = result["external_validation_cohort"]["source"]["eligibility"]
+    else:
+        summary.update({
+            "common_gene_count": result["feature_space"]["common_gene_count"],
+            "selection": result["feature_space"]["pair_selection"],
+            "selected_pairs": result["selected_pairs"],
+            "external_validation_metrics": result["external_validation_cohort"]["metrics"],
+            "external_promotion_screen": result["external_promotion_screen"],
+        })
+    print(json.dumps(summary, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
