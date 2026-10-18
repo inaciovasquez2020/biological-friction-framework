@@ -16,9 +16,11 @@ def fetch_matrix(url: str = URL) -> tuple[bytes, str, str]:
         raw = response.read()
     if not raw:
         raise RuntimeError("GEO series matrix download was empty")
+    download_payload_sha256 = hashlib.sha256(raw).hexdigest()
     if raw[:2] == bytes.fromhex("1f8b"):
         raw = gzip.decompress(raw)
-    return raw, hashlib.sha256(raw).hexdigest()
+    matrix_content_sha256 = hashlib.sha256(raw).hexdigest()
+    return raw, download_payload_sha256, matrix_content_sha256
 
 def parse_series_matrix(raw: bytes) -> tuple[list[dict], dict]:
     text = raw.decode("utf-8-sig")
@@ -66,8 +68,10 @@ def parse_series_matrix(raw: bytes) -> tuple[list[dict], dict]:
 def fixed_wnt_score(expression: dict[str,float]) -> tuple[float,dict]:
     resistance = [g for g in RESISTANCE_GENES if g in expression]
     responder = [g for g in RESPONDER_GENES if g in expression]
-    if len(resistance)<MIN_PANEL_GENES or not responder:
-        raise ValueError(f"panel coverage inadequate: resistance genes={len(resistance)}, responder genes={len(responder)}")
+    missing_resistance = [g for g in RESISTANCE_GENES if g not in expression]
+    missing_responder = [g for g in RESPONDER_GENES if g not in expression]
+    if missing_resistance or missing_responder:
+        raise ValueError(f"fixed score blocked; required panel genes missing: resistance={missing_resistance}, responder={missing_responder}")
     used = resistance+responder
     if any(expression[g]<0 for g in used):
         raise ValueError("negative expression value is incompatible with fixed log1p score")
@@ -108,8 +112,10 @@ def evaluate(rows:list[dict],metadata:dict)->dict:
 def main()->None:
     parser=argparse.ArgumentParser()
     parser.add_argument("--output",type=Path,default=Path("melanoma-wnt-v1-receipt.json"))
-    args=parser.parse_args(); raw,raw_sha=fetch_matrix(); rows,metadata=parse_series_matrix(raw)
-    metadata["download_payload_sha256"]=raw_sha; result=evaluate(rows,metadata)
+    args=parser.parse_args(); raw,download_sha,matrix_sha=fetch_matrix(); rows,metadata=parse_series_matrix(raw)
+    metadata["download_payload_sha256"]=download_sha
+    metadata["matrix_content_sha256"]=matrix_sha
+    result=evaluate(rows,metadata)
     args.output.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     print(json.dumps({"status":result["status"],"model_version":VERSION,"sample_count":result["evaluation"]["sample_count"],"auroc_for_nonresponse":result["evaluation"]["auroc_for_nonresponse"],"receipt":str(args.output),"claim_boundary":result["claim_boundary"]},indent=2,sort_keys=True))
 if __name__=="__main__": main()
