@@ -116,8 +116,11 @@ def main() -> None:
     report_path = outdir / "source_inventory.json"
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"overall_status": report["overall_status"], "datasets": [
-        {"accession": d["accession"], "sample_count": d["matrix"]["sample_count"],
-         "rcc_file_count": d["rcc_file_count"], "status": d["status"]} for d in report["datasets"]
+        {"accession": d["accession"],
+         "sample_count": d.get("matrix", {}).get("sample_count"),
+         "rcc_file_count": d.get("rcc_file_count"),
+         "status": d["status"],
+         "error": d.get("error")} for d in report["datasets"]
     ], "report": str(report_path)}, indent=2))
     if report["overall_status"] != "INVENTORY_COMPLETE":
         raise SystemExit(2)
