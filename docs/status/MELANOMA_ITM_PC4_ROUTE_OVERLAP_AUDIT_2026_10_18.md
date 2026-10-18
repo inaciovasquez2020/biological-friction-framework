@@ -64,3 +64,21 @@ NEW_RESPONSE_PREDICTION_VALIDATION := NOT_ESTABLISHED
 `BOUNDARY := ¬ established_equivalence(PC4_melanocytic_signature, frozen_7_marker_route_score)`
 
 `BOUNDARY := ¬ established_response_prediction(frozen_7_marker_route_score)`
+
+
+## Treatment-context parameter — metadata gate only
+
+The audit now inventories these optional, source-defined manifest columns: \`treatment_class\`, \`exposure_status\`, \`biopsy_timing\`, \`response_endpoint\`, and \`response_status\`. For each supplied field, the JSON receipt reports whether the column exists, how many rows have reported values, unresolved rows, and counts by recorded category. Blank or explicitly unknown values are left unresolved; the script does not impute treatment assignments or outcomes.
+
+This is a treatment-context parameterization of the **audit metadata**, not a new score term and not a fitted clinical model. The frozen seven-marker score, genes, directions, preprocessing, and thresholds remain unchanged. The audit does not estimate a treatment-response association or score-by-treatment interaction.
+
+A future interaction analysis is admissible only if source records establish patient-level linkage, a clearly defined pretreatment baseline, treatment class/exposure, a prespecified endpoint and follow-up, and adequate treatment comparison data. Repeated ROIs must not be counted as independent patients. Even a statistically detectable score-by-treatment interaction would not alone establish treatment benefit or justify treatment selection; confounding and study design remain material.
+
+\`\`\`text
+TREATMENT_CONTEXT := SOURCE_RECORDED_METADATA_ONLY
+TREATMENT_RESPONSE_MODEL_FIT := FALSE
+SCORE_X_TREATMENT_INTERACTION_TESTED := FALSE
+FROZEN_SEVEN_MARKER_SCORE_CHANGED := FALSE
+\`\`\`
+
+\`BOUNDARY := ¬ established(treatment_predictive_validity)\`
