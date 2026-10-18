@@ -99,3 +99,20 @@ CAUSAL_TREATMENT_BENEFIT_ESTABLISHED := FALSE
 ```
 
 `BOUNDARY := ¬ established(causal_treatment_benefit)`
+
+
+## Published ICI interaction result — interpretation resolved
+
+The article's Results section reports the Cox interaction between PC4-Melanocytic positive expression and ICI treatment as HR 1.24 (95% CI 0.35–4.44), p = 0.7442. The interaction is not statistically significant. The authors interpret PC4-Melanocytic positive as prognostic for poor melanoma-specific survival independent of ICI treatment, not as evidence that PC4 predicts differential ICI benefit. Source: [published article, interaction results](https://pmc.ncbi.nlm.nih.gov/articles/PMC13398476/).
+
+This resolves the literature-level question: adding treatment context is scientifically appropriate, but the reported PC4 × ICI interaction does not support treatment-predictive validity. It does not validate the separate frozen seven-marker route score. Independent reproduction of the published interaction remains blocked because the source treatment annotation file and full expression matrix were not retrieved in this session.
+
+```text
+PUBLISHED_PC4_X_ICI_INTERACTION_HR := 1.24
+PUBLISHED_PC4_X_ICI_INTERACTION_95CI := [0.35, 4.44]
+PUBLISHED_PC4_X_ICI_INTERACTION_P := 0.7442
+PUBLISHED_INTERACTION_SIGNIFICANT := FALSE
+INDEPENDENT_REPRODUCTION_COMPLETED := FALSE
+```
+
+`BOUNDARY := ¬ established(PC4_predicts_differential_ICI_benefit)`
