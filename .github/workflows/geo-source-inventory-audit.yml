@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Test source inventory parser and failure handling
+        run: python -m pytest -q tests/test_geo_source_inventory.py
       - name: Download and inventory GEO source archives
         id: inventory
         continue-on-error: true
