@@ -61,6 +61,33 @@ def test_rcc_inventory_rejects_noninteger_counts():
         raise AssertionError("invalid RCC Count must fail closed")
 
 
+def test_scale_classifier_detects_linear_scalar_multiple():
+    raw = {gene: index + 10 for index, gene in enumerate(MODULE.RECONCILIATION_GENES)}
+    processed = {gene: count * 2.75 for gene, count in raw.items()}
+    result = MODULE.classify_sample_scale(raw, processed)
+    assert result["scale_class"] == "LINEAR_SCALAR_MULTIPLE"
+    assert result["matched_gene_count"] == 19
+    assert result["linear_max_abs_residual"] < 1e-5
+
+
+def test_scale_classifier_detects_log2_values_with_offset():
+    import math
+    raw = {gene: index + 10 for index, gene in enumerate(MODULE.RECONCILIATION_GENES)}
+    processed = {gene: math.log2(count) - 0.024 for gene, count in raw.items()}
+    result = MODULE.classify_sample_scale(raw, processed)
+    assert result["scale_class"] == "LOG2_RAW_COUNT_PLUS_OFFSET"
+    assert result["log2_max_abs_residual"] < 1e-5
+
+
+def test_scale_classifier_rejects_mixed_transform():
+    import math
+    raw = {gene: index + 10 for index, gene in enumerate(MODULE.RECONCILIATION_GENES)}
+    processed = {gene: count * 2.75 for gene, count in raw.items()}
+    processed[MODULE.RECONCILIATION_GENES[0]] = math.log2(raw[MODULE.RECONCILIATION_GENES[0]])
+    result = MODULE.classify_sample_scale(raw, processed)
+    assert result["scale_class"] == "UNRESOLVED_OR_MIXED_SCALE"
+
+
 def test_audit_one_preserves_matrix_when_raw_archive_download_fails(tmp_path, monkeypatch):
     matrix = tmp_path / "GSE_TEST_series_matrix.txt.gz"
     matrix.write_bytes(gzip.compress(
