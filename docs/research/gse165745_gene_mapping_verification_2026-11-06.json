@@ -1,0 +1,600 @@
+{
+  "frozen_score_rerun": "NOT_ATTEMPTED",
+  "matched_endogenous_gene_keys_per_sample": 204,
+  "matched_samples": 24,
+  "normalization_controls_excluded_from_gene_set": "Positive, Negative, Housekeeping CodeClass entries",
+  "original_receipt_reproduced": true,
+  "samples": [
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049348",
+      "linear_factor_positive_counts": 0.5709874553654171,
+      "linear_max_relative_residual_positive_counts": 4.3228240058821493e-10,
+      "log2_max_relative_residual_positive_counts": 201.26072312959866,
+      "log2_offset_positive_counts": 459.9533423871775,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049348_R001.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049349",
+      "linear_factor_positive_counts": 2.173354139727879,
+      "linear_max_relative_residual_positive_counts": 4.117511311635292e-10,
+      "log2_max_relative_residual_positive_counts": 97.8147161430379,
+      "log2_offset_positive_counts": 642.693154667653,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049349_R002.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049350",
+      "linear_factor_positive_counts": 0.5690842389121884,
+      "linear_max_relative_residual_positive_counts": 4.184886898263812e-10,
+      "log2_max_relative_residual_positive_counts": 467.1849732993701,
+      "log2_offset_positive_counts": 531.8733784826147,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049350_R003.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049351",
+      "linear_factor_positive_counts": 0.6795858954105576,
+      "linear_max_relative_residual_positive_counts": 4.399936702657938e-10,
+      "log2_max_relative_residual_positive_counts": 359.1596994394921,
+      "log2_offset_positive_counts": 732.6933929189933,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049351_R004.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049352",
+      "linear_factor_positive_counts": 1.3337872055245015,
+      "linear_max_relative_residual_positive_counts": 4.467261196319965e-10,
+      "log2_max_relative_residual_positive_counts": 214.55945122645426,
+      "log2_offset_positive_counts": 860.9463518183965,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049352_R005.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049353",
+      "linear_factor_positive_counts": 1.2458834960871865,
+      "linear_max_relative_residual_positive_counts": 4.28960736881342e-10,
+      "log2_max_relative_residual_positive_counts": 426.9650848084624,
+      "log2_offset_positive_counts": 533.1946360271037,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049353_R006.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049354",
+      "linear_factor_positive_counts": 0.9187895774748923,
+      "linear_max_relative_residual_positive_counts": 4.088593398251624e-10,
+      "log2_max_relative_residual_positive_counts": 102.67134164372793,
+      "log2_offset_positive_counts": 379.00859275079574,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049354_R007.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 203,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049355",
+      "linear_factor_positive_counts": 5.202083035639412,
+      "linear_max_relative_residual_positive_counts": 4.432992114068048e-10,
+      "log2_max_relative_residual_positive_counts": 62.42330794802471,
+      "log2_offset_positive_counts": 658.8666286,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049355_R008.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": [
+        {
+          "gene": "fgf4",
+          "processed_value": 5.202083036,
+          "raw_count": 0
+        }
+      ]
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049356",
+      "linear_factor_positive_counts": 0.5522744960942123,
+      "linear_max_relative_residual_positive_counts": 4.1015565141670326e-10,
+      "log2_max_relative_residual_positive_counts": 377.9683106876308,
+      "log2_offset_positive_counts": 417.5890655699654,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049356_R009.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049357",
+      "linear_factor_positive_counts": 0.011862053703553201,
+      "linear_max_relative_residual_positive_counts": 31.86705035490173,
+      "log2_max_relative_residual_positive_counts": 4.935068977014844e-10,
+      "log2_offset_positive_counts": -0.02439350472115631,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049357_R010.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LOG2_RAW_COUNT_PLUS_OFFSET",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049358",
+      "linear_factor_positive_counts": 0.48787045983417937,
+      "linear_max_relative_residual_positive_counts": 4.7326006880025e-10,
+      "log2_max_relative_residual_positive_counts": 524.2378601339387,
+      "log2_offset_positive_counts": 1022.9921452066035,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049358_R011.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049359",
+      "linear_factor_positive_counts": 0.8142536316,
+      "linear_max_relative_residual_positive_counts": 4.912473962974322e-10,
+      "log2_max_relative_residual_positive_counts": 83.23635719033136,
+      "log2_offset_positive_counts": 614.137912759702,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049359_R012.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049360",
+      "linear_factor_positive_counts": 0.844047529661017,
+      "linear_max_relative_residual_positive_counts": 4.6095323692327995e-10,
+      "log2_max_relative_residual_positive_counts": 442.0321899316166,
+      "log2_offset_positive_counts": 746.8804508015115,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049360_NR001.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049361",
+      "linear_factor_positive_counts": 0.7818344309985614,
+      "linear_max_relative_residual_positive_counts": 4.245077163436205e-10,
+      "log2_max_relative_residual_positive_counts": 58.276273281101226,
+      "log2_offset_positive_counts": 321.6022648256544,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049361_NR002.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049362",
+      "linear_factor_positive_counts": 1.6422576517760048,
+      "linear_max_relative_residual_positive_counts": 3.8386915521339135e-10,
+      "log2_max_relative_residual_positive_counts": 386.2533157858325,
+      "log2_offset_positive_counts": 635.9697211116559,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049362_NR003.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049363",
+      "linear_factor_positive_counts": 1.3158413608429036,
+      "linear_max_relative_residual_positive_counts": 4.5745606991994914e-10,
+      "log2_max_relative_residual_positive_counts": 210.0406192666371,
+      "log2_offset_positive_counts": 831.5029645455625,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049363_NR004.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049364",
+      "linear_factor_positive_counts": 3.675096925386608,
+      "linear_max_relative_residual_positive_counts": 4.4099270348005593e-10,
+      "log2_max_relative_residual_positive_counts": 246.8328111429827,
+      "log2_offset_positive_counts": 910.8096021456815,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049364_NR005.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049365",
+      "linear_factor_positive_counts": 0.66291379609662,
+      "linear_max_relative_residual_positive_counts": 4.5081648077628516e-10,
+      "log2_max_relative_residual_positive_counts": 96.85620266536094,
+      "log2_offset_positive_counts": 451.2842325730768,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049365_NR006.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 203,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049366",
+      "linear_factor_positive_counts": 2.2093186002673795,
+      "linear_max_relative_residual_positive_counts": 4.6427179032904893e-10,
+      "log2_max_relative_residual_positive_counts": 117.43687311236022,
+      "log2_offset_positive_counts": 522.3295735043915,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049366_NR007.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": [
+        {
+          "gene": "fgf4",
+          "processed_value": 2.2093186,
+          "raw_count": 0
+        }
+      ]
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049367",
+      "linear_factor_positive_counts": 1.290226764006142,
+      "linear_max_relative_residual_positive_counts": 4.843344379367417e-10,
+      "log2_max_relative_residual_positive_counts": 152.96447152580745,
+      "log2_offset_positive_counts": 792.5963274708508,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049367_NR008.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049368",
+      "linear_factor_positive_counts": 0.22012004733095014,
+      "linear_max_relative_residual_positive_counts": 4.4024885058543765e-10,
+      "log2_max_relative_residual_positive_counts": 369.30560212153944,
+      "log2_offset_positive_counts": 567.7744516220496,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049368_NR009.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 203,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049369",
+      "linear_factor_positive_counts": 3.2108310459770117,
+      "linear_max_relative_residual_positive_counts": 4.178357758069329e-10,
+      "log2_max_relative_residual_positive_counts": 66.52602126241351,
+      "log2_offset_positive_counts": 865.2585816587496,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049369_NR010.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": [
+        {
+          "gene": "fgf4",
+          "processed_value": 3.210831046,
+          "raw_count": 0
+        }
+      ]
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049370",
+      "linear_factor_positive_counts": 0.6175233168256873,
+      "linear_max_relative_residual_positive_counts": 4.018425322605703e-10,
+      "log2_max_relative_residual_positive_counts": 372.3104728878898,
+      "log2_offset_positive_counts": 460.05584297713654,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049370_NR011.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    },
+    {
+      "fit_positive_count_genes": 204,
+      "fit_tolerance": 1e-06,
+      "gsm_accession": "GSM5049371",
+      "linear_factor_positive_counts": 0.27665485754326125,
+      "linear_max_relative_residual_positive_counts": 4.441712922881699e-10,
+      "log2_max_relative_residual_positive_counts": 307.8011103252376,
+      "log2_offset_positive_counts": 424.83470792386504,
+      "matched_endogenous_genes": 204,
+      "member": "GSM5049371_NR012.RCC.gz",
+      "original_receipt_comparison": {
+        "classification_matches": true,
+        "linear_error_abs_delta": 0.0,
+        "linear_factor_abs_delta": 0.0,
+        "log2_error_abs_delta": 0.0,
+        "log2_offset_abs_delta": 0.0,
+        "positive_gene_count_matches": true
+      },
+      "scale_class_positive_count_genes_only": "LINEAR_SCALAR_MULTIPLE",
+      "zero_count_rows_excluded_from_fits": []
+    }
+  ],
+  "scale_class_counts_positive_raw_counts": {
+    "LINEAR_SCALAR_MULTIPLE": 23,
+    "LOG2_RAW_COUNT_PLUS_OFFSET": 1,
+    "UNRESOLVED_OR_MIXED_SCALE": 0
+  },
+  "scale_integrity_gate": "FAILED",
+  "scientific_boundary": "Empirical transforms do not reconstruct authoritative nSolver processing or establish correct corrected values. For three samples with a zero raw FGF4 count, linear scaling describes the positive-count subset but not all 204 gene values.",
+  "scope": "isolated, response-label-blind gene-key and scale-fit reproduction",
+  "source": "/mnt/data/GSE165745-original-data-verified.zip",
+  "source_hashes": {
+    "GSE165745_RAW.tar": "2e7efcee340cb2710aa0b291df6188c00d5e9312ddca912c94d9508f3db5df74",
+    "GSE165745_series_matrix.txt.gz": "c6973bc2a9e1a460b7585e605b47451fedd3c53f7b7d922252592b96bc6c164b"
+  },
+  "source_normalization_settings": "NOT_ESTABLISHED",
+  "special_sample": {
+    "fit_positive_count_genes": 204,
+    "fit_tolerance": 1e-06,
+    "gsm_accession": "GSM5049357",
+    "linear_factor_positive_counts": 0.011862053703553201,
+    "linear_max_relative_residual_positive_counts": 31.86705035490173,
+    "log2_max_relative_residual_positive_counts": 4.935068977014844e-10,
+    "log2_offset_positive_counts": -0.02439350472115631,
+    "matched_endogenous_genes": 204,
+    "member": "GSM5049357_R010.RCC.gz",
+    "original_receipt_comparison": {
+      "classification_matches": true,
+      "linear_error_abs_delta": 0.0,
+      "linear_factor_abs_delta": 0.0,
+      "log2_error_abs_delta": 0.0,
+      "log2_offset_abs_delta": 0.0,
+      "positive_gene_count_matches": true
+    },
+    "scale_class_positive_count_genes_only": "LOG2_RAW_COUNT_PLUS_OFFSET",
+    "zero_count_rows_excluded_from_fits": []
+  },
+  "status": "PASS",
+  "total_matched_measurements": 4896,
+  "zero_count_cases": [
+    {
+      "gsm_accession": "GSM5049355",
+      "rows": [
+        {
+          "gene": "fgf4",
+          "processed_value": 5.202083036,
+          "raw_count": 0
+        }
+      ]
+    },
+    {
+      "gsm_accession": "GSM5049366",
+      "rows": [
+        {
+          "gene": "fgf4",
+          "processed_value": 2.2093186,
+          "raw_count": 0
+        }
+      ]
+    },
+    {
+      "gsm_accession": "GSM5049369",
+      "rows": [
+        {
+          "gene": "fgf4",
+          "processed_value": 3.210831046,
+          "raw_count": 0
+        }
+      ]
+    }
+  ]
+}
