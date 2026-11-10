@@ -19,8 +19,8 @@ def observationSetoid (observe : X → Y) : Setoid X where
   r := fun x x' => observe x = observe x'
   iseqv := ⟨
     (fun _ => rfl),
-    (fun _ _ h => h.symm),
-    (fun _ _ _ h₁ h₂ => h₁.trans h₂)⟩
+    (fun h => h.symm),
+    (fun h₁ h₂ => h₁.trans h₂)⟩
 
 /-- An invariant descends to the quotient iff it is constant on equivalence
     classes. No finite-capacity, cardinality, or biological assumptions occur. -/
