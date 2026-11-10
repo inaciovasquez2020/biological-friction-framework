@@ -1,0 +1,35 @@
+name: bff-observation-bridge-lean
+
+on:
+  push:
+    paths:
+      - "proofs/observation-bridge/**"
+      - ".github/workflows/bff-observation-bridge-lean.yml"
+  pull_request:
+    paths:
+      - "proofs/observation-bridge/**"
+      - ".github/workflows/bff-observation-bridge-lean.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  observation-quotient:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile, inspect axioms and independently check Lean environment
+        uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: proofs/observation-bridge
+          build: true
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          leanchecker: true
+          leanchecker-args: ObservationBridge
+          axiom-audit: true
+          axiom-audit-root: ObservationBridge
+          axiom-audit-allow: propext,Classical.choice,Quot.sound
