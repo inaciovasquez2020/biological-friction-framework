@@ -31,5 +31,5 @@ jobs:
           leanchecker: true
           leanchecker-args: ObservationBridge
           axiom-audit: true
-          axiom-audit-root: BiologicalFriction.ObservationBridge
+          axiom-audit-root: ObservationBridge
           axiom-audit-allow: propext,Classical.choice,Quot.sound
