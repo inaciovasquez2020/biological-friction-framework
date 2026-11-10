@@ -1,0 +1,6 @@
+name = "BFFObservationBridge"
+version = "0.1.0"
+defaultTargets = ["ObservationBridge"]
+
+[[lean_lib]]
+name = "ObservationBridge"
