@@ -1,0 +1,22 @@
+name: 5D face-count rigidity exact audit
+on:
+  pull_request:
+    paths:
+      - 'tools/verify_5d_face_count_rigidity.py'
+      - '.github/workflows/5d-face-count-rigidity.yml'
+  workflow_dispatch:
+jobs:
+  exact-f-vector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exact face-count, Dehn-Sommerville and 5D incidence audit
+        run: python3 tools/verify_5d_face_count_rigidity.py
+      - name: Assert optimization does not bypass checks
+        run: |
+          if python3 -O tools/verify_5d_face_count_rigidity.py; then
+            echo "FAIL: optimized mode bypassed checks"
+            exit 1
+          fi
+          echo "PASS: optimized execution rejected"
