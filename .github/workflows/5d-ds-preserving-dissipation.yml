@@ -1,0 +1,22 @@
+name: 5D Dehn-Sommerville preserving dissipation
+on:
+  pull_request:
+    paths:
+      - 'tools/verify_5d_ds_preserving_dissipation.py'
+      - '.github/workflows/5d-ds-preserving-dissipation.yml'
+  workflow_dispatch:
+jobs:
+  exact-rational-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exact rational invariance and realizability counterexample
+        run: python3 tools/verify_5d_ds_preserving_dissipation.py
+      - name: Verify optimized mode fails closed
+        run: |
+          if python3 -O tools/verify_5d_ds_preserving_dissipation.py; then
+            echo 'FAIL: assertions disabled'
+            exit 1
+          fi
+          echo 'PASS: optimization explicitly rejected'
