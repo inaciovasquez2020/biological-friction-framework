@@ -98,6 +98,10 @@ def main():
             assert H==(H[6],H[5],H[4],H[3],H[2],H[1],H[0])
             assert F==ds_reconstruct(F)
             assert F[4]==3*F[5]
+            facets=join(k,C)
+            ridges={frozenset(s) for facet in facets for s in combinations(sorted(facet),5)}
+            assert len(ridges)==F[4]
+            assert all(sum(r<=facet for facet in facets)==2 for r in ridges)
             assert F[0]-F[1]+F[2]-F[3]+F[4]-F[5]==0
             values.append(F)
             tests+=1
