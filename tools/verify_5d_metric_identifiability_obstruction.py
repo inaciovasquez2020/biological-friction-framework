@@ -53,7 +53,7 @@ def main():
     unit_det=det_exact(gram_regular_5(Q(1)))
     assert unit_det==Q(3,16)
     for q, model in length_models.items():
-        assert all(e in model for f in K for e in combinations(sorted(f),2))
+        assert all(frozenset(e) in model for f in K for e in combinations(sorted(f),2))
         assert all(model[e]==q for e in edges)
         assert det_exact(gram_regular_5(q))==unit_det*q**10
         assert q>0
