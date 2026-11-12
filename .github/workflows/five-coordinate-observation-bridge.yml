@@ -1,0 +1,27 @@
+name: five-coordinate-observation-bridge
+on:
+  push:
+    branches:
+      - research/5d-observability-dissipation-20261112
+  pull_request:
+    paths:
+      - 'tools/verify_five_channel_observability.py'
+      - 'docs/status/FIVE_COORDINATE_OBSERVATION_BRIDGE_2026_11_12.md'
+      - '.github/workflows/five-coordinate-observation-bridge.yml'
+  workflow_dispatch:
+jobs:
+  exact-rational-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run complete finite exact-rational checks
+        run: python3 tools/verify_five_channel_observability.py
+      - name: Enforce fail-closed optimized mode
+        shell: bash
+        run: |
+          if python3 -O tools/verify_five_channel_observability.py; then
+            echo "FAIL: optimized mode bypassed proof guards"
+            exit 1
+          fi
+          echo "PASS: fail-closed"
