@@ -1,0 +1,24 @@
+name: 5D metric identifiability obstruction
+on:
+  pull_request:
+    paths:
+      - 'tools/verify_5d_metric_identifiability_obstruction.py'
+      - 'docs/status/FIFTH_DIMENSION_METRIC_BIOLOGICAL_IDENTIFIABILITY_2026_11_12.md'
+      - '.github/workflows/5d-metric-identifiability.yml'
+  workflow_dispatch:
+jobs:
+  exact-metric-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact distinct metrics on identical 5-sphere face complex
+        run: python3 tools/verify_5d_metric_identifiability_obstruction.py
+      - name: Fail closed under optimization
+        shell: bash
+        run: |
+          if python3 -O tools/verify_5d_metric_identifiability_obstruction.py; then
+            echo 'FAIL: optimized Python accepted'
+            exit 1
+          fi
+          echo 'PASS: optimized Python rejected'
