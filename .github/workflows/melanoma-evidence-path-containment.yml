@@ -1,0 +1,26 @@
+name: Melanoma evidence path containment
+on:
+  pull_request:
+    paths:
+      - 'infra/ci/verify_melanoma_interaction_graph.py'
+      - 'tests/test_melanoma_evidence_path_containment.py'
+      - '.github/workflows/melanoma-evidence-path-containment.yml'
+  push:
+    paths:
+      - 'infra/ci/verify_melanoma_interaction_graph.py'
+      - 'tests/test_melanoma_evidence_path_containment.py'
+      - '.github/workflows/melanoma-evidence-path-containment.yml'
+permissions:
+  contents: read
+jobs:
+  containment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Source evidence certificate
+        run: python3 -B infra/ci/verify_melanoma_interaction_graph.py
+      - name: Adversarial path containment regression
+        run: python3 -B -m unittest discover -s tests -p 'test_melanoma_evidence_path_containment.py' -v

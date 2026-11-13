@@ -12,9 +12,17 @@ def _require_unique(items, label):
 
 
 def _require_evidence(paths):
-    assert paths, "missing evidence"
+    assert isinstance(paths, list) and paths, "missing or invalid evidence list"
+    repo_root = ROOT.resolve()
     for rel in paths:
-        path = ROOT / rel
+        assert isinstance(rel, str) and rel.strip(), "invalid evidence path"
+        relative = Path(rel)
+        assert not relative.is_absolute(), f"absolute evidence path: {rel}"
+        assert ".." not in relative.parts, f"parent traversal in evidence path: {rel}"
+        path = (repo_root / relative).resolve()
+        assert path != repo_root and repo_root in path.parents, (
+            f"evidence path escapes repository root: {rel}"
+        )
         assert path.is_file(), f"missing evidence file: {rel}"
 
 
