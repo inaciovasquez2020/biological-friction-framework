@@ -8,7 +8,7 @@ from pathlib import Path
 REQUIRED = ('study_id', 'patient_id', 'sample_id', 'treatment', 'sampling_time',
             'response', 'malignant_cd36_source', 'macrophage_cd36_source',
             'malignant_cd36_assay', 'macrophage_cd36_assay',
-            'malignant_cell_label', 'macrophage_cell_label', 'source_url',
+            'malignant_cell_label', 'macrophage_cell_label', 'endpoint_method', 'source_url',
             'patient_identity_verified', 'response_source_verified',
             'treatment_timing_verified', 'cell_type_labels_verified')
 
@@ -38,6 +38,8 @@ def audit(rows):
             failures.append(f'ROW_{number}:NOT_PRETREATMENT')
         if row['response'] not in ('CR', 'PR', 'PD'):
             failures.append(f'ROW_{number}:UNSUPPORTED_FROZEN_ENDPOINT')
+        if row['endpoint_method'] != 'RECIST_v1.1':
+            failures.append(f'ROW_{number}:ENDPOINT_METHOD_NOT_RECIST')
         if any(row[key] != 'yes' for key in ('patient_identity_verified',
                  'response_source_verified', 'treatment_timing_verified',
                  'cell_type_labels_verified')):
