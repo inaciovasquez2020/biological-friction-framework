@@ -8,6 +8,7 @@ GOOD = {
     'response':'CR', 'malignant_cd36_source':'tumor_scRNA',
     'macrophage_cd36_source':'immune_scRNA',
     'malignant_cd36_assay':'counts', 'macrophage_cd36_assay':'counts',
+    'malignant_cell_label':'CNV_malignant', 'macrophage_cell_label':'CD68_macrophage',
     'source_url':'https://example.invalid/study',
     'patient_identity_verified':'yes','response_source_verified':'yes',
     'treatment_timing_verified':'yes','cell_type_labels_verified':'yes'
@@ -29,10 +30,17 @@ class GateTests(unittest.TestCase):
                             ('response','SD'),('patient_identity_verified','unknown'),
                             ('response_source_verified','unknown'),('cell_type_labels_verified','unknown'),
                             ('treatment_timing_verified','unknown'),
-                            ('macrophage_cd36_source','tumor_scRNA')]:
+                            ('macrophage_cell_label','CNV_malignant')]:
             with self.subTest(field=field):
                 row=GOOD.copy(); row[field]=value
                 self.assertEqual(audit([row])['status'],'BLOCKED')
+    def test_shared_source_is_not_conflation(self):
+        row=GOOD.copy()
+        row['malignant_cd36_source']='same_biopsy_rna_counts'
+        row['macrophage_cd36_source']='same_biopsy_rna_counts'
+        self.assertEqual(audit([row])['status'],'PASS')
+        row['macrophage_cell_label']=row['malignant_cell_label']
+        self.assertEqual(audit([row])['status'],'BLOCKED')
     def test_duplicate_sample_and_patient(self):
         row=GOOD.copy()
         self.assertEqual(audit([row,row])['status'],'BLOCKED')
