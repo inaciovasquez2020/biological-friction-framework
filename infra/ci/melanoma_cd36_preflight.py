@@ -7,7 +7,8 @@ from pathlib import Path
 
 REQUIRED = ('study_id', 'patient_id', 'sample_id', 'treatment', 'sampling_time',
             'response', 'malignant_cd36_source', 'macrophage_cd36_source',
-            'malignant_cd36_assay', 'macrophage_cd36_assay', 'source_url',
+            'malignant_cd36_assay', 'macrophage_cd36_assay',
+            'malignant_cell_label', 'macrophage_cell_label', 'source_url',
             'patient_identity_verified', 'response_source_verified',
             'treatment_timing_verified', 'cell_type_labels_verified')
 
@@ -41,8 +42,10 @@ def audit(rows):
                  'response_source_verified', 'treatment_timing_verified',
                  'cell_type_labels_verified')):
             failures.append(f'ROW_{number}:UNVERIFIED_SOURCE_LINKAGE')
-        if row['malignant_cd36_source'] == row['macrophage_cd36_source']:
-            failures.append(f'ROW_{number}:CELL_SOURCES_NOT_DISTINCT')
+        # The same specimen/dataset SHOULD normally contain both cell populations.
+        # Distinguish the compartment annotations, not their source file identifiers.
+        if row['malignant_cell_label'] == row['macrophage_cell_label']:
+            failures.append(f'ROW_{number}:CELL_LABELS_NOT_DISTINCT')
     return {'status': 'PASS' if not failures else 'BLOCKED',
             'rows': len(rows), 'unique_patients': len(seen_patients),
             'failures': sorted(set(failures)),
