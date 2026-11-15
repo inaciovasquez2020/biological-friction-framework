@@ -46,6 +46,26 @@ Non-significance is not proof of no effect.
 Clinical prediction, external replication, and a novel
 resistance mechanism are not established.
 
+
+## Original dataset and attribution
+
+Poźniak, Joanna (2023). *Dissecting the melanoma ecosystem one cell
+at the time during immunotherapy*. KU Leuven Research Data Repository.
+https://doi.org/10.48804/GSAXBN
+
+Dataset license: Creative Commons Attribution-NonCommercial-
+ShareAlike 4.0 International (CC BY-NC-SA 4.0).
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+Associated publication: Poźniak et al. (2024),
+*A TCF4-dependent gene regulatory network confers resistance to
+immunotherapy in melanoma*. Cell.
+https://doi.org/10.1016/j.cell.2023.11.037
+
+This certificate reports a secondary exploratory analysis.
+It is not endorsed by the original dataset authors.
+Source-cell data are not redistributed.
+
 ## Provenance and release boundary
 
 aggregate_results.json records the source dataset hashes,
