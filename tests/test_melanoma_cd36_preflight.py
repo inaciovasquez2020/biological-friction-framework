@@ -8,6 +8,7 @@ GOOD = {
     'response':'CR', 'malignant_cd36_source':'tumor_scRNA',
     'macrophage_cd36_source':'immune_scRNA',
     'malignant_cd36_assay':'counts', 'macrophage_cd36_assay':'counts',
+    'endpoint_method':'RECIST_v1.1',
     'malignant_cell_label':'CNV_malignant', 'macrophage_cell_label':'CD68_macrophage',
     'source_url':'https://example.invalid/study',
     'patient_identity_verified':'yes','response_source_verified':'yes',
@@ -27,7 +28,8 @@ class GateTests(unittest.TestCase):
                 self.assertEqual(audit([row])['status'],'BLOCKED')
     def test_timing_treatment_endpoint_and_provenance(self):
         for field,value in [('sampling_time','on_treatment'),('treatment','anti_PD1_CTLA4'),
-                            ('response','SD'),('patient_identity_verified','unknown'),
+                            ('response','SD'),('endpoint_method','pathologic_response'),
+                            ('patient_identity_verified','unknown'),
                             ('response_source_verified','unknown'),('cell_type_labels_verified','unknown'),
                             ('treatment_timing_verified','unknown'),
                             ('macrophage_cell_label','CNV_malignant')]:
@@ -41,6 +43,9 @@ class GateTests(unittest.TestCase):
         self.assertEqual(audit([row])['status'],'PASS')
         row['macrophage_cell_label']=row['malignant_cell_label']
         self.assertEqual(audit([row])['status'],'BLOCKED')
+    def test_same_response_label_different_measurement_is_ineligible(self):
+        row=GOOD.copy(); row['response']='CR'; row['endpoint_method']='pathologic_response'
+        result=audit([row]); self.assertIn('ROW_2:ENDPOINT_METHOD_NOT_RECIST', result['failures'])
     def test_duplicate_sample_and_patient(self):
         row=GOOD.copy()
         self.assertEqual(audit([row,row])['status'],'BLOCKED')
