@@ -1,0 +1,75 @@
+{
+  "status": "EXPLORATORY_COMPUTATION_PASS",
+  "date": "2026-11-15",
+  "matched_baseline_patients": 12,
+  "responders": 4,
+  "nonresponders": 8,
+  "expression_normalization": "log1p(10000 * raw_CD36 / total_RNA_counts)",
+  "primary_candidate_myeloid_clusters": [
+    10,
+    13
+  ],
+  "gc16_second_baseline_specimen_excluded": true,
+  "results": {
+    "malignant_response_exact_permutation": {
+      "difference_nonresponder_minus_responder": 0.04966479901928624,
+      "extreme_permutations": 214,
+      "total_permutations": 495,
+      "exact_two_sided_p": 0.43232323232323233
+    },
+    "myeloid_response_exact_permutation": {
+      "difference_nonresponder_minus_responder": 0.05215769589321456,
+      "extreme_permutations": 346,
+      "total_permutations": 495,
+      "exact_two_sided_p": 0.6989898989898989
+    },
+    "malignant_myeloid_spearman": 0.2867132867132867,
+    "exclude_outlier_spearman": 0.45454545454545453,
+    "alternative_cluster_sensitivity": {
+      "myeloid_10": {
+        "spearman_malignant_myeloid": 0.2136605728431956,
+        "myeloid_response_exact_permutation": {
+          "difference_nonresponder_minus_responder": 0.17761861954105201,
+          "extreme_permutations": 213,
+          "total_permutations": 495,
+          "exact_two_sided_p": 0.4303030303030303
+        }
+      },
+      "myeloid_13": {
+        "spearman_malignant_myeloid": 0.42657342657342656,
+        "myeloid_response_exact_permutation": {
+          "difference_nonresponder_minus_responder": -0.02721433223564257,
+          "extreme_permutations": 410,
+          "total_permutations": 495,
+          "exact_two_sided_p": 0.8282828282828283
+        }
+      },
+      "myeloid_10_13_16": {
+        "spearman_malignant_myeloid": 0.3006993006993007,
+        "myeloid_response_exact_permutation": {
+          "difference_nonresponder_minus_responder": -0.09476413240269593,
+          "extreme_permutations": 249,
+          "total_permutations": 495,
+          "exact_two_sided_p": 0.503030303030303
+        }
+      }
+    }
+  },
+  "source_provenance": {
+    "malignant": {
+      "size_bytes": 3088657993,
+      "sha256": "f1402f779fbe2a87e656ab0149c7af9f4adbc2507f93d0fbb0c1b00b7fd1170f"
+    },
+    "tme": {
+      "size_bytes": 2718597537,
+      "sha256": "3028b345add584ce3287416a16f41167a9dc8f54265f5d58760d57a77e15a675"
+    }
+  },
+  "r_versions": "R version 4.6.2 (2026-10-29) \nMatrix  1.7.6",
+  "boundaries": {
+    "definitive_macrophage_annotation": "OPEN",
+    "novel_resistance_mechanism": "NOT_ESTABLISHED",
+    "clinical_prediction": "NOT_RUN",
+    "independent_cohort_validation": "NOT_RUN"
+  }
+}
