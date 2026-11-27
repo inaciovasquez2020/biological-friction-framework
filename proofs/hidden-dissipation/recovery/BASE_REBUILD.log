@@ -1,0 +1,128 @@
+UniversalRecovery.lean:34:27: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+'BFF.HiddenDissipation.flux_identities' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.flux_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.stationary_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.holding_rate_invariant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.pathPotential_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.path_gauge_collision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.force_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.force_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.dissipation_even' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.dissipation_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.dissipation_range' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.hidden_dissipation_minimax' depends on axioms: [propext, Classical.choice, Quot.sound]
+UniversalRecovery.lean:180:38: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+UniversalRecovery.lean:181:31: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+UniversalRecovery.lean:180:38: warning: 'omega' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+UniversalRecovery.lean:191:30: warning: This simp argument is unused:
+  hn
+
+Hint: Omit it from the simp argument list.
+  simp [ringPrev, ̲ringNext, ̲h,̵h̵n̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+UniversalRecovery.lean:189:34: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+UniversalRecovery.lean:191:34: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+UniversalRecovery.lean:202:31: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+UniversalRecovery.lean:262:40: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+UniversalRecovery.lean:262:40: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+UniversalRecovery.lean:269:51: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+UniversalRecovery.lean:269:51: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+UniversalRecovery.lean:293:22: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+UniversalRecovery.lean:293:22: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+'BFF.HiddenDissipation.ringPrev_next' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.ringNext_prev' depends on axioms: [propext, Quot.sound]
+'BFF.HiddenDissipation.ringNeighbors_distinct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.rates_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.fwdFlux_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.revFlux_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.traffic_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.exitRate_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.edgeForce_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.stationary_balance_ring' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.generator_row_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.generator_offdiag' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.generator_diag' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.generator_stationary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.entropyProduction_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.detailedBalance_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.entropyProduction_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.localGaugeEq_all' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.sameObservation_fixed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.ring_observation_minimax' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.equilibrium_driven_collision' depends on axioms: [propext, Classical.choice, Quot.sound]
+UniversalRecovery.lean:603:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+UniversalRecovery.lean:637:37: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+UniversalRecovery.lean:645:26: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+UniversalRecovery.lean:686:34: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+UniversalRecovery.lean:686:34: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+'BFF.HiddenDissipation.returnCurvature_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.curvatureWeight_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.returnCurvature_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.current_sq_recover' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.entropy_identified_by_curvature' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.mode_recover' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.mode_identifiable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.mode_zero_invisible' depends on axioms: [propext, Classical.choice, Quot.sound]
+UniversalRecovery.lean:921:4: warning: 'change |S (u x) - S (u z)| ≤ 2 * ((S U - S (U - δ)) / 2)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+UniversalRecovery.lean:992:10: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+UniversalRecovery.lean:992:10: warning: 'exact le_rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+UniversalRecovery.lean:1142:36: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+UniversalRecovery.lean:1142:36: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+'URF.Transfer.recoverable_iff_pairwise' depends on axioms: [propext, Classical.choice, Quot.sound]
+'URF.Transfer.exact_minimax' depends on axioms: [propext, Classical.choice, Quot.sound]
+'URF.Transfer.affine_transfer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'URF.Transfer.shared_noise_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'URF.Transfer.recoverable_noisy_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'URF.Transfer.convex_endpoint_increment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'URF.Transfer.interval_noisy_minimax' depends on axioms: [propext, Classical.choice, Quot.sound]
+'URF.Transfer.affine_unbounded_minimax' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.entropySquared_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.noisy_ring_curvature_minimax' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.noisy_mode_minimax' depends on axioms: [propext, Classical.choice, Quot.sound]
