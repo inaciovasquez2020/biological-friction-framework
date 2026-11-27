@@ -1,0 +1,31 @@
+name: research-workbench
+on:
+  push:
+    branches:
+      - research/bff-research-workbench-20261018
+    paths:
+      - "apps/research_workbench.py"
+      - "tests/test_research_workbench.py"
+      - "requirements-workbench.txt"
+      - ".github/workflows/research-workbench.yml"
+  pull_request:
+    paths:
+      - "apps/research_workbench.py"
+      - "tests/test_research_workbench.py"
+      - "requirements-workbench.txt"
+      - ".github/workflows/research-workbench.yml"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install app and test dependencies
+        run: python -m pip install -r requirements-workbench.txt pytest
+      - name: Test analysis functions
+        run: pytest -q tests/test_research_workbench.py
+      - name: Check app compiles
+        run: python -m py_compile apps/research_workbench.py

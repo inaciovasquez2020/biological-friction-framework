@@ -1,0 +1,61 @@
+# Melanoma Wnt input-audit implementation follow-up — 2026-10-18
+
+## Work completed
+
+Added `infra/ci/audit_melanoma_wnt_inputs.py` and `tests/test_melanoma_wnt_input_audit.py` to PR #100's existing research branch.
+
+The utility:
+- inventories candidate RCC/GZ files recursively and records SHA-256 hashes;
+- hashes and structurally inspects supported Table S2 tabular formats, while marking unsupported formats as hash-only;
+- refuses to infer cohort independence from nonmatching IDs unless a shared patient-identity crosswalk has been verified;
+- refuses score calculation unless expression scale/preprocessing and sample/response mapping are explicitly marked verified;
+- refuses to silently omit required genes, replace a missing RNF43 value with zero, or apply log1p to negative values.
+
+## Source facts confirmed in public records
+
+- GSE165745 is a 24-sample NanoString Wnt-panel cohort: R001–R012 are responders and NR001–NR012 are nonresponders. GEO lists a 90.0 KB `GSE165745_RAW.tar` archive containing RCC files. The individual GEO sample pages expose processed values labelled “Gene conts”; these values include fractional numbers, so they must not be described as untouched integer counts.
+- GEO's sample processing text says the samples were analyzed on the NanoString nCounter Max with the nCounter Vantage 3D Human Wnt Pathways Panel and analysis was performed using nSolver. This does not, by itself, specify the exact normalization/transformation settings used for the deposited values.
+- GSE280470 lists 39 samples and a 150.0 KB RCC archive. Its series description explicitly says it includes previously published GSE165745 samples with updated clinical data. Thus, it is not an independent validation cohort unless a patient-level crosswalk resolves overlap.
+- The 2021 DeVito et al. paper supports group-level Wnt pathway differences and identifies Tables S1/S2 as associated with its analyses. The exact contents and hashes of the supplement files have not been captured in this audit.
+
+## Important limitations
+
+- The remote RCC archive and the supplementary PDF were not downloaded or parsed in this execution. No raw-to-deposited numerical reconciliation has been completed.
+- The new unit tests were committed but have not been run by CI: no workflow run was returned for the test commit. Do not describe these tests as passing.
+- No score was recalculated, no transformation was selected, and no clinical validity claim was added.
+- The existing 24-sample AUROC of 0.5208 remains a near-chance descriptive result, not evidence of a usable clinical prediction tool.
+
+## Gate decision
+
+**BLOCKED — input provenance and cohort crosswalk remain unresolved.** The new utility is a guardrail for a later local/source-data audit; it is not itself evidence that the underlying data have passed validation.
+
+
+## Additional code audit and corrections — 2026-10-18
+
+A review of the saved CI receipt and scorer found two concrete provenance/definition defects, now corrected on this branch:
+
+1. The fixed-score implementation previously allowed a sample to be scored when only five resistance-associated genes and RNF43 were present. That silently changed the frozen 18-gene formula. It now fails closed if any of the 18 resistance genes or RNF43 is missing.
+2. The receipt previously labelled the SHA-256 of the decompressed GEO series matrix as `raw_sha256`, and the download and content hashes were identical because only the decompressed bytes were hashed. It now records `download_payload_sha256` for the bytes fetched from the URL and `matrix_content_sha256` for the decompressed series-matrix content. Neither field is a raw-RCC archive hash.
+
+The workflow was repaired after a malformed path-filter edit and now includes the new input-audit tests and installs their `pandas`/`numpy` dependencies. The workflow's test command runs both the existing score tests and the new fail-closed audit tests.
+
+**Verification status:** these latest changes have been committed, but a workflow run for the latest commits has not yet been returned by the GitHub status query. Do not call the revised tests passing until a run on the revised head is confirmed. The raw RCC archive and supplemental tables still have not been retrieved and reconciled in this execution.
+
+
+## Corrected CI run and receipt inspection — 2026-10-18 18:37 UTC
+
+The first PR run of the expanded workflow failed during test collection because the test imported `infra.ci` as a package, but that namespace is not importable in this repository layout. The test was corrected to load the module by its file path.
+
+On commit `15366aef1d79cc4b26a51c4b7b678d5e17bd906c`, workflow run [39154944451](https://github.com/inaciovasquez2020/biological-friction-framework/actions/runs/39154944451) completed the test step successfully, ran the fixed-score evaluation against the GEO series matrix, and uploaded receipt artifact `12146667110`. The test and evaluation steps both report success.
+
+Receipt checks:
+- sample count: 24; 12 responders and 12 nonresponders;
+- all 18 frozen resistance-associated genes plus RNF43 were present;
+- AUROC for nonresponse: 0.5208333333333334;
+- balanced accuracy at the observed-range midpoint threshold: 0.625, descriptive only;
+- downloaded payload SHA-256: `c6973bc2a9e1a460b7585e605b47451fedd3c53f7b7d922252592b96bc6c164b`;
+- decompressed matrix-content SHA-256: `6a201f525da8b9bce96228ba66641c2264efbdc131f01a04dd54aca8555ab648`.
+
+These hashes identify the GEO series-matrix payload/content, not the raw RCC archive. This run still does not validate the deposited expression scale, justify the `log1p` transformation, reconcile raw RCC measurements, verify clinical endpoint details, or establish an independent validation cohort.
+
+**Updated gate:** software tests and the series-matrix score execution passed on this commit; scientific input provenance and clinical validation remain blocked. Do not merge or use clinically on this evidence.
