@@ -43,3 +43,34 @@ jobs:
           cat fresh.log
           python3 audit.py fresh.log
           git diff --exit-code -- lake-manifest.json
+
+      - name: Verify universal recovery receipt
+        working-directory: proofs/hidden-dissipation
+        run: |
+          set -euo pipefail
+          (cd recovery && sha256sum -c SHA256SUMS)
+          python3 audit_recovery.py recovery/BASE_REBUILD.log recovery/LEAN.log
+
+      - name: Fresh universal recovery audit
+        working-directory: proofs/hidden-dissipation
+        run: |
+          set -euo pipefail
+          WORK="$(mktemp -d)"
+          cp recovery/UniversalRecovery.lean recovery/EntropyConvexity.lean "$WORK/"
+          export RECOVERY_WORK="$WORK"
+          lake env bash -c '
+            set -euo pipefail
+            cd "$RECOVERY_WORK"
+            export LEAN_PATH="$PWD${LEAN_PATH:+:$LEAN_PATH}"
+            lean -o UniversalRecovery.olean UniversalRecovery.lean > BASE.log 2>&1 || {
+              cat BASE.log
+              exit 1
+            }
+            lean EntropyConvexity.lean > ANALYTIC.log 2>&1 || {
+              cat ANALYTIC.log
+              exit 1
+            }
+          '
+          cat "$WORK/BASE.log" "$WORK/ANALYTIC.log"
+          python3 audit_recovery.py "$WORK/BASE.log" "$WORK/ANALYTIC.log"
+          git diff --exit-code -- lake-manifest.json

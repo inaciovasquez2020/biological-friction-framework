@@ -141,3 +141,61 @@ Empirical applicability, experimental measurement feasibility,
 full analytic formalization and independent novelty remain OPEN.
 
 Repository-wide conditional research status is unchanged.
+
+## Universal recovery and sharp noisy dissipation
+
+Mac Lean verification: PASS, 57 distinct theorem declarations
+with only permitted standard Lean axioms. The original
+41-declaration source is a byte-exact prefix of the extended
+UniversalRecovery.lean certificate.
+
+The general compatibility-relation theorem establishes that
+a scalar reconstruction error E is achievable exactly when
+all compatible target pairs differ by at most 2E.
+
+The affine transfer theorem preserves reconstruction error
+under the explicitly specified equivalences of systems and
+observations and affine target transformations.
+
+For a cyclic Markov generator, with fixed positive stationary
+probabilities and traffic, |J| <= M < min_i t_i,
+let S(u) = dissipation(sqrt(u)), U = M^2, and c_i > 0
+be the verified generator-curvature weight.
+
+Under bounded absolute curvature measurement error epsilon,
+the sharp minimax absolute entropy-production error is
+
+    delta = min(U, 2*epsilon/c_i)
+    E* = (S(U) - S(U-delta))/2.
+
+Entropy convexity is proved using the convergent logarithmic
+power series with nonnegative coefficients. No additional
+convexity hypothesis is required in the final theorem.
+
+Load-bearing declarations:
+
+- URF.Transfer.recoverable_iff_pairwise
+- URF.Transfer.exact_minimax
+- URF.Transfer.affine_transfer
+- URF.Transfer.interval_noisy_minimax
+- BFF.HiddenDissipation.noisy_mode_minimax
+- BFF.HiddenDissipation.entropySquared_chordConvex
+- BFF.HiddenDissipation.noisy_ring_curvature_minimax_unconditional
+
+The unrestricted cosmological coupling recovery error is
+2*b^3*epsilon/n^4 for the specified coefficient model,
+known positive radius and nonzero mode.
+
+The generic minimax framework has classical optimal-recovery
+antecedents. Independent mathematical novelty remains OPEN.
+The exact noisy entropy bound is a specific novelty candidate,
+not a certified priority claim.
+
+These are mathematical results under stated model assumptions,
+not a new fundamental physical law. Empirical validation,
+measurement feasibility, semigroup derivative formalization,
+and covariant cosmological action derivation remain OPEN.
+
+The original receipt remains unchanged. The new byte-exact
+Mac receipt is in recovery/. Fresh Linux reproduction is
+required before integration.

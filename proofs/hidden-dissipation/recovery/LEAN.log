@@ -1,0 +1,25 @@
+EntropyConvexity.lean:43:38: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+EntropyConvexity.lean:43:38: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+EntropyConvexity.lean:136:35: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+EntropyConvexity.lean:119:31: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+EntropyConvexity.lean:122:31: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+EntropyConvexity.lean:136:35: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+'BFF.HiddenDissipation.edgeEntropy_hasSum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.power_chord' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.edgeEntropy_chord' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.entropySquared_chordConvex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.noisy_ring_curvature_minimax_unconditional' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
