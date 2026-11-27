@@ -1,0 +1,45 @@
+name: bff-hidden-dissipation
+
+on:
+  pull_request:
+    paths:
+      - "proofs/hidden-dissipation/**"
+      - ".github/workflows/bff-hidden-dissipation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hidden-dissipation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify original receipt
+        working-directory: proofs/hidden-dissipation
+        run: |
+          (cd receipt && sha256sum -c SHA256SUMS)
+          python3 audit.py receipt/LEAN.log
+
+      - name: Reproduce Lean build
+        uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: proofs/hidden-dissipation
+          build: true
+          test: false
+          lint: false
+          use-mathlib-cache: true
+
+      - name: Fresh axiom audit
+        working-directory: proofs/hidden-dissipation
+        run: |
+          set -euo pipefail
+          lake env lean receipt/HiddenDissipation.lean > fresh.log 2>&1 || {
+            cat fresh.log
+            exit 1
+          }
+          cat fresh.log
+          python3 audit.py fresh.log
+          git diff --exit-code -- lake-manifest.json
