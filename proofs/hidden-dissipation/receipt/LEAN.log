@@ -77,3 +77,26 @@ Note: This linter can be disabled with `set_option linter.unusedTactic false`
 'BFF.HiddenDissipation.sameObservation_fixed' depends on axioms: [propext, Classical.choice, Quot.sound]
 'BFF.HiddenDissipation.ring_observation_minimax' depends on axioms: [propext, Classical.choice, Quot.sound]
 'BFF.HiddenDissipation.equilibrium_driven_collision' depends on axioms: [propext, Classical.choice, Quot.sound]
+HiddenDissipation.lean:603:2: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+HiddenDissipation.lean:637:37: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+HiddenDissipation.lean:645:26: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+HiddenDissipation.lean:686:34: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+HiddenDissipation.lean:686:34: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+'BFF.HiddenDissipation.returnCurvature_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.curvatureWeight_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.returnCurvature_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.current_sq_recover' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.entropy_identified_by_curvature' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.mode_recover' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.mode_identifiable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BFF.HiddenDissipation.mode_zero_invisible' depends on axioms: [propext, Classical.choice, Quot.sound]
