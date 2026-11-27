@@ -12,7 +12,17 @@ required={
     "BFF.HiddenDissipation.equilibrium_driven_collision",
     "BFF.HiddenDissipation.ring_observation_minimax"
 }
-assert len(expected)==33
+assert len(expected)==41
+required.update({
+    "BFF.HiddenDissipation.returnCurvature_expansion",
+    "BFF.HiddenDissipation.curvatureWeight_pos",
+    "BFF.HiddenDissipation.returnCurvature_eq",
+    "BFF.HiddenDissipation.current_sq_recover",
+    "BFF.HiddenDissipation.entropy_identified_by_curvature",
+    "BFF.HiddenDissipation.mode_recover",
+    "BFF.HiddenDissipation.mode_identifiable",
+    "BFF.HiddenDissipation.mode_zero_invisible"
+})
 assert required <= expected
 
 found={}
@@ -35,4 +45,4 @@ assert not re.search(
 assert not re.search(r"\b(?:sorryAx|sorry|admit)\b",log)
 assert not re.search(r"(?m)^.*error(?:\([^)]*\))?:",log)
 
-print("AXIOM_AUDIT := PASS_33_OF_33")
+print("AXIOM_AUDIT := PASS_41_OF_41")

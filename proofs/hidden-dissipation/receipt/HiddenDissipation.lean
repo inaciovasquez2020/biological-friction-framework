@@ -553,3 +553,159 @@ theorem equilibrium_driven_collision {n : ℕ}
 #print axioms equilibrium_driven_collision
 
 end BFF.HiddenDissipation
+
+namespace BFF.HiddenDissipation
+
+noncomputable def returnCurvature {n : ℕ}
+    (X : RingModel n) (i : Fin (n+3)) : ℝ :=
+  ∑ k, generator X i k * generator X k i
+
+theorem returnCurvature_expansion {n : ℕ}
+    (X : RingModel n) (i : Fin (n+3)) :
+    returnCurvature X i =
+      (exitRate X i)^2 +
+      cw X i * ccw X (ringNext i) +
+      ccw X i * cw X (ringPrev i) := by
+  classical
+  have hi := ringNeighbors_distinct i
+  have hn := ringNeighbors_distinct (ringNext i)
+  have hp := ringNeighbors_distinct (ringPrev i)
+  rw [ringPrev_next] at hn
+  rw [ringNext_prev] at hp
+  have hnext :
+      generator X (ringNext i) i =
+        ccw X (ringNext i) := by
+    simp [generator,ringPrev_next,
+      hn.2.2.symm,hi.1.symm]
+  have hprev :
+      generator X (ringPrev i) i =
+        cw X (ringPrev i) := by
+    simp [generator,ringNext_prev,
+      hp.2.2,hi.2.1.symm]
+  have hrow (k : Fin (n+3)) :
+      generator X i k * generator X k i =
+      (if k = ringNext i then
+        cw X i * generator X k i else 0) +
+      (if k = ringPrev i then
+        ccw X i * generator X k i else 0) -
+      (if k = i then
+        exitRate X i * generator X k i else 0) := by
+    change
+      ((if k = ringNext i then cw X i else 0) +
+       (if k = ringPrev i then ccw X i else 0) -
+       (if k = i then exitRate X i else 0)) *
+       generator X k i = _
+    simp only [sub_mul,add_mul,ite_mul,zero_mul]
+  unfold returnCurvature
+  simp only [hrow,Finset.sum_add_distrib,
+    Finset.sum_sub_distrib]
+  simp [hnext,hprev,generator_diag]
+  <;> ring
+
+noncomputable def curvatureWeight {n : ℕ}
+    (X : RingModel n) (i : Fin (n+3)) : ℝ :=
+  1/(4*X.p i*X.p (ringNext i)) +
+  1/(4*X.p i*X.p (ringPrev i))
+
+noncomputable def curvatureBaseline {n : ℕ}
+    (X : RingModel n) (i : Fin (n+3)) : ℝ :=
+  ((X.t i + X.t (ringPrev i))/(2*X.p i))^2 +
+  (X.t i)^2/(4*X.p i*X.p (ringNext i)) +
+  (X.t (ringPrev i))^2/(4*X.p i*X.p (ringPrev i))
+
+theorem curvatureWeight_pos {n : ℕ}
+    (X : RingModel n) (i : Fin (n+3)) :
+    0 < curvatureWeight X i := by
+  have h0 := X.p_pos i
+  have hn := X.p_pos (ringNext i)
+  have hp := X.p_pos (ringPrev i)
+  unfold curvatureWeight
+  positivity
+
+theorem returnCurvature_eq {n : ℕ}
+    (X : RingModel n) (i : Fin (n+3)) :
+    returnCurvature X i =
+      curvatureBaseline X i -
+        curvatureWeight X i * X.j^2 := by
+  rw [returnCurvature_expansion,exitRate_eq]
+  unfold curvatureBaseline curvatureWeight cw ccw
+    forward reverse
+  rw [ringPrev_next]
+  field_simp [
+    ne_of_gt (X.p_pos i),
+    ne_of_gt (X.p_pos (ringNext i)),
+    ne_of_gt (X.p_pos (ringPrev i))] <;> ring
+
+theorem current_sq_recover {n : ℕ}
+    (X : RingModel n) (i : Fin (n+3)) :
+    (curvatureBaseline X i - returnCurvature X i) /
+      curvatureWeight X i = X.j^2 := by
+  rw [returnCurvature_eq]
+  have h := curvatureWeight_pos X i
+  field_simp [ne_of_gt h] <;> ring
+
+theorem entropy_identified_by_curvature {n : ℕ}
+    (X Y : RingModel n) (i : Fin (n+3))
+    (r : ℕ)
+    (hobs : SameObservation r X Y)
+    (hK : returnCurvature X i = returnCurvature Y i) :
+    entropyProduction X = entropyProduction Y := by
+  have hp : X.p = Y.p := hobs.1
+  have ht : X.t = Y.t := by
+    funext k
+    rw [← traffic_eq X k,← traffic_eq Y k]
+    exact hobs.2.1 k
+  have hsq : X.j^2 = Y.j^2 := by
+    calc
+      X.j^2 =
+        (curvatureBaseline X i - returnCurvature X i) /
+          curvatureWeight X i :=
+            (current_sq_recover X i).symm
+      _ =
+        (curvatureBaseline Y i - returnCurvature Y i) /
+          curvatureWeight Y i := by
+            simp only [
+              curvatureBaseline,curvatureWeight,hp,ht,hK]
+      _ = Y.j^2 := current_sq_recover Y i
+  have hm : (X.j-Y.j)*(X.j+Y.j)=0 := by
+    nlinarith [hsq]
+  rw [entropyProduction_eq,entropyProduction_eq,ht]
+  rcases mul_eq_zero.mp hm with h | h
+  · have hj : X.j = Y.j := by linarith
+    rw [hj]
+  · have hj : X.j = -Y.j := by linarith
+    rw [hj,dissipation_even]
+
+noncomputable def modeCoeff (b n lam : ℝ) : ℝ :=
+  lam*n^4/(2*b^3)
+
+theorem mode_recover (b n lam : ℝ)
+    (hb : 0 < b) (hn : n ≠ 0) :
+    2*b^3*modeCoeff b n lam/n^4 = lam := by
+  unfold modeCoeff
+  field_simp [ne_of_gt hb,hn] <;> ring
+
+theorem mode_identifiable (b n lam mu : ℝ)
+    (hb : 0 < b) (hn : n ≠ 0)
+    (h : modeCoeff b n lam = modeCoeff b n mu) :
+    lam = mu := by
+  calc
+    lam = 2*b^3*modeCoeff b n lam/n^4 :=
+      (mode_recover b n lam hb hn).symm
+    _ = 2*b^3*modeCoeff b n mu/n^4 := by rw [h]
+    _ = mu := mode_recover b n mu hb hn
+
+theorem mode_zero_invisible (b lam : ℝ) :
+    modeCoeff b 0 lam = 0 := by
+  simp [modeCoeff]
+
+#print axioms returnCurvature_expansion
+#print axioms curvatureWeight_pos
+#print axioms returnCurvature_eq
+#print axioms current_sq_recover
+#print axioms entropy_identified_by_curvature
+#print axioms mode_recover
+#print axioms mode_identifiable
+#print axioms mode_zero_invisible
+
+end BFF.HiddenDissipation
